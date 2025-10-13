@@ -17,6 +17,16 @@ export const portfolioNavigation = [
     ],
   },
   {
+    title: 'Notificaciones',
+    items: [
+      {
+        path: '/notifications',
+        label: 'Todas las Notificaciones',
+        icon: '🔔',
+      },
+    ],
+  },
+  {
     title: 'Biblioteca Técnica',
     items: [
       {
@@ -41,26 +51,26 @@ export const portfolioNavigation = [
       },
     ],
   },
-  {
-    title: 'Administración',
-    items: [
-      {
-        path: '/admin/users',
-        label: 'Usuarios',
-        icon: '👤',
-      },
-      {
-        path: '/admin/clients',
-        label: 'Clientes',
-        icon: '🏢',
-      },
-      {
-        path: '/admin/config',
-        label: 'Configuración',
-        icon: '⚙️',
-      },
-    ],
-  },
+  // {
+  //   title: 'Administración',
+  //   items: [
+  //     {
+  //       path: '/admin/users',
+  //       label: 'Usuarios',
+  //       icon: '👤',
+  //     },
+  //     {
+  //       path: '/admin/clients',
+  //       label: 'Clientes',
+  //       icon: '🏢',
+  //     },
+  //     {
+  //       path: '/admin/config',
+  //       label: 'Configuración',
+  //       icon: '⚙️',
+  //     },
+  //   ],
+  // },
 ];
 
 // Navigation when a project IS selected (Project workspace)
@@ -102,6 +112,16 @@ export const getProjectNavigation = (projectId) => [
         path: `/projects/${projectId}/resources`,
         label: 'Recursos',
         icon: '👥',
+      },
+    ],
+  },
+  {
+    title: 'Notificaciones',
+    items: [
+      {
+        path: '/notifications',
+        label: 'Todas las Notificaciones',
+        icon: '🔔',
       },
     ],
   },

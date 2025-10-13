@@ -4,6 +4,8 @@
  */
 
 import { useState } from 'react';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
 import Button from '../../../../../components/shared/Button';
 import Modal from '../../../../../components/shared/Modal';
 import SearchBar from '../../../../../components/shared/SearchBar';
@@ -103,7 +105,7 @@ const ExternalNorms = () => {
                           }}
                           title="Ver documento"
                         >
-                          👁️
+                          <VisibilityOutlinedIcon fontSize="small" />
                         </button>
                         <button
                           className={styles.actionButton}
@@ -114,7 +116,7 @@ const ExternalNorms = () => {
                           }}
                           title="Descargar PDF"
                         >
-                          📥
+                          <DownloadOutlinedIcon fontSize="small" />
                         </button>
                       </div>
                     </div>

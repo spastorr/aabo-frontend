@@ -4,25 +4,32 @@
  * @module features/projects/portfolio/PortfolioPage
  */
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useProject } from '../../../contexts/ProjectContext';
 import { useLayout } from '../../../contexts/LayoutContext';
 import Button from '../../../components/shared/Button';
 import PageHeader from '../../../components/shared/PageHeader';
 import ProjectCard from './components/ProjectCard';
 import ProjectFilters from './components/ProjectFilters';
+import CreateProjectModal from './components/CreateProjectModal';
 import usePortfolio from './hooks/usePortfolio';
 import styles from './PortfolioPage.module.css';
 
 const PortfolioPage = () => {
-  const { projects, loading, error, filters, setFilters } = usePortfolio();
+  const { projects, loading, error, filters, setFilters, createNewProject } = usePortfolio();
   const { clearProject } = useProject();
   const { setHeader, clearHeader } = useLayout();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Clear selected project when entering portfolio
   useEffect(() => {
     clearProject();
   }, [clearProject]);
+
+  // Handle create project
+  const handleCreateProject = async (projectData) => {
+    await createNewProject(projectData);
+  };
 
   // Memoize header content
   const headerContent = useMemo(() => (
@@ -33,7 +40,7 @@ const PortfolioPage = () => {
         {
           label: '+ Nuevo Proyecto',
           variant: 'primary',
-          onClick: () => alert('Crear proyecto - Por implementar')
+          onClick: () => setIsModalOpen(true)
         }
       ]}
     />
@@ -83,6 +90,13 @@ const PortfolioPage = () => {
           ))}
         </div>
       )}
+
+      {/* Create Project Modal */}
+      <CreateProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleCreateProject}
+      />
     </div>
   );
 };

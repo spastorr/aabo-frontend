@@ -23,6 +23,7 @@
   
   --color-background: #ffffff;
   --color-background-alt: #f8fafc;
+  --color-background-secondary: #f1f5f9;
   --color-border: #e2e8f0;
   
   /* Typography */
@@ -71,6 +72,7 @@
 [data-theme="dark"] {
   --color-background: #0f172a;
   --color-background-alt: #1e293b;
+  --color-background-secondary: #334155;
   --color-text-primary: #f1f5f9;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;

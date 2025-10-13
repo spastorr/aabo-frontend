@@ -15,11 +15,12 @@ import DashboardPage from '../features/projects/dashboard/DashboardPage';
 import LMDPage from '../features/projects/lmd/LMDPage';
 import TransmittalsPage from '../features/projects/transmittals/TransmittalsPage';
 import RFIPage from '../features/projects/rfi/RFIPage';
+import NotificationsPage from '../features/projects/notifications/NotificationsPage';
 import KnowledgeHubPage from '../features/knowledgeHub/KnowledgeHubPage';
 import UnifiedSearchPage from '../features/knowledgeHub/search/UnifiedSearchPage';
 import HistoricalProjectsPage from '../features/knowledgeHub/historical-projects/HistoricalProjectsPage';
 import StandardsPage from '../features/knowledgeHub/standards/StandardsPage';
-// import LoginPage from '../features/auth/LoginPage';
+import LoginPage from '../features/auth/LoginPage';
 // import PortfolioPage from '../features/projects/portfolio/PortfolioPage';
 
 const AppRoutes = () => {
@@ -28,7 +29,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/login" element={<div>Login Page</div>} />
+      <Route path="/login" element={<LoginPage />} />
 
       {/* Protected routes */}
       <Route path="/" element={<div>Home</div>} />
@@ -37,6 +38,9 @@ const AppRoutes = () => {
       <Route path="/projects/:id/lmd" element={<LMDPage />} />
       <Route path="/projects/:id/transmittals" element={<TransmittalsPage />} />
       <Route path="/projects/:id/rfi" element={<RFIPage />} />
+      
+      {/* Notifications */}
+      <Route path="/notifications" element={<NotificationsPage />} />
       
       {/* Knowledge Hub routes */}
       <Route path="/knowledge-hub" element={<KnowledgeHubPage />} />

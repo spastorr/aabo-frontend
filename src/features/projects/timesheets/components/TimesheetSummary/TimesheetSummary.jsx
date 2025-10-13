@@ -3,7 +3,7 @@
  * @module features/projects/timesheets/components/TimesheetSummary
  */
 
-import { formatCurrency } from '../../../../../utils';
+import { formatCurrency } from '../../../../../utils/currencyFormatter';
 import styles from './TimesheetSummary.module.css';
 
 const TimesheetSummary = ({ summary }) => {

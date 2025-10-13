@@ -19,6 +19,7 @@ export const mockRFIs = [
     responseDate: '2024-08-25',
     recipient: 'Cliente - Departamento Técnico',
     dueDate: '2024-08-23',
+    transmittalId: 'TRN-001',
     linkedDocuments: ['PRC-RLL-MOD-001-P001-Rev A', 'PRC-RLL-MOD-001-T001-Rev 0'],
     response: 'La presión de diseño de 150 PSI es correcta. Sin embargo, se recomienda aumentar el factor de seguridad considerando las condiciones de pico durante el arranque. Favor revisar el documento adjunto con las nuevas especificaciones.',
   },
@@ -48,6 +49,7 @@ export const mockRFIs = [
     createdDate: '2024-10-10',
     recipient: 'Cliente - Departamento de Instrumentación',
     dueDate: '2024-10-20',
+    transmittalId: 'TRN-003',
   },
   {
     id: 'RFI-004',
@@ -101,6 +103,20 @@ export const createRFI = (rfiData) => {
       };
       mockRFIs.push(newRFI);
       resolve({ success: true, data: newRFI });
+    }, 300);
+  });
+};
+
+/**
+ * Get RFIs by transmittal ID
+ * @param {string} transmittalId - The transmittal ID
+ * @returns {Promise} Promise with RFIs data
+ */
+export const getRFIsByTransmittal = (transmittalId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const rfis = mockRFIs.filter(rfi => rfi.transmittalId === transmittalId);
+      resolve({ success: true, data: rfis });
     }, 300);
   });
 };

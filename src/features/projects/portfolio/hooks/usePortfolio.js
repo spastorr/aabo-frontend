@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { getProjects } from '../../../../services/projectsApi';
+import { getProjects, createProject } from '../../../../services/projectsApi';
 import { getErrorMessage } from '../../../../utils/errorHandlers';
 
 export const usePortfolio = () => {
@@ -35,6 +35,27 @@ export const usePortfolio = () => {
       }
     } catch (err) {
       setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createNewProject = async (projectData) => {
+    try {
+      setLoading(true);
+      const response = await createProject(projectData);
+      
+      if (response.success) {
+        // Add the new project to the list
+        setProjects((prev) => [...prev, response.data]);
+        return response.data;
+      } else {
+        throw new Error('Error al crear el proyecto');
+      }
+    } catch (err) {
+      const errorMsg = getErrorMessage(err);
+      setError(errorMsg);
+      throw new Error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -72,6 +93,7 @@ export const usePortfolio = () => {
     filters,
     setFilters,
     refetch: fetchProjects,
+    createNewProject,
   };
 };
 

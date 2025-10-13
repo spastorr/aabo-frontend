@@ -78,6 +78,55 @@ export const mockDashboardData = {
         user: 'Gerente de Proyecto',
         timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
       },
+      {
+        id: 'act-6',
+        type: 'comment',
+        message: 'Comentarios agregados al documento RLL-MOD-2024-ELE-DS-0012',
+        user: 'Ing. Roberto Pérez',
+        timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(), // 4 days ago
+      },
+      {
+        id: 'act-7',
+        type: 'transmittal',
+        message: 'Transmittal TRN-RLL-MOD-2024-0002 recibido del cliente',
+        user: 'Sistema',
+        timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
+      },
+      {
+        id: 'act-8',
+        type: 'approval',
+        message: 'Documento RLL-MOD-2024-MEC-CA-0003 aprobado con comentarios',
+        user: 'Ing. Carlos Méndez',
+        timestamp: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(), // 6 days ago
+      },
+      {
+        id: 'act-9',
+        type: 'document',
+        message: 'Nuevo documento RLL-MOD-2024-INS-DB-0008 agregado',
+        user: 'Ing. Laura Martínez',
+        timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days ago
+      },
+      {
+        id: 'act-10',
+        type: 'rfi',
+        message: 'RFI-RLL-MOD-0001 enviado al cliente',
+        user: 'Ing. Ana Torres',
+        timestamp: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(), // 8 days ago
+      },
+      {
+        id: 'act-11',
+        type: 'update',
+        message: 'Revisión de especificaciones técnicas completada',
+        user: 'Gerente de Proyecto',
+        timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days ago
+      },
+      {
+        id: 'act-12',
+        type: 'comment',
+        message: 'Reunión de coordinación - Acuerdos documentados',
+        user: 'Ing. Roberto Pérez',
+        timestamp: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(), // 12 days ago
+      },
     ],
   },
   'PROJ-002': {

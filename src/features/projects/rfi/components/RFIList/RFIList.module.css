@@ -151,6 +151,25 @@
   }
 }
 
+/* Transmittal Cell Styles */
+.transmittalCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.transmittalCode {
+  font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.8125rem;
+}
+
+.transmittalDate {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
 @media (max-width: 768px) {
   .table th,
   .table td {

@@ -208,4 +208,12 @@ const InternalGuides = () => {
               <Button variant="outline">📋 Ver Historial de Versiones</Button>
             </div>
           </div>
-        </Modal
+        </Modal>
+      )}
+
+    </div>
+  );
+};
+
+export default InternalGuides;
+

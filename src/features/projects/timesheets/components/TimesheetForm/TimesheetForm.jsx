@@ -112,7 +112,7 @@ const TimesheetForm = ({ projectId, timesheet = null, onSubmit, onCancel, loadin
 
       <div className={styles.formGroup}>
         <label htmlFor="documentId" className={styles.label}>
-          Documento (Entregable de la LMD) <span className={styles.required}>*</span>
+          Documento Asociado <span className={styles.required}>*</span>
         </label>
         <select
           id="documentId"

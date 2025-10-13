@@ -221,3 +221,50 @@
   }
 }
 
+/* Transmittal Info */
+.transmittalInfo {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.transmittalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.transmittalCode {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.transmittalDate {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.transmittalDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.transmittalSubject {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.transmittalRecipient,
+.transmittalDocuments {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+

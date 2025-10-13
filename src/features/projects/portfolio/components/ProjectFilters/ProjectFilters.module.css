@@ -91,9 +91,9 @@
 }
 
 .clearButton:hover {
-  background-color: var(--color-background-hover);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  background-color: rgba(37, 99, 235, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 @media (max-width: 768px) {

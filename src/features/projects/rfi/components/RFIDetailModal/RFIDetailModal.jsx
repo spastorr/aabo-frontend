@@ -4,12 +4,13 @@
  * @module features/projects/rfi/components/RFIDetailModal
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
 import Badge from '../../../../../components/shared/Badge';
 import RFIStatusTracker from '../RFIStatusTracker';
 import { RFI_STATUS } from '../../../../../constants/statuses';
+import { getTransmittalById } from '../../../../../services/mocks/transmittalMocks';
 import styles from './RFIDetailModal.module.css';
 
 const RFI_STATUS_CONFIG = {
@@ -29,6 +30,27 @@ const RFIDetailModal = ({ rfi, isOpen, onClose, onUpdate }) => {
   const [isResponding, setIsResponding] = useState(false);
   const [responseText, setResponseText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [relatedTransmittal, setRelatedTransmittal] = useState(null);
+
+  // Load related transmittal when modal opens
+  useEffect(() => {
+    if (isOpen && rfi?.transmittalId) {
+      loadRelatedTransmittal();
+    } else {
+      setRelatedTransmittal(null);
+    }
+  }, [isOpen, rfi?.transmittalId]);
+
+  const loadRelatedTransmittal = async () => {
+    try {
+      const response = await getTransmittalById(rfi.transmittalId);
+      if (response.success) {
+        setRelatedTransmittal(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading related transmittal:', error);
+    }
+  };
 
   if (!rfi) return null;
 
@@ -140,6 +162,26 @@ const RFIDetailModal = ({ rfi, isOpen, onClose, onUpdate }) => {
             </span>
           </div>
         </div>
+
+        {/* Related Transmittal */}
+        {relatedTransmittal && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>📦 Transmittal Relacionado</h3>
+            <div className={styles.transmittalInfo}>
+              <div className={styles.transmittalHeader}>
+                <span className={styles.transmittalCode}>{relatedTransmittal.code}</span>
+                <span className={styles.transmittalDate}>Fecha: {formatDate(relatedTransmittal.date)}</span>
+              </div>
+              <div className={styles.transmittalDetails}>
+                <p className={styles.transmittalSubject}>{relatedTransmittal.subject}</p>
+                <p className={styles.transmittalRecipient}>Destinatario: {relatedTransmittal.recipient}</p>
+                <p className={styles.transmittalDocuments}>
+                  Documentos: {relatedTransmittal.documentCount} archivo{relatedTransmittal.documentCount !== 1 ? 's' : ''}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Description */}
         <div className={styles.section}>

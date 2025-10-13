@@ -16,6 +16,7 @@ import TimesheetForm from './components/TimesheetForm';
 import TimesheetList from './components/TimesheetList';
 import TimesheetSummary from './components/TimesheetSummary';
 import ApprovalQueue from './components/ApprovalQueue';
+import DocumentTimesheets from './components/DocumentTimesheets';
 import styles from './TimesheetsPage.module.css';
 
 const TimesheetsPage = () => {
@@ -28,7 +29,7 @@ const TimesheetsPage = () => {
   const [showNewModal, setShowNewModal] = useState(false);
   const [editingTimesheet, setEditingTimesheet] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState('my-timesheets'); // 'my-timesheets' | 'approvals'
+  const [activeTab, setActiveTab] = useState('document-timesheets'); // 'document-timesheets' | 'my-timesheets' | 'approvals'
 
   // Mock current user - in production this would come from auth context
   const currentUserId = 'USR-002';
@@ -64,13 +65,7 @@ const TimesheetsPage = () => {
           path: `/projects/${projectId}/dashboard`,
           label: 'Dashboard'
         }}
-        actions={[
-          {
-            label: '+ Registrar Horas',
-            variant: 'primary',
-            onClick: () => setShowNewModal(true)
-          }
-        ]}
+        actions={[]}
       />
     );
   }, [selectedProject, projectId]);
@@ -182,10 +177,16 @@ const TimesheetsPage = () => {
       {/* Tabs */}
       <div className={styles.tabs}>
         <button
+          className={`${styles.tab} ${activeTab === 'document-timesheets' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('document-timesheets')}
+        >
+          📋 Planillas por Documento
+        </button>
+        <button
           className={`${styles.tab} ${activeTab === 'my-timesheets' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('my-timesheets')}
         >
-          📝 Mis Planillas
+          👤 Mis Registros
           <span className={styles.tabBadge}>{myTimesheets.length}</span>
         </button>
         {isManager && (
@@ -205,6 +206,17 @@ const TimesheetsPage = () => {
 
       {/* Tab Content */}
       <div className={styles.content}>
+        {activeTab === 'document-timesheets' && (
+          <div className={styles.documentTimesheetsSection}>
+            <DocumentTimesheets
+              projectId={projectId}
+              currentUserId={currentUserId}
+              isManager={isManager}
+              onEditTimesheet={handleEdit}
+            />
+          </div>
+        )}
+
         {activeTab === 'my-timesheets' && (
           <div className={styles.timesheetsSection}>
             <TimesheetList

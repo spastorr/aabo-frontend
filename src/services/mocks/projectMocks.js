@@ -82,6 +82,12 @@ export const createProject = (projectData) => {
         ...projectData,
         progress: 0,
         spent: 0,
+        // Convert teamMembers array to count for backward compatibility
+        teamMembers: Array.isArray(projectData.teamMembers) 
+          ? projectData.teamMembers.length 
+          : projectData.teamMembers || 0,
+        // Store the full team members data
+        teamMembersData: projectData.teamMembers || [],
       };
       resolve({ success: true, data: newProject });
     }, 500);

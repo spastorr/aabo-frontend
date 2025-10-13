@@ -1,0 +1,70 @@
+/**
+ * RegisterForm styles
+ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.nameFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+.field {
+  width: 100%;
+}
+
+.errorMessage {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+.loginLink {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-lg);
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+  padding: 0;
+}
+
+.linkButton:hover {
+  color: var(--color-primary-dark);
+}
+
+.linkButton:disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .nameFields {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}

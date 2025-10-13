@@ -26,18 +26,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Check for stored auth token on mount
     const checkAuth = () => {
-      // In development with mocks, auto-authenticate with mock user
-      if (env.useMocks && env.isDevelopment) {
-        setUser(mockUser);
-        setIsAuthenticated(true);
-        setLoading(false);
-        return;
-      }
-
       const token = localStorage.getItem('authToken');
       if (token) {
         // Validate token and fetch user data
-        // For now, just set loading to false
+        // For now, use mock user if token exists
+        setUser(mockUser);
         setIsAuthenticated(true);
       }
       setLoading(false);

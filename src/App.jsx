@@ -1,6 +1,11 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layouts/AppLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
+import LoginPage from './features/auth/LoginPage';
+import RegisterPage from './features/auth/RegisterPage';
+import ForgotPasswordPage from './features/auth/ForgotPasswordPage';
+import ResetPasswordPage from './features/auth/ResetPasswordPage';
+import EmailVerificationPage from './features/auth/EmailVerificationPage';
 import PortfolioPage from './features/projects/portfolio';
 import DashboardPage from './features/projects/dashboard';
 import LMDPage from './features/projects/lmd';
@@ -9,13 +14,15 @@ import RFIPage from './features/projects/rfi';
 import TimesheetsPage from './features/projects/timesheets';
 import ResourcesPage from './features/projects/resource-planning';
 // PASO 5: Habilitando todo el KnowledgeHub completo
-import { 
+import {
   KnowledgeHubPage,
   HistoricalProjectsPage,
   UnifiedSearchPage,
   StandardsPage
 } from './features/knowledgeHub';
+import { NotificationsPage } from './features/projects/notifications';
 import { SettingsPage } from './features/settings';
+import { ProfilePage } from './features/profile';
 import './App.css';
 
 function App() {
@@ -32,7 +39,11 @@ function App() {
       
       <Routes>
         {/* Public routes */}
-        <Route path="/login" element={<div style={{padding: '2rem', textAlign: 'center'}}>Login Page - To be built</div>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/verify-email" element={<EmailVerificationPage />} />
 
         {/* Protected routes with layout */}
         <Route
@@ -51,7 +62,10 @@ function App() {
           <Route path="projects/:id/rfi" element={<RFIPage />} />
           <Route path="projects/:id/timesheets" element={<TimesheetsPage />} />
           <Route path="projects/:id/resources" element={<ResourcesPage />} />
-          
+
+          {/* Notifications Route */}
+          <Route path="notifications" element={<NotificationsPage />} />
+
           {/* Knowledge Hub Routes - ✅ COMPLETAMENTE HABILITADO */}
           <Route path="knowledge-hub">
             <Route index element={<KnowledgeHubPage />} />
@@ -60,7 +74,10 @@ function App() {
             <Route path="historical-projects/:id" element={<div>Project Detail - To be implemented</div>} />
             <Route path="standards" element={<StandardsPage />} />
           </Route>
-          
+
+          {/* Profile Route */}
+          <Route path="profile" element={<ProfilePage />} />
+
           {/* Settings Route */}
           <Route path="settings" element={<SettingsPage />} />
           

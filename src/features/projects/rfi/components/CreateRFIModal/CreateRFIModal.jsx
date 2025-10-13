@@ -4,9 +4,10 @@
  * @module features/projects/rfi/components/CreateRFIModal
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
+import { getTransmittalsByProject } from '../../../../../services/mocks/transmittalMocks';
 import styles from './CreateRFIModal.module.css';
 
 const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
@@ -17,10 +18,34 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
     recipient: '',
     linkedDocuments: [],
     dueDate: '',
+    transmittalId: '',
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [availableTransmittals, setAvailableTransmittals] = useState([]);
+
+  // Load available transmittals when modal opens
+  useEffect(() => {
+    if (isOpen && projectId) {
+      loadAvailableTransmittals();
+    }
+  }, [isOpen, projectId]);
+
+  const loadAvailableTransmittals = async () => {
+    try {
+      const response = await getTransmittalsByProject(projectId);
+      if (response.success) {
+        // Filter transmittals that are outgoing and have been sent
+        const sentTransmittals = response.data.filter(t =>
+          t.type === 'OUTGOING' && (t.status === 'SENT' || t.status === 'RESPONDED')
+        );
+        setAvailableTransmittals(sentTransmittals);
+      }
+    } catch (error) {
+      console.error('Error loading transmittals:', error);
+    }
+  };
 
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
@@ -71,6 +96,7 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
         recipient: '',
         linkedDocuments: [],
         dueDate: '',
+        transmittalId: '',
       });
       setErrors({});
     } catch (error) {
@@ -88,6 +114,7 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
       recipient: '',
       linkedDocuments: [],
       dueDate: '',
+      transmittalId: '',
     });
     setErrors({});
     onClose();
@@ -155,6 +182,26 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
             onChange={(e) => handleChange('dueDate', e.target.value)}
             className={styles.input}
           />
+        </div>
+
+        {/* Transmittal Selection */}
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Transmittal Relacionado</label>
+          <select
+            value={formData.transmittalId}
+            onChange={(e) => handleChange('transmittalId', e.target.value)}
+            className={styles.select}
+          >
+            <option value="">Seleccionar transmittal (opcional)</option>
+            {availableTransmittals.map((transmittal) => (
+              <option key={transmittal.id} value={transmittal.id}>
+                {transmittal.code} - {transmittal.subject} ({transmittal.date})
+              </option>
+            ))}
+          </select>
+          <p className={styles.helperText}>
+            📦 Selecciona el transmittal en el que se envió este RFI junto con los planos
+          </p>
         </div>
 
         {/* Description */}

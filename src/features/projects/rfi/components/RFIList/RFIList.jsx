@@ -4,8 +4,10 @@
  * @module features/projects/rfi/components/RFIList
  */
 
+import { useState, useEffect } from 'react';
 import Badge from '../../../../../components/shared/Badge';
 import { RFI_STATUS } from '../../../../../constants/statuses';
+import { getTransmittalById } from '../../../../../services/mocks/transmittalMocks';
 import styles from './RFIList.module.css';
 
 const RFI_STATUS_CONFIG = {
@@ -16,6 +18,42 @@ const RFI_STATUS_CONFIG = {
 };
 
 const RFIList = ({ rfis, onRFIClick }) => {
+  const [transmittals, setTransmittals] = useState({});
+
+  // Load transmittals for RFIs that have them
+  useEffect(() => {
+    const loadTransmittals = async () => {
+      const transmittalIds = rfis
+        .filter(rfi => rfi.transmittalId)
+        .map(rfi => rfi.transmittalId)
+        .filter((id, index, arr) => arr.indexOf(id) === index); // Remove duplicates
+
+      const transmittalPromises = transmittalIds.map(async (id) => {
+        try {
+          const response = await getTransmittalById(id);
+          return response.success ? { id, data: response.data } : null;
+        } catch (error) {
+          console.error(`Error loading transmittal ${id}:`, error);
+          return null;
+        }
+      });
+
+      const results = await Promise.all(transmittalPromises);
+      const transmittalMap = {};
+      results.forEach(result => {
+        if (result) {
+          transmittalMap[result.id] = result.data;
+        }
+      });
+
+      setTransmittals(transmittalMap);
+    };
+
+    if (rfis && rfis.length > 0) {
+      loadTransmittals();
+    }
+  }, [rfis]);
+
   if (!rfis || rfis.length === 0) {
     return (
       <div className={styles.emptyState}>
@@ -37,6 +75,7 @@ const RFIList = ({ rfis, onRFIClick }) => {
             <th>Creado Por</th>
             <th>Fecha Creación</th>
             <th>Fecha Respuesta</th>
+            <th>Transmittal</th>
             <th>Documentos</th>
             <th>Acciones</th>
           </tr>
@@ -65,6 +104,20 @@ const RFIList = ({ rfis, onRFIClick }) => {
               <td>
                 {rfi.responseDate ? (
                   formatDate(rfi.responseDate)
+                ) : (
+                  <span className={styles.noData}>—</span>
+                )}
+              </td>
+              <td>
+                {rfi.transmittalId && transmittals[rfi.transmittalId] ? (
+                  <div className={styles.transmittalCell}>
+                    <span className={styles.transmittalCode}>
+                      {transmittals[rfi.transmittalId].code}
+                    </span>
+                    <span className={styles.transmittalDate}>
+                      {formatDate(transmittals[rfi.transmittalId].date)}
+                    </span>
+                  </div>
                 ) : (
                   <span className={styles.noData}>—</span>
                 )}

@@ -7,50 +7,51 @@
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #2a3b52;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--text-light);
-  background-color: var(--bg-medium);
+  color: var(--color-text-primary);
+  background-color: var(--color-background-alt);
   transition: all 0.3s ease;
   font-family: inherit;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.2);
-  background-color: rgba(27, 38, 59, 0.8);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background-color: var(--color-background);
 }
 
 .input:disabled {
-  background-color: rgba(13, 27, 42, 0.5);
-  color: var(--text-medium);
+  background-color: var(--color-background-alt);
+  color: var(--color-text-secondary);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .input::placeholder {
-  color: var(--text-medium);
+  color: var(--color-text-secondary);
 }
 
 /* Error state */
 .error {
-  border-color: #ef4444;
+  border-color: var(--color-danger);
 }
 
 .error:focus {
-  border-color: #ef4444;
+  border-color: var(--color-danger);
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
 
 /* Helper text */
 .helperText {
   font-size: 0.875rem;
-  color: var(--text-medium);
+  color: var(--color-text-secondary);
   margin-top: 0.25rem;
 }
 
 .helperError {
-  color: #ef4444;
+  color: var(--color-danger);
 }
