@@ -1,0 +1,130 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Section */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+/* Budget Table */
+.budgetTable {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.budgetHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background: var(--color-background-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.budgetRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.budgetRow:last-child {
+  border-bottom: none;
+}
+
+.budgetRow:hover {
+  background: var(--color-background-secondary);
+}
+
+.budgetCell {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.budgetHeader .budgetCell {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.budgetRow .budgetCell {
+  color: var(--color-text-secondary);
+}
+
+/* Metrics Grid */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.metricCard {
+  padding: 1.25rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.metricLabel {
+  font-size: 0.813rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.5rem;
+}
+
+.metricValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.metricSubtext {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Empty Message */
+.emptyMessage {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.938rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  background: var(--color-background-secondary);
+  border-radius: 6px;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .budgetHeader,
+  .budgetRow {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  }
+
+  .budgetCell {
+    padding: 0.5rem;
+    font-size: 0.813rem;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

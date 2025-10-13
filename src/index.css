@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Paleta de Colores: Industrial, Técnico y Seguro */
+:root {
+  /* Base colors for dark theme (default) */
+  --bg-dark: #0D1B2A;      /* Azul naval profundo */
+  --bg-medium: #1B263B;    /* Gris azulado oscuro */
+  --text-light: #E0E1DD;   /* Blanco hueso suave */
+  --text-medium: #A9B4C2;  /* Gris azulado claro */
+  --accent-cyan: #48CAE4;  /* Cian vibrante para KPIs y datos */
+  --accent-amber: #FF9F1C; /* Ámbar para alertas o secundario */
+  --primary-blue: #1e40af; /* Azul primario */
+  --primary-gold: #d4af37; /* Dorado primario */
+  
+  /* Variables para compatibilidad completa del tema oscuro */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Backgrounds */
+  --color-background: rgba(27, 38, 59, 0.6);
+  --color-background-alt: var(--bg-dark);
+  --color-background-hover: rgba(72, 202, 228, 0.1);
+  
+  /* Text colors */
+  --color-text-primary: var(--text-light);
+  --color-text-secondary: var(--text-medium);
+  --color-text-tertiary: rgba(169, 180, 194, 0.7);
+  --color-text-muted: rgba(169, 180, 194, 0.6);
+  
+  /* Border colors */
+  --color-border: #2a3b52;
+  --color-border-light: rgba(42, 59, 82, 0.5);
+  
+  /* Primary colors */
+  --color-primary: var(--accent-cyan);
+  --color-primary-hover: #3FA9F5;
+  --color-primary-light: rgba(72, 202, 228, 0.2);
+  
+  /* Status colors */
+  --color-success: #10b981;
+  --color-warning: var(--accent-amber);
+  --color-danger: #ef4444;
+  --color-info: var(--accent-cyan);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  /* Base colors for light theme */
+  --bg-dark: #f1f5f9;
+  --bg-medium: #ffffff;
+  --text-light: #1e293b;
+  --text-medium: #475569;
+  --accent-cyan: #0ea5e9;
+  --accent-amber: #f59e0b;
+  
+  /* Backgrounds */
+  --color-background: #ffffff;
+  --color-background-alt: #f8fafc;
+  --color-background-hover: rgba(14, 165, 233, 0.08);
+  
+  /* Text colors */
+  --color-text-primary: #1e293b;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+  --color-text-muted: #94a3b8;
+  
+  /* Border colors */
+  --color-border: #e2e8f0;
+  --color-border-light: rgba(226, 232, 240, 0.8);
+  
+  /* Primary colors - lighter blue theme */
+  --color-primary: #0ea5e9;
+  --color-primary-hover: #0284c7;
+  --color-primary-light: rgba(14, 165, 233, 0.12);
+  
+  /* Status colors remain the same */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background: linear-gradient(-45deg, var(--bg-dark), var(--bg-medium), var(--bg-dark), var(--bg-medium));
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  color: var(--text-light);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Efectos de animación globales */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efectos de brillo para elementos destacados */
+.text-glow {
+  color: var(--color-primary);
+  text-shadow: 0 0 10px var(--color-primary-light), 0 0 20px var(--color-primary-light);
+  animation: textGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  from { text-shadow: 0 0 10px var(--color-primary-light); }
+  to { text-shadow: 0 0 20px var(--color-primary-light), 0 0 30px var(--color-primary-light); }
+}
+
+/* Efectos de botones mejorados */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform: translateZ(0);
+}
+
+.btn-animated:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 25px var(--color-primary-light);
+}
+
+/* Efectos de tarjetas */
+.feature-card {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(5px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px var(--color-primary-light);
+}
+
+/* Partículas flotantes decorativas */
+.floating-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background: var(--color-primary-light);
+  border-radius: 50%;
+  animation: float 20s infinite linear;
+}
+
+.particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 2s; }
+.particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 4s; }
+.particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 6s; }
+.particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 8s; }
+
+@keyframes float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}

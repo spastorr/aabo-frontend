@@ -1,0 +1,13 @@
+/* Global app styles */
+
+.app {
+  min-height: 100vh;
+}
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  z-index: 0;
+}
+
+/* Add any global app-specific styles here */

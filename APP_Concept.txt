@@ -1,0 +1,204 @@
+Concepto de Startup: AABO Services v2.0
+Overview General
+AABO Services es una plataforma web diseñada para optimizar la gestión de proyectos en compañías de ingeniería, estableciendo una única fuente de verdad (Single Source of Truth). La plataforma garantiza que todos los involucrados trabajen con información actualizada y cumplan con normativas específicas, como el estándar PEC-EXP--UIO-00-INS-01. Centraliza el ciclo de vida de los entregables, elimina la dispersión de información, reduce errores humanos, y mejora la trazabilidad y la colaboración en tiempo real. A su vez, integra la gestión operativa de proyectos con la capitalización del conocimiento institucional, convirtiendo el trabajo histórico en un activo estratégico, reutilizable y de fácil acceso.
+
+Objetivos Principales
+Garantizar el Cumplimiento y la Calidad: Asegurar que cada entregable se adhiera rigurosamente a los estándares del cliente y a las normativas internas, eliminando inconsistencias y errores humanos a través de procesos automatizados.
+
+Optimizar la Toma de Decisiones Gerenciales: Ofrecer una visión estratégica clara y en tiempo real del portafolio de proyectos mediante un dashboard con KPIs críticos (costos, plazos, recursos), permitiendo una gestión proactiva y la identificación temprana de riesgos.
+
+Asegurar Trazabilidad Total y Soporte Auditable: Crear un registro digital inalterable de cada interacción, decisión y versión de documento, proporcionando un respaldo robusto para auditorías y disputas legales.
+
+Centralizar y Formalizar la Comunicación: Erradicar la ambigüedad y la pérdida de información reemplazando la comunicación informal por un sistema estructurado de Transmittals y RFIs que asegura la responsabilidad y claridad.
+
+Capitalizar el Conocimiento Institucional: Transformar el trabajo histórico de un archivo pasivo a una biblioteca inteligente y activa, acelerando nuevos proyectos, mejorando la calidad de las soluciones y preservando el know-how estratégico de la empresa.
+
+Garantizar Acceso a Normativas Vigentes: Proveer un punto de acceso único y confiable a las últimas versiones de las especificaciones de clientes, guías de diseño internas y normativas de la industria (API, ASME, etc.), eliminando el riesgo de trabajar con información obsoleta.
+
+Módulos y Funcionalidades Clave
+La plataforma se estructura en dos módulos principales, diseñados para separar la gestión activa de proyectos del repositorio estratégico de conocimiento, creando una herramienta integral y ordenada.
+
+Módulo I: Gestión de Proyectos
+Es el centro de comando para la ejecución, seguimiento y control de todos los proyectos activos. El flujo de trabajo está diseñado para ser intuitivo y ordenado, incluso con múltiples proyectos simultáneos.
+
+Flujo de Trabajo y Gestión Multi-proyecto:
+
+Punto de Partida - Portafolio de Proyectos: Al ingresar al módulo, el usuario accede a una vista de "Portafolio" que muestra una lista de todos los proyectos activos en los que participa. Desde aquí puede seleccionar el proyecto en el que desea trabajar.
+
+Espacio de Trabajo Dedicado: Al seleccionar un proyecto, el usuario entra a un espacio de trabajo exclusivo donde todas las herramientas (Dashboard, LMD, Transmittals) muestran únicamente la información de ese proyecto.
+
+Navegación Fluida: El usuario puede cambiar fácilmente entre proyectos volviendo a la vista de "Portafolio", garantizando una gestión organizada y sin confusiones.
+
+Dashboard (Informativo / Visual): Ofrece una visión gráfica y consolidada del estado del proyecto seleccionado.
+
+% de Avance (Real vs. Programado): Un componente visual (ej. gráfico de barras o Curva S) que compara el progreso real contra el planificado. Al hacer clic, se desglosa el avance por cada disciplina (Procesos, Mecánica, Eléctrica, Civil, Instrumentación & Control).
+
+Costo del Proyecto (Ejecutado vs. Proyectado): Un indicador financiero clave que muestra el gasto actual frente al presupuesto. Permite un desglose detallado por disciplina. Este indicador se alimenta en tiempo real de los datos aprobados en el módulo de Timesheets, ofreciendo una precisión sin precedentes.
+
+Planificación y Asignación de Recursos:
+
+Concepto: Un centro de control para la gestión de la capacidad del equipo de ingeniería. Permite a los gerentes visualizar la carga de trabajo de cada miembro del equipo a través de todos los proyectos.
+
+Valor Agregado: Evita la sobrecarga de ciertos ingenieros y la subutilización de otros. Permite una planificación de la capacidad a futuro, ayudando a decidir cuándo contratar nuevo personal.
+
+Funcionalidades:
+
+Vista de Carga de Trabajo Global: Gráficos que muestran la asignación de horas de cada ingeniero, resaltando visualmente quiénes están sobrecargados o subutilizados.
+
+Asignación Directa desde la LMD: Los gerentes pueden asignar directamente entregables de la LMD a ingenieros específicos.
+
+Control de Horas y Costos Detallado (Timesheets):
+
+Concepto: Un sistema de planillas de horarios (timesheets) totalmente integrado donde los ingenieros pueden cargar las horas trabajadas vinculándolas directamente a un entregable específico de la LMD.
+
+Valor Agregado: El campo "Costo" en la LMD pasa de ser una estimación a ser un dato real y auditable. Permite un análisis de rentabilidad por entregable, disciplina y proyecto.
+
+Funcionalidades:
+
+Carga de Horas Vinculada: Los ingenieros registran sus horas trabajadas y las vinculan directamente a un entregable de la LMD.
+
+Flujo de Aprobación: Los líderes de disciplina o gerentes de proyecto pueden revisar y aprobar las horas cargadas.
+
+Impacto en Tiempo Real: Las horas aprobadas se traducen en costos que actualizan automáticamente el campo "Costo" en la LMD y el Dashboard.
+
+Lista Maestra de Documentos (LMD): Es el corazón del control documental de cada proyecto.
+
+Contenido y Columnas de la Tabla:
+
+#: Número de ítem secuencial.
+
+Documento (Código y Nombre): Identificador único y título descriptivo.
+
+Responsable: Ingeniero o equipo encargado.
+
+Disciplina: Especialidad de ingeniería.
+
+Estado: Situación actual con código de color (APR, ACC, CMN, RCH, ELB).
+
+Rev.: Versión actual del documento.
+
+Fecha Envío / Aprobación: Fechas clave del ciclo de vida.
+
+Costo: Este campo evoluciona de una estimación inicial a un valor real y auditable, actualizado automáticamente a medida que los ingenieros cargan y aprueban sus horas a través del sistema de Timesheets.
+
+Acciones: Botón (...) para abrir la vista de "Detalles del Documento".
+
+Funcionalidad Integrada: Búsqueda Dinámica, asistente para añadir nuevos documentos con generador de códigos y visualización de historial completo por documento.
+
+Sistema de Comunicación (Transmittals): Canal formal para el envío y recepción de documentación.
+
+Interfaz Centralizada: Organizada en Bandeja de Salida y Bandeja de Entrada.
+
+Creación de Nuevos Transmittals: Asistente integrado con la Lista Maestra de Documentos (LMD) para adjuntar versiones correctas.
+
+Vista de Detalle del Transmittal: Consolida la información como un registro legal.
+
+Gestión de RFI (Request for Information): Módulo dedicado para la gestión formal de Solicitudes de Información, con seguimiento centralizado y vinculación a documentos específicos.
+
+Notificaciones Inteligentes y Reportes: Alertas personalizables (eventos, plazos, costos) y generación automática de reportes de avance por proyecto. Se incluyen alertas sobre la sobreasignación de recursos y recordatorios para la carga o aprobación de planillas de horarios (timesheets).
+
+Módulo II: Knowledge Hub (Centro de Conocimiento)
+Es el cerebro estratégico y la memoria a largo plazo de la organización. Su misión es transformar los datos históricos y la documentación estática en un activo inteligente, accesible y que genere valor continuo.
+
+Componente Central: Biblioteca de Proyectos Históricos
+
+Estructura de Archivo: Cada proyecto finalizado se convierte en un "archivo de conocimiento" inmutable. No es una simple carpeta de archivos, sino un objeto de datos estructurado que contiene:
+
+La Lista Maestra de Documentos (LMD) final.
+
+Todos los entregables en su última revisión aprobada (PDF, DWG, modelos 3D, etc.).
+
+El historial completo de Transmittals y RFIs.
+
+Métricas de cierre del proyecto: costo final vs. presupuesto, duración real vs. planificada, y KPIs de rendimiento.
+
+Indexación y Metadatos Avanzados: Para que la información sea encontrable, cada proyecto se etiqueta con metadatos clave, tanto de forma automática como manual:
+
+Etiquetas Automáticas: Cliente, tipo de proyecto (ej. Refinería, Upstream), disciplinas involucradas, normativas aplicadas.
+
+Etiquetas Manuales: Los ingenieros y gerentes pueden añadir etiquetas específicas como "Diseño de alta presión", "Bomba centrífuga modelo X", "Solución a vibración en tuberías", permitiendo una recuperación de información basada en la experiencia.
+
+Pilar Fundamental: Repositorio de Estándares y Especificaciones
+
+Especificaciones de Clientes:
+
+Organización: Perfil individual por cada cliente, conteniendo todos sus estándares, guías y plantillas.
+
+Control de Versiones Crítico: El sistema gestiona las versiones de cada documento del cliente. Cuando se recibe una actualización, la nueva versión se marca como "Activa" y se notifica a los equipos pertinentes. Las versiones anteriores se archivan con acceso de solo lectura, eliminando el riesgo de usar información obsoleta.
+
+Vinculación Activa: Cada nuevo proyecto se vincula a la versión "Activa" de las especificaciones de ese cliente en el momento de su creación.
+
+Guías y Normativas Internas:
+
+El ADN de la Empresa: Un repositorio centralizado para manuales de procedimiento, hojas de cálculo estandarizadas, lecciones aprendidas formalizadas, checklists de calidad y mejores prácticas.
+
+Ciclo de Vida y Aprobación: Los documentos internos tienen un ciclo de vida (Borrador -> En Revisión -> Aprobado) para asegurar que solo el conocimiento validado sea de uso general.
+
+Normativas Externas (API, ASME, ISO, etc.):
+
+Biblioteca Centralizada: Un espacio para gestionar los estándares de la industria, ya sea alojando los archivos PDF comprados o gestionando enlaces a servicios de suscripción externos.
+
+Alerta de Actualizaciones: El sistema puede ser configurado para monitorear y notificar a los administradores cuando nuevas revisiones de estándares clave son publicadas.
+
+Funcionalidad Clave: Acceso y Búsqueda Inteligente Unificada
+
+Motor de Búsqueda Global: Una única barra de búsqueda, similar a un buscador web, que permite realizar consultas en todo el Knowledge Hub.
+
+Búsqueda Semántica (Lenguaje Natural): Los usuarios pueden hacer preguntas directas. Por ejemplo:
+
+"¿Cuál es el procedimiento para el cálculo de PSV?" -> El sistema buscará en las guías internas y mostrará el documento relevante.
+
+"Muéstrame ejemplos de P&IDs para el cliente X en proyectos de gas." -> El sistema buscará en la biblioteca de proyectos históricos, filtrando por cliente, tipo de proyecto y tipo de documento.
+
+Filtros Avanzados y Contextuales: Junto a los resultados, un panel de filtros permite refinar la búsqueda por cliente, disciplina, tipo de documento, etiqueta de experiencia, etc.
+
+Resultados Contextuales 360°: Los resultados no son solo una lista de archivos. Una búsqueda sobre "Bombas Centrífugas" podría devolver:
+
+Proyectos Históricos: Proyectos donde se usaron bombas similares.
+
+Estándares Internos: La guía interna para la selección de bombas.
+
+Especificaciones de Cliente: El estándar del cliente Y sobre bombas.
+
+Normativa Externa: El estándar API 610.
+
+Seguridad y Confidencialidad: Sistema de Permisos Granular
+
+Control de Acceso Basado en Rol (RBAC): Define lo que un usuario puede hacer (ver, editar, aprobar) según su rol (Ingeniero Jr., Líder de Disciplina, Gerente de Proyecto).
+
+Control de Acceso Basado en Atributos (ABAC): Controla el acceso a qué información se puede ver. Por ejemplo, un ingeniero solo podrá acceder a la información de los proyectos en los que está asignado, y solo a las especificaciones de los clientes con los que trabaja, garantizando la máxima confidencialidad.
+
+Administración Global
+Este es el panel de control central para los administradores de la plataforma. Permite configurar y personalizar AABO Services para que se ajuste perfectamente a los procesos y la estructura de la compañía.
+
+Gestión de Usuarios, Roles y Permisos:
+
+Administración de Usuarios: Crear, editar, activar/desactivar perfiles de usuario.
+
+Definición de Roles: Crear y gestionar roles (ej. "Ingeniero de Procesos Jr.", "Líder de Proyectos", "Administrador de Calidad").
+
+Permisos Granulares: Asignar permisos específicos a cada rol para controlar con precisión quién puede ver, crear, editar, aprobar o eliminar información en cada módulo de la plataforma. Por ejemplo, definir si un rol puede ver los costos de un proyecto o solo el avance técnico.
+
+Configuración de Estándares y Plantillas:
+
+Gestor de Nomenclatura: Crear y administrar las reglas para la codificación automática de documentos, proyectos y transmittals, asegurando la estandarización en toda la empresa.
+
+Biblioteca de Plantillas: Centralizar y gestionar las plantillas oficiales de la compañía (ej. plantillas para reportes, LMD, Transmittals, RFIs) para que estén disponibles en la creación de nuevos proyectos.
+
+Administración de Clientes y Proyectos:
+
+Gestión de Clientes: Crear y administrar el perfil de cada cliente, asociando sus estándares y especificaciones específicas que se encuentran en el Knowledge Hub.
+
+Configuración de Proyectos: Establecer los parámetros base para nuevos proyectos, como la asignación de equipos, la vinculación a plantillas de LMD y la configuración de flujos de aprobación.
+
+Parámetros del Sistema:
+
+Personalización de la Marca (Branding): Permite subir el logo de la compañía para que aparezca en la interfaz y en los reportes exportados (PDFs, etc.).
+
+Configuraciones Generales: Definir parámetros globales como la moneda por defecto, formatos de fecha y zona horaria.
+
+Gestión de Notificaciones: Personalizar el contenido y la frecuencia de las notificaciones automáticas por correo electrónico.
+
+Auditoría y Registros (Logs):
+
+Registro de Actividad: Un log detallado e inmutable que registra todas las acciones críticas realizadas en la plataforma (quién, qué, cuándo), esencial para la seguridad, la trazabilidad y las auditorías internas o externas.

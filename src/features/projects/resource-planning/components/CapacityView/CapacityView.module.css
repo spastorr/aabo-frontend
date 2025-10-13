@@ -1,0 +1,229 @@
+.capacity {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.overallStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.statIcon {
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+.statContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.statSubtext {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.125rem;
+}
+
+.disciplineSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.disciplineGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.disciplineCard {
+  padding: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.disciplineHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.disciplineName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.disciplineStatus {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.625rem;
+  border-radius: 12px;
+  color: white;
+}
+
+.disciplineStatus.danger {
+  background: var(--color-danger);
+}
+
+.disciplineStatus.warning {
+  background: var(--color-warning);
+}
+
+.disciplineStatus.success {
+  background: var(--color-success);
+}
+
+.disciplineStatus.info {
+  background: var(--color-info);
+}
+
+.disciplineBar {
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.disciplineBarFill {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.disciplineBarFill.danger {
+  background: var(--color-danger);
+}
+
+.disciplineBarFill.warning {
+  background: var(--color-warning);
+}
+
+.disciplineBarFill.success {
+  background: var(--color-success);
+}
+
+.disciplineBarFill.info {
+  background: var(--color-info);
+}
+
+.disciplineStats {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.disciplineStat {
+  font-weight: 500;
+}
+
+.recommendations {
+  padding: 1.25rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--color-info);
+}
+
+.recommendationsTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.recommendationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.recommendation {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-primary);
+  border-radius: 6px;
+}
+
+.recommendationIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.recommendation p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.recommendation strong {
+  color: var(--color-primary);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .overallStats {
+    grid-template-columns: 1fr;
+  }
+
+  .disciplineGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

@@ -1,0 +1,64 @@
+/* DocumentDownloadButtons.module.css */
+
+.container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--background);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.downloadButton:hover {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.label {
+  font-weight: 600;
+}
+
+/* Variant: Compact (for inline use) */
+.container.compact {
+  gap: 6px;
+}
+
+.container.compact .downloadButton {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.container.compact .icon {
+  font-size: 14px;
+}
+
+/* Variant: Large (for detail page) */
+.container.large .downloadButton {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+.container.large .icon {
+  font-size: 18px;
+}
+

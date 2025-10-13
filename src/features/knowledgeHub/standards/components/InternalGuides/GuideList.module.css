@@ -1,0 +1,113 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.guideCard {
+  padding: 1.5rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.guideCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header */
+.cardHeader {
+  margin-bottom: 1rem;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  flex: 1;
+}
+
+.code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.813rem;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Description */
+.description {
+  font-size: 0.938rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0 0 1rem 0;
+}
+
+/* Meta */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.813rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.metaItem strong {
+  color: var(--color-text-primary);
+}
+
+.metaDivider {
+  color: var(--color-border);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .metaDivider {
+    display: none;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
+

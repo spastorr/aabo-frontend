@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Summary */
+.summary {
+  padding: 1.5rem;
+  background: var(--color-background-secondary);
+  border-radius: 8px;
+}
+
+.summaryTitle {
+  font-size: 1.25rem;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.summaryTitle strong {
+  color: var(--color-primary);
+}
+
+.categoryBreakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.categoryPill {
+  padding: 0.5rem 1rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* Results */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+

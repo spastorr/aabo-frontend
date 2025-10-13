@@ -1,0 +1,29 @@
+/**
+ * Project types based on industry sectors
+ * @module constants/projectTypes
+ */
+
+export const PROJECT_TYPES = {
+  REFINERY: 'REFINERY',
+  UPSTREAM: 'UPSTREAM',
+  MIDSTREAM: 'MIDSTREAM',
+  DOWNSTREAM: 'DOWNSTREAM',
+  PETROCHEMICAL: 'PETROCHEMICAL',
+  POWER_PLANT: 'POWER_PLANT',
+  INDUSTRIAL: 'INDUSTRIAL',
+  INFRASTRUCTURE: 'INFRASTRUCTURE',
+  OTHER: 'OTHER',
+};
+
+export const PROJECT_TYPE_LABELS = {
+  [PROJECT_TYPES.REFINERY]: 'Refinería',
+  [PROJECT_TYPES.UPSTREAM]: 'Upstream',
+  [PROJECT_TYPES.MIDSTREAM]: 'Midstream',
+  [PROJECT_TYPES.DOWNSTREAM]: 'Downstream',
+  [PROJECT_TYPES.PETROCHEMICAL]: 'Petroquímica',
+  [PROJECT_TYPES.POWER_PLANT]: 'Planta de Energía',
+  [PROJECT_TYPES.INDUSTRIAL]: 'Industrial',
+  [PROJECT_TYPES.INFRASTRUCTURE]: 'Infraestructura',
+  [PROJECT_TYPES.OTHER]: 'Otro',
+};
+

@@ -1,0 +1,38 @@
+/**
+ * User roles for RBAC
+ * @module constants/roles
+ */
+
+export const ROLES = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ADMIN: 'ADMIN',
+  PROJECT_MANAGER: 'PROJECT_MANAGER',
+  DISCIPLINE_LEAD: 'DISCIPLINE_LEAD',
+  SENIOR_ENGINEER: 'SENIOR_ENGINEER',
+  ENGINEER: 'ENGINEER',
+  JUNIOR_ENGINEER: 'JUNIOR_ENGINEER',
+  VIEWER: 'VIEWER',
+};
+
+export const ROLE_LABELS = {
+  [ROLES.SUPER_ADMIN]: 'Super Administrador',
+  [ROLES.ADMIN]: 'Administrador',
+  [ROLES.PROJECT_MANAGER]: 'Gerente de Proyecto',
+  [ROLES.DISCIPLINE_LEAD]: 'Líder de Disciplina',
+  [ROLES.SENIOR_ENGINEER]: 'Ingeniero Senior',
+  [ROLES.ENGINEER]: 'Ingeniero',
+  [ROLES.JUNIOR_ENGINEER]: 'Ingeniero Junior',
+  [ROLES.VIEWER]: 'Visualizador',
+};
+
+export const ROLE_HIERARCHY = {
+  [ROLES.SUPER_ADMIN]: 1000,
+  [ROLES.ADMIN]: 900,
+  [ROLES.PROJECT_MANAGER]: 700,
+  [ROLES.DISCIPLINE_LEAD]: 600,
+  [ROLES.SENIOR_ENGINEER]: 500,
+  [ROLES.ENGINEER]: 400,
+  [ROLES.JUNIOR_ENGINEER]: 300,
+  [ROLES.VIEWER]: 100,
+};
+

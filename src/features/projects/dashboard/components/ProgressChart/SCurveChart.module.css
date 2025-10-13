@@ -1,0 +1,29 @@
+.chartContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .chartContainer {
+    min-height: 300px;
+  }
+
+  .canvas {
+    width: 100%;
+  }
+}
+

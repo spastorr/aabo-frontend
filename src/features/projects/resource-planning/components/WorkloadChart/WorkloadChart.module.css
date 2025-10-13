@@ -1,0 +1,231 @@
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legendDot.danger {
+  background: var(--color-danger);
+}
+
+.legendDot.warning {
+  background: var(--color-warning);
+}
+
+.legendDot.success {
+  background: var(--color-success);
+}
+
+.legendDot.info {
+  background: var(--color-info);
+}
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.barItem {
+  display: grid;
+  grid-template-columns: 200px 1fr 100px;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: box-shadow 0.2s;
+}
+
+.barItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.memberDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.memberName {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberRole {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.barBackground {
+  height: 32px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+}
+
+.barFill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.barFill.danger {
+  background: var(--color-danger);
+}
+
+.barFill.warning {
+  background: var(--color-warning);
+}
+
+.barFill.success {
+  background: var(--color-success);
+}
+
+.barFill.info {
+  background: var(--color-info);
+}
+
+.barLabel {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.percentage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.percentageValue {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.percentageStatus {
+  padding: 0.125rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  color: white;
+}
+
+.percentageStatus.danger {
+  background: var(--color-danger);
+}
+
+.percentageStatus.warning {
+  background: var(--color-warning);
+}
+
+.percentageStatus.success {
+  background: var(--color-success);
+}
+
+.percentageStatus.info {
+  background: var(--color-info);
+}
+
+.availableHours {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.availableValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.availableLabel {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .barItem {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .legend {
+    gap: 1rem;
+  }
+
+  .legendItem {
+    font-size: 0.7rem;
+  }
+}
+

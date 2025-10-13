@@ -1,0 +1,139 @@
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1.5rem;
+  padding: 0.375rem 0;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.backButton:hover {
+  background-color: var(--color-background-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateX(-2px);
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0; /* Allow text truncation */
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projectInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.projectName {
+  font-size: 0.938rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projectCode {
+  font-size: 0.813rem;
+  font-family: monospace;
+  color: var(--color-primary);
+  font-weight: 600;
+  background-color: var(--color-primary-light);
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pageHeader {
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .backButton {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .actions {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .leftSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  .title {
+    font-size: 1rem;
+  }
+}
+

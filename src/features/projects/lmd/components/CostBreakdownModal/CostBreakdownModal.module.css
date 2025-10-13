@@ -1,0 +1,75 @@
+/* CostBreakdownModal.module.css */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 4px 0;
+}
+
+.labelTotal {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.valueTotal {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.calculation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.calculationLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calculationFormula {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-family: 'Courier New', monospace;
+}
+

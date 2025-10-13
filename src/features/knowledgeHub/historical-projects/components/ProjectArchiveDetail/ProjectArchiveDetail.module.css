@@ -1,0 +1,259 @@
+.modal {
+  --modal-max-width: 1200px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+/* Header */
+.header {
+  padding: 1.5rem;
+  background: var(--color-background-secondary);
+  border-bottom: 1px solid var(--color-border);
+  margin: -1.5rem -1.5rem 0 -1.5rem;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.projectName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.metaItem strong {
+  color: var(--color-text-primary);
+}
+
+.metaDivider {
+  color: var(--color-border);
+}
+
+.successBadge {
+  align-self: flex-start;
+}
+
+/* Tab Content */
+.tabContent {
+  padding: 1.5rem 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.description {
+  font-size: 0.938rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Metrics Grid */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.metricCard {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.metricIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.metricContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metricLabel {
+  font-size: 0.813rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.metricValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.metricDetail {
+  font-size: 0.813rem;
+  color: var(--color-text-secondary);
+}
+
+/* Team Info */
+.teamInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.teamCount {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.disciplines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.5rem 0.75rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Lessons Learned */
+.lessonsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lessonItem {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 0.938rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.lessonItem::before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+  font-size: 1.25rem;
+}
+
+/* Files Section */
+.filesSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.infoMessage {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    margin: -1rem -1rem 0 -1rem;
+  }
+
+  .projectName {
+    font-size: 1.25rem;
+  }
+
+  .metadata {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .metaDivider {
+    display: none;
+  }
+
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+  }
+
+  .footer button {
+    width: 100%;
+  }
+}
+

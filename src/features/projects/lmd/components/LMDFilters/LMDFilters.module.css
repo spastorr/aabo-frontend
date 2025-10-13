@@ -1,0 +1,113 @@
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--color-primary-light);
+  margin-bottom: 0.75rem;
+  backdrop-filter: blur(5px);
+}
+
+.searchContainer {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.625rem 1rem 0.625rem 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-alt);
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  background-color: var(--color-background);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+.selectGroup {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.select {
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  background-color: var(--color-background-alt);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 180px;
+}
+
+.select:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-background);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+  background-color: var(--color-background);
+}
+
+.clearButton {
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.clearButton:hover {
+  background-color: rgba(72, 202, 228, 0.1);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+@media (max-width: 768px) {
+  .selectGroup {
+    flex-direction: column;
+  }
+
+  .select {
+    min-width: 100%;
+  }
+
+  .clearButton {
+    width: 100%;
+  }
+}
+
