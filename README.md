@@ -1,6 +1,28 @@
 # 📊 AABO Frontend - Sistema de Control de Documentos
 
+![React](https://img.shields.io/badge/React-18.3.1-61dafb?logo=react)
+![Vite](https://img.shields.io/badge/Vite-6.0.3-646cff?logo=vite)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-2.5.0-764abc?logo=redux)
+![License](https://img.shields.io/badge/License-Proprietary-red)
+![Status](https://img.shields.io/badge/Status-Active-success)
+
 Sistema de gestión integral de documentos de ingeniería desarrollado con React + Vite. Proporciona un entorno completo para el control y seguimiento de proyectos de ingeniería, gestión documental, recursos, y conocimiento organizacional.
+
+## 📸 Vista Previa
+
+🚀 **Repositorio**: [github.com/spastorr/aabo-frontend](https://github.com/spastorr/aabo-frontend)
+
+## 📑 Tabla de Contenidos
+
+- [Características Principales](#-características-principales)
+- [Stack Tecnológico](#️-stack-tecnológico)
+- [Instalación](#-instalación)
+- [Scripts Disponibles](#-scripts-disponibles)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Sistema de Diseño](#-sistema-de-diseño)
+- [Deployment](#-deployment)
+- [Contribución](#-contribución)
+- [Autor](#-autor)
 
 ## 🚀 Características Principales
 
@@ -85,7 +107,7 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/TU_USUARIO/aabo-frontend.git
+git clone https://github.com/spastorr/aabo-frontend.git
 cd aabo-frontend
 ```
 
@@ -209,10 +231,31 @@ El build genera archivos optimizados en la carpeta `dist/`:
 - Source maps
 
 ### Opciones de Deploy
-- **Vercel**: Recomendado para proyectos React/Vite
-- **Netlify**: Alternativa con continuous deployment
-- **GitHub Pages**: Para proyectos públicos
-- **Docker**: Containerización para cualquier plataforma
+
+#### Vercel (Recomendado)
+```bash
+npm install -g vercel
+vercel
+```
+
+#### Netlify
+```bash
+# netlify.toml ya configurado
+npm run build
+# Arrastra la carpeta dist/ a Netlify
+```
+
+#### GitHub Pages
+```bash
+# Actualiza vite.config.js con base: '/aabo-frontend/'
+npm run build
+# Usa gh-pages branch
+```
+
+#### Variables de Entorno
+Recuerda configurar las variables de entorno en tu plataforma:
+- `VITE_API_URL`: URL de tu backend API
+- `VITE_ENV`: production | development
 
 ## 📚 Documentación Adicional
 
@@ -249,7 +292,7 @@ Este proyecto es propietario de AABO Engineering.
 
 **Santiago Pastor**
 - Email: spastorr@gmail.com
-- GitHub: [@TU_USUARIO]
+- GitHub: [@spastorr](https://github.com/spastorr)
 
 ## 📞 Soporte
 
