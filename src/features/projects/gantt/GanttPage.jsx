@@ -1,6 +1,5 @@
 /**
- * GanttPage - Interactive Gantt chart for project documents and revisions
- * Shows document timeline with revision schedules and milestones
+ * GanttPage - Simplified version with mock data
  * @module features/projects/gantt/GanttPage
  */
 
@@ -10,12 +9,7 @@ import { useLayout } from '../../../contexts/LayoutContext';
 import { useProject } from '../../../contexts/ProjectContext';
 import PageHeader from '../../../components/shared/PageHeader';
 import Button from '../../../components/shared/Button';
-import Select from '../../../components/shared/Select';
-import MultiSelect from '../../../components/shared/MultiSelect';
-import SimpleGanttChart from './components/SimpleGanttChart';
-import GanttControls from './components/GanttControls';
-import useGanttData from './hooks/useGanttData';
-import { exportGanttChart } from './utils/ganttExporter';
+import DebugGanttChart from './components/DebugGanttChart';
 import { DISCIPLINE_LABELS, DISCIPLINE_COLORS } from '../../../constants';
 import { DOCUMENT_STATUS_DETAILED } from '../../../constants/documentLifecycle';
 import { formatDate } from '../../../utils';
@@ -25,131 +19,8 @@ const GanttPage = () => {
   const { projectId } = useParams();
   const { setHeader, clearHeader } = useLayout();
   const { project } = useProject();
-  
-  // Gantt data and controls
-  const { 
-    documents, 
-    revisions, 
-    loading, 
-    error,
-    filters,
-    setFilters,
-    viewMode,
-    setViewMode,
-    timeRange,
-    setTimeRange
-  } = useGanttData(projectId);
 
-  // Local state for controls
-  const [selectedDisciplines, setSelectedDisciplines] = useState([]);
-  const [selectedDocumentTypes, setSelectedDocumentTypes] = useState([]);
-  const [showRevisions, setShowRevisions] = useState(true);
-  const [showMilestones, setShowMilestones] = useState(true);
-  const [zoomLevel, setZoomLevel] = useState('month');
-
-  // Available filter options
-  const disciplineOptions = useMemo(() => 
-    Object.entries(DISCIPLINE_LABELS).map(([key, label]) => ({
-      value: key,
-      label,
-      color: DISCIPLINE_COLORS[key]
-    })), []
-  );
-
-  const documentTypeOptions = useMemo(() => [
-    { value: 'PFD', label: 'Diagrama de Flujo' },
-    { value: 'PID', label: 'Diagrama P&ID' },
-    { value: 'DRAWING', label: 'Planos' },
-    { value: 'CALCULATION', label: 'Cálculos' },
-    { value: 'SPECIFICATION', label: 'Especificaciones' },
-    { value: 'REPORT', label: 'Reportes' },
-    { value: 'MANUAL', label: 'Manuales' }
-  ], []);
-
-  // Header content
-  const headerContent = useMemo(() => (
-    <PageHeader
-      title="📅 Cronograma de Documentos"
-      subtitle={`Proyecto: ${project?.name || 'Cargando...'} - Vista interactiva del timeline de documentos y revisiones`}
-      backButton={{
-        path: `/projects/${projectId}/dashboard`,
-        label: 'Dashboard'
-      }}
-      actions={[
-        {
-          label: '📥 PNG',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => handleDownload('png')
-        },
-        {
-          label: '📄 PDF',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => handleDownload('pdf')
-        },
-        {
-          label: '📊 Excel',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => handleDownload('excel')
-        }
-      ]}
-    />
-  ), [project?.name, projectId]);
-
-  useEffect(() => {
-    setHeader(headerContent);
-    return () => clearHeader();
-  }, [headerContent, setHeader, clearHeader]);
-
-  // Handle download
-  const handleDownload = (format = 'png') => {
-    const chartElement = document.querySelector('[data-gantt-chart]');
-    if (!chartElement) {
-      alert('No se pudo encontrar el elemento del cronograma para exportar.');
-      return;
-    }
-
-    const exportData = {
-      chartElement,
-      projectName: project?.name || 'Proyecto Demo',
-      documents: displayDocuments,
-      revisions: displayRevisions,
-      summary: {
-        totalDocuments: displayDocuments.length,
-        completedDocuments: displayDocuments.filter(doc => doc.status === 'IFC').length,
-        inProgressDocuments: displayDocuments.filter(doc => ['ELB', 'REV', 'CMN'].includes(doc.status)).length,
-        overdueDocuments: displayDocuments.filter(doc => {
-          if (!doc.dueDate) return false;
-          return new Date(doc.dueDate) < new Date() && !['IFC', 'APR'].includes(doc.status);
-        }).length
-      },
-      legend: {
-        documentStatuses: DOCUMENT_STATUS_DETAILED,
-        disciplines: DISCIPLINE_LABELS
-      }
-    };
-
-    exportGanttChart(format, exportData);
-  };
-
-  // Filtered documents based on current filters
-  const filteredDocuments = useMemo(() => {
-    let filtered = documents;
-
-    if (selectedDisciplines.length > 0) {
-      filtered = filtered.filter(doc => selectedDisciplines.includes(doc.discipline));
-    }
-
-    if (selectedDocumentTypes.length > 0) {
-      filtered = filtered.filter(doc => selectedDocumentTypes.includes(doc.type));
-    }
-
-    return filtered;
-  }, [documents, selectedDisciplines, selectedDocumentTypes]);
-
-  // Use mock data for demonstration
+  // Mock data for demonstration
   const mockDocuments = [
     {
       id: 'DOC-001',
@@ -267,92 +138,59 @@ const GanttPage = () => {
     { id: 'REV-020', documentId: 'DOC-006', revision: 'C', date: '2024-05-10', type: 'FOR_REVIEW', status: 'PENDING' }
   ];
 
-  // Override with mock data
-  const displayDocuments = mockDocuments;
-  const displayRevisions = mockRevisions;
+  // Header content
+  const headerContent = useMemo(() => (
+    <PageHeader
+      title="📅 Cronograma de Documentos"
+      subtitle={`Proyecto: ${project?.name || 'Demo'} - Vista del timeline de documentos y revisiones`}
+      backButton={{
+        path: `/projects/${projectId}/dashboard`,
+        label: 'Dashboard'
+      }}
+      actions={[
+        {
+          label: '📥 PNG',
+          variant: 'outline',
+          size: 'small',
+          onClick: () => console.log('Download PNG')
+        },
+        {
+          label: '📄 PDF',
+          variant: 'outline',
+          size: 'small',
+          onClick: () => console.log('Download PDF')
+        },
+        {
+          label: '📊 Excel',
+          variant: 'outline',
+          size: 'small',
+          onClick: () => console.log('Download Excel')
+        }
+      ]}
+    />
+  ), [project?.name, projectId]);
+
+  useEffect(() => {
+    setHeader(headerContent);
+    return () => clearHeader();
+  }, [headerContent, setHeader, clearHeader]);
 
   return (
     <div className={styles.container}>
-      {/* Controls Panel */}
-      <div className={styles.controlsPanel}>
-        <div className={styles.controlGroup}>
-          <label>Vista:</label>
-          <Select
-            value={viewMode}
-            onChange={setViewMode}
-            options={[
-              { value: 'documents', label: 'Por Documento' },
-              { value: 'disciplines', label: 'Por Disciplina' },
-              { value: 'revisions', label: 'Por Revisión' }
-            ]}
-            size="small"
-          />
-        </div>
-
-        <div className={styles.controlGroup}>
-          <label>Zoom:</label>
-          <Select
-            value={zoomLevel}
-            onChange={setZoomLevel}
-            options={[
-              { value: 'week', label: 'Semana' },
-              { value: 'month', label: 'Mes' },
-              { value: 'quarter', label: 'Trimestre' }
-            ]}
-            size="small"
-          />
-        </div>
-
-        <div className={styles.controlGroup}>
-          <label>Disciplinas:</label>
-          <MultiSelect
-            value={selectedDisciplines}
-            onChange={setSelectedDisciplines}
-            options={disciplineOptions}
-            placeholder="Todas las disciplinas"
-            size="small"
-          />
-        </div>
-
-        <div className={styles.controlGroup}>
-          <label>Tipos de Documento:</label>
-          <MultiSelect
-            value={selectedDocumentTypes}
-            onChange={setSelectedDocumentTypes}
-            options={documentTypeOptions}
-            placeholder="Todos los tipos"
-            size="small"
-          />
-        </div>
-
-        <div className={styles.controlGroup}>
-          <label>
-            <input
-              type="checkbox"
-              checked={showRevisions}
-              onChange={(e) => setShowRevisions(e.target.checked)}
-            />
-            Mostrar Revisiones
-          </label>
-        </div>
-
-        <div className={styles.controlGroup}>
-          <label>
-            <input
-              type="checkbox"
-              checked={showMilestones}
-              onChange={(e) => setShowMilestones(e.target.checked)}
-            />
-            Mostrar Hitos
-          </label>
-        </div>
+      {/* Debug Info */}
+      <div style={{ padding: '1rem', backgroundColor: '#f0f0f0', marginBottom: '1rem', borderRadius: '8px' }}>
+        <h3>🔍 Debug Info</h3>
+        <p><strong>Project ID:</strong> {projectId}</p>
+        <p><strong>Project Name:</strong> {project?.name || 'No project loaded'}</p>
+        <p><strong>Documents Count:</strong> {mockDocuments.length}</p>
+        <p><strong>Revisions Count:</strong> {mockRevisions.length}</p>
       </div>
 
       {/* Gantt Chart */}
       <div className={styles.chartContainer} data-gantt-chart>
-        <SimpleGanttChart
-          documents={displayDocuments}
-          revisions={displayRevisions}
+        <DebugGanttChart
+          documents={mockDocuments}
+          revisions={mockRevisions}
         />
       </div>
 
@@ -363,21 +201,21 @@ const GanttPage = () => {
           <Button 
             variant="outline" 
             size="small"
-            onClick={() => handleDownload('png')}
+            onClick={() => console.log('Download PNG')}
           >
             📷 PNG
           </Button>
           <Button 
             variant="outline" 
             size="small"
-            onClick={() => handleDownload('pdf')}
+            onClick={() => console.log('Download PDF')}
           >
             📄 PDF
           </Button>
           <Button 
             variant="outline" 
             size="small"
-            onClick={() => handleDownload('excel')}
+            onClick={() => console.log('Download Excel')}
           >
             📊 Excel
           </Button>

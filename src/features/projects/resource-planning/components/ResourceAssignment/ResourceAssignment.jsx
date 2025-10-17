@@ -9,7 +9,15 @@ import Modal from '../../../../../components/shared/Modal';
 import Badge from '../../../../../components/shared/Badge';
 import styles from './ResourceAssignment.module.css';
 
-const ResourceAssignment = ({ assignments, availableMembers, onAssign, onUpdate, onRemove }) => {
+const ResourceAssignment = ({ 
+  assignments, 
+  availableMembers, 
+  onAssign, 
+  onUpdate, 
+  onRemove, 
+  currentUserId, 
+  isManager 
+}) => {
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
@@ -39,23 +47,37 @@ const ResourceAssignment = ({ assignments, availableMembers, onAssign, onUpdate,
     });
   };
 
+  // Filter assignments based on user permissions
+  const filteredAssignments = isManager 
+    ? assignments 
+    : assignments.filter(a => a.userId === currentUserId);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3 className={styles.title}>📋 Asignaciones del Proyecto</h3>
-        <Button variant="primary" size="small" onClick={() => setShowAssignModal(true)}>
-          + Asignar Recurso
-        </Button>
+        <h3 className={styles.title}>
+          📋 {isManager ? 'Asignaciones del Proyecto' : 'Mis Asignaciones'}
+        </h3>
+        {isManager && (
+          <Button variant="primary" size="small" onClick={() => setShowAssignModal(true)}>
+            + Asignar Recurso
+          </Button>
+        )}
       </div>
 
-      {!assignments || assignments.length === 0 ? (
+      {!filteredAssignments || filteredAssignments.length === 0 ? (
         <div className={styles.empty}>
-          <p>📝 No hay asignaciones de recursos</p>
-          <p className={styles.emptyHint}>Comience asignando recursos a los documentos del proyecto</p>
+          <p>📝 {isManager ? 'No hay asignaciones de recursos' : 'No tienes asignaciones activas'}</p>
+          <p className={styles.emptyHint}>
+            {isManager 
+              ? 'Comience asignando recursos a los documentos del proyecto' 
+              : 'Espera a que un manager te asigne tareas específicas'
+            }
+          </p>
         </div>
       ) : (
         <div className={styles.list}>
-          {assignments.map(assignment => (
+          {filteredAssignments.map(assignment => (
             <div key={assignment.id} className={styles.assignmentCard}>
               <div className={styles.cardHeader}>
                 <div className={styles.member}>
@@ -67,13 +89,16 @@ const ResourceAssignment = ({ assignments, availableMembers, onAssign, onUpdate,
                     {getStatusBadge(assignment.status)}
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  size="small"
-                  onClick={() => handleRemove(assignment.id)}
-                >
-                  🗑️
-                </Button>
+                {isManager && (
+                  <Button
+                    variant="outline"
+                    size="small"
+                    onClick={() => handleRemove(assignment.id)}
+                    title="Eliminar asignación"
+                  >
+                    🗑️
+                  </Button>
+                )}
               </div>
 
               <div className={styles.cardBody}>
