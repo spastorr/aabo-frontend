@@ -1,7 +1,8 @@
 .container {
   padding: 0;
-  max-width: 1600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 /* Header */
@@ -120,7 +121,8 @@
 }
 
 .tabContent {
-  padding: 1rem 1.5rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
 }
 
 /* Responsive */

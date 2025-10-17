@@ -85,48 +85,60 @@ const ExternalNorms = () => {
                 <div 
                   key={norm.id} 
                   className={styles.normItem}
+                  data-status={norm.isActive ? 'active' : 'inactive'}
                   onClick={() => setSelectedNorm(norm)}
                 >
-                  <div className={styles.normMain}>
-                    <div className={styles.normInfo}>
-                      <h3 className={styles.normTitle}>{norm.title}</h3>
-                      <span className={styles.normCode}>{norm.code}</span>
-                    </div>
-                    <div className={styles.normRight}>
-                      <div className={styles.normBadges}>
-                        <Badge variant="info">{norm.organization}</Badge>
-                        {norm.isActive && <Badge variant="success">Activo</Badge>}
-                      </div>
-                      <div className={styles.actionButtons}>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement view document
-                            console.log('Ver documento:', norm.id);
-                          }}
-                          title="Ver documento"
-                        >
-                          <VisibilityOutlinedIcon fontSize="small" />
-                        </button>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement download PDF
-                            console.log('Descargar PDF:', norm.id);
-                          }}
-                          title="Descargar PDF"
-                        >
-                          <DownloadOutlinedIcon fontSize="small" />
-                        </button>
-                      </div>
+                  {/* Card Header - Date and Code */}
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardDate}>{formatDate(norm.publishDate)}</span>
+                    <span className={styles.cardCode}>{norm.code}</span>
+                  </div>
+                  
+                  {/* Card Title */}
+                  <h3 className={styles.cardTitle}>{norm.title}</h3>
+                  
+                  {/* Card Description */}
+                  {norm.description && (
+                    <p className={styles.cardDescription}>{norm.description}</p>
+                  )}
+                  
+                  {/* Card Footer - Organization and Status */}
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardOrganization}>{norm.organization}</span>
+                    <div className={styles.cardStatus}>
+                      <span className={styles.statusIcon}>
+                        {norm.isActive ? '✔' : '⏸️'}
+                      </span>
+                      <span className={styles.statusText}>
+                        {norm.isActive ? 'Activo' : 'Inactivo'}
+                      </span>
                     </div>
                   </div>
-                  <div className={styles.normMeta}>
-                    <span className={styles.metaItem}>{norm.version}</span>
-                    <span className={styles.metaDivider}>•</span>
-                    <span className={styles.metaItem}>{formatDate(norm.publishDate)}</span>
+                  
+                  {/* Action Buttons - Bottom Right */}
+                  <div className={styles.actionButtons}>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement view document
+                        console.log('Ver documento:', norm.id);
+                      }}
+                      title="Ver documento"
+                    >
+                      <VisibilityOutlinedIcon fontSize="small" />
+                    </button>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement download PDF
+                        console.log('Descargar PDF:', norm.id);
+                      }}
+                      title="Descargar PDF"
+                    >
+                      <DownloadOutlinedIcon fontSize="small" />
+                    </button>
                   </div>
                 </div>
               ))}

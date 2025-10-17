@@ -117,54 +117,60 @@ const ClientStandards = () => {
                 <div 
                   key={standard.id} 
                   className={styles.standardItem}
+                  data-status={standard.isActive ? 'approved' : 'pending'}
                   onClick={() => setSelectedStandard(standard)}
                 >
-                  <div className={styles.standardMain}>
-                    <div className={styles.standardInfo}>
-                      <h3 className={styles.standardTitle}>{standard.name}</h3>
-                      <span className={styles.standardCode}>{standard.code}</span>
-                    </div>
-                    <div className={styles.standardRight}>
-                      <div className={styles.standardBadges}>
-                        <Badge variant="info">{standard.clientName}</Badge>
-                        {standard.isActive && <Badge variant="success">Activo</Badge>}
-                      </div>
-                      <div className={styles.actionButtons}>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement view document
-                            console.log('Ver documento:', standard.id);
-                          }}
-                          title="Ver documento"
-                        >
-                          <VisibilityOutlinedIcon fontSize="small" />
-                        </button>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement download PDF
-                            console.log('Descargar PDF:', standard.id);
-                          }}
-                          title="Descargar PDF"
-                        >
-                          <DownloadOutlinedIcon fontSize="small" />
-                        </button>
-                      </div>
+                  {/* Card Header - Date and Code */}
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardDate}>{formatDate(standard.lastUpdate)}</span>
+                    <span className={styles.cardCode}>{standard.code}</span>
+                  </div>
+                  
+                  {/* Card Title */}
+                  <h3 className={styles.cardTitle}>{standard.name}</h3>
+                  
+                  {/* Card Description */}
+                  {standard.description && (
+                    <p className={styles.cardDescription}>{standard.description}</p>
+                  )}
+                  
+                  {/* Card Footer - Hours and Status */}
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardHours}>v{standard.version}</span>
+                    <div className={styles.cardStatus}>
+                      <span className={styles.statusIcon}>
+                        {standard.isActive ? '✔' : '⏳'}
+                      </span>
+                      <span className={styles.statusText}>
+                        {standard.isActive ? 'Activo' : 'Pendiente'}
+                      </span>
                     </div>
                   </div>
-                  <div className={styles.standardMeta}>
-                    <span className={styles.metaItem}>{standard.version}</span>
-                    <span className={styles.metaDivider}>•</span>
-                    {standard.category && (
-                      <>
-                        <span className={styles.metaItem}>{standard.category}</span>
-                        <span className={styles.metaDivider}>•</span>
-                      </>
-                    )}
-                    <span className={styles.metaItem}>{formatDate(standard.lastUpdate)}</span>
+                  
+                  {/* Action Buttons - Bottom Right */}
+                  <div className={styles.actionButtons}>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement view document
+                        console.log('Ver documento:', standard.id);
+                      }}
+                      title="Ver documento"
+                    >
+                      <VisibilityOutlinedIcon fontSize="small" />
+                    </button>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement download PDF
+                        console.log('Descargar PDF:', standard.id);
+                      }}
+                      title="Descargar PDF"
+                    >
+                      <DownloadOutlinedIcon fontSize="small" />
+                    </button>
                   </div>
                 </div>
               ))}

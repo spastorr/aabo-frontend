@@ -101,52 +101,62 @@ const InternalGuides = () => {
                 <div 
                   key={guide.id} 
                   className={styles.guideItem}
+                  data-status={guide.status}
                   onClick={() => setSelectedGuide(guide)}
                 >
-                  <div className={styles.guideMain}>
-                    <div className={styles.guideInfo}>
-                      <h3 className={styles.guideTitle}>{guide.title}</h3>
-                      <span className={styles.guideCode}>{guide.code}</span>
-                    </div>
-                    <div className={styles.guideRight}>
-                      <div className={styles.guideBadges}>
-                        {guide.status === 'approved' && <Badge variant="success">Aprobado</Badge>}
-                        {guide.status === 'in-review' && <Badge variant="warning">En Revisión</Badge>}
-                        {guide.status === 'draft' && <Badge variant="default">Borrador</Badge>}
-                        {guide.category && <Badge variant="info">{guide.category}</Badge>}
-                      </div>
-                      <div className={styles.actionButtons}>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement view document
-                            console.log('Ver documento:', guide.id);
-                          }}
-                          title="Ver documento"
-                        >
-                          <VisibilityOutlinedIcon fontSize="small" />
-                        </button>
-                        <button
-                          className={styles.actionButton}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Implement download PDF
-                            console.log('Descargar PDF:', guide.id);
-                          }}
-                          title="Descargar PDF"
-                        >
-                          <DownloadOutlinedIcon fontSize="small" />
-                        </button>
-                      </div>
+                  {/* Card Header - Date and Code */}
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardDate}>{formatDate(guide.lastUpdate)}</span>
+                    <span className={styles.cardCode}>{guide.code}</span>
+                  </div>
+                  
+                  {/* Card Title */}
+                  <h3 className={styles.cardTitle}>{guide.title}</h3>
+                  
+                  {/* Card Description */}
+                  {guide.description && (
+                    <p className={styles.cardDescription}>{guide.description}</p>
+                  )}
+                  
+                  {/* Card Footer - Author and Status */}
+                  <div className={styles.cardFooter}>
+                    <span className={styles.cardAuthor}>{guide.author}</span>
+                    <div className={styles.cardStatus}>
+                      <span className={styles.statusIcon}>
+                        {guide.status === 'approved' ? '✔' : 
+                         guide.status === 'in-review' ? '⏳' : '✏️'}
+                      </span>
+                      <span className={styles.statusText}>
+                        {guide.status === 'approved' ? 'Aprobado' : 
+                         guide.status === 'in-review' ? 'En Revisión' : 'Borrador'}
+                      </span>
                     </div>
                   </div>
-                  <div className={styles.guideMeta}>
-                    <span className={styles.metaItem}>{guide.version}</span>
-                    <span className={styles.metaDivider}>•</span>
-                    <span className={styles.metaItem}>{formatDate(guide.lastUpdate)}</span>
-                    <span className={styles.metaDivider}>•</span>
-                    <span className={styles.metaItem}>{guide.author}</span>
+                  
+                  {/* Action Buttons - Bottom Right */}
+                  <div className={styles.actionButtons}>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement view document
+                        console.log('Ver documento:', guide.id);
+                      }}
+                      title="Ver documento"
+                    >
+                      <VisibilityOutlinedIcon fontSize="small" />
+                    </button>
+                    <button
+                      className={styles.actionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // TODO: Implement download PDF
+                        console.log('Descargar PDF:', guide.id);
+                      }}
+                      title="Descargar PDF"
+                    >
+                      <DownloadOutlinedIcon fontSize="small" />
+                    </button>
                   </div>
                 </div>
               ))}
