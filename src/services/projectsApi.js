@@ -6,6 +6,7 @@
 import apiClient from './apiClient';
 import { env } from '../config/env';
 import * as projectMocks from './mocks/projectMocks';
+import { getProjectGanttDocuments, getProjectGanttRevisions } from './mocks/ganttMocks';
 
 /**
  * Get all projects
@@ -75,5 +76,29 @@ export const deleteProject = async (id) => {
     });
   }
   return apiClient.delete(`/projects/${id}`);
+};
+
+/**
+ * Get project documents for Gantt chart
+ * @param {string} projectId - Project ID
+ * @returns {Promise} Documents data
+ */
+export const getProjectDocuments = async (projectId) => {
+  if (env.useMocks) {
+    return getProjectGanttDocuments(projectId);
+  }
+  return apiClient.get(`/projects/${projectId}/documents`);
+};
+
+/**
+ * Get project revisions for Gantt chart
+ * @param {string} projectId - Project ID
+ * @returns {Promise} Revisions data
+ */
+export const getProjectRevisions = async (projectId) => {
+  if (env.useMocks) {
+    return getProjectGanttRevisions(projectId);
+  }
+  return apiClient.get(`/projects/${projectId}/revisions`);
 };
 

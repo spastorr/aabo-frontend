@@ -13,9 +13,13 @@
   --color-secondary-light: #94a3b8;
   
   --color-success: #10b981;
+  --color-success-light: #d1fae5;
   --color-warning: #f59e0b;
+  --color-warning-light: #fef3c7;
   --color-danger: #ef4444;
+  --color-danger-light: #fee2e2;
   --color-info: #3b82f6;
+  --color-info-light: #dbeafe;
   
   --color-text-primary: #1e293b;
   --color-text-secondary: #64748b;
@@ -24,7 +28,18 @@
   --color-background: #ffffff;
   --color-background-alt: #f8fafc;
   --color-background-secondary: #f1f5f9;
+  --color-background-hover: #f1f5f9;
   --color-border: #e2e8f0;
+  
+  /* Surface and border aliases */
+  --surface: #ffffff;
+  --border-light: #e2e8f0;
+  
+  /* Primary aliases */
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --primary-rgb: 37, 99, 235;
+  --warning-rgb: 245, 158, 11;
   
   /* Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -73,9 +88,24 @@
   --color-background: #0f172a;
   --color-background-alt: #1e293b;
   --color-background-secondary: #334155;
+  --color-background-hover: #334155;
   --color-text-primary: #f1f5f9;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
   --color-border: #334155;
+  
+  /* Color variants for dark mode */
+  --color-info-light: #1e3a8a;
+  --color-warning-light: #92400e;
+  --color-success-light: #064e3b;
+  --color-danger-light: #7f1d1d;
+  
+  /* Surface and border aliases for dark mode */
+  --surface: #1e293b;
+  --border-light: #334155;
+  --primary: #3b82f6;
+  --primary-light: #1e3a8a;
+  --primary-rgb: 59, 130, 246;
+  --warning-rgb: 245, 158, 11;
 }
 

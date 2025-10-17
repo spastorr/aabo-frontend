@@ -148,44 +148,39 @@ const NotificationModal = ({
           {unreadCount > 0 && <span className={styles.unreadBadge}>{unreadCount}</span>}
         </h3>
         {unreadCount > 0 && (
-          <button className={styles.markAllButton} onClick={onMarkAllAsRead}>
-            Marcar todas como leídas
+          <button className={styles.markAllButton} onClick={onMarkAllAsRead} title="Marcar todas como leídas">
+            ✓
           </button>
         )}
       </div>
 
       <div className={styles.modalBody}>
-        <div className={styles.notificationList}>
-          {notifications.map((notification) => (
-            <div
-              key={notification.id}
-              className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''} ${
-                styles[`priority-${notification.priority}`]
-              }`}
-              onClick={() => onNotificationClick(notification)}
-            >
-              <div className={`${styles.notificationIcon} ${styles[`icon-${notification.type}`]}`}>
-                {getNotificationIcon(notification.type)}
-              </div>
-              <div className={styles.notificationContent}>
-                <div className={styles.notificationHeader}>
-                  <h4 className={styles.notificationTitle}>{notification.title}</h4>
-                  <span className={styles.notificationTime}>{getTimeAgo(notification.timestamp)}</span>
-                </div>
-                <p className={styles.notificationMessage}>{notification.message}</p>
-                {notification.author && (
-                  <span className={styles.notificationAuthor}>Por {notification.author.name}</span>
-                )}
-              </div>
-              {!notification.read && <div className={styles.unreadDot}></div>}
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''}`}
+            onClick={() => onNotificationClick(notification)}
+          >
+            {!notification.read && <div className={styles.unreadDot}></div>}
+            
+            <div className={`${styles.notificationIcon} ${styles[`icon-${notification.type}`]}`}>
+              {getNotificationIcon(notification.type)}
             </div>
-          ))}
-        </div>
+            
+            <div className={styles.notificationContent}>
+              <div className={styles.notificationHeader}>
+                <h4 className={styles.notificationTitle}>{notification.title}</h4>
+                <span className={styles.notificationTime}>{getTimeAgo(notification.timestamp)}</span>
+              </div>
+              <p className={styles.notificationMessage}>{notification.message}</p>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className={styles.modalFooter}>
         <button className={styles.viewAllButton} onClick={onViewAll}>
-          Ver todas las notificaciones
+          Ver todas
         </button>
       </div>
     </div>

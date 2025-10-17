@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLayout } from '../../../contexts/LayoutContext';
 import PageHeader from '../../../components/shared/PageHeader';
 import Modal from '../../../components/shared/Modal';
@@ -18,8 +18,10 @@ import styles from './StandardsPage.module.css';
 
 const StandardsPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setHeader, clearHeader } = useLayout();
-  const [activeTab, setActiveTab] = useState('client');
+  // Initialize activeTab from location state or default to 'client'
+  const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'client');
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
@@ -47,6 +49,13 @@ const StandardsPage = () => {
     setHeader(headerContent);
     return () => clearHeader();
   }, [headerContent, setHeader, clearHeader]);
+
+  // Update activeTab when location state changes
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, [location.state]);
 
   // Get upload button text based on active tab
   const getUploadButtonText = () => {
@@ -87,9 +96,21 @@ const StandardsPage = () => {
 
       {/* Tab Content */}
       <div className={styles.tabContent}>
-        {activeTab === 'client' && <ClientStandards />}
-        {activeTab === 'internal' && <InternalGuides />}
-        {activeTab === 'external' && <ExternalNorms />}
+        {activeTab === 'client' && (
+          <ClientStandards 
+            highlightedItem={location.state?.highlightedItem}
+          />
+        )}
+        {activeTab === 'internal' && (
+          <InternalGuides 
+            highlightedItem={location.state?.highlightedItem}
+          />
+        )}
+        {activeTab === 'external' && (
+          <ExternalNorms 
+            highlightedItem={location.state?.highlightedItem}
+          />
+        )}
       </div>
 
       {/* Info Modal */}

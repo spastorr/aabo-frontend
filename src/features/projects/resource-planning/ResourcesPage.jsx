@@ -53,7 +53,7 @@ const ResourcesPage = () => {
         ]}
       />
     );
-  }, [selectedProject, projectId, actions]);
+  }, [selectedProject, projectId, actions.refresh]);
 
   useEffect(() => {
     if (headerContent) {

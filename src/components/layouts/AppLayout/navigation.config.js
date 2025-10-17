@@ -89,6 +89,11 @@ export const getProjectNavigation = (projectId) => [
         icon: '📊',
       },
       {
+        path: `/projects/${projectId}/gantt`,
+        label: 'Cronograma',
+        icon: '📅',
+      },
+      {
         path: `/projects/${projectId}/lmd`,
         label: 'Lista Maestra de Documentos',
         icon: '📄',

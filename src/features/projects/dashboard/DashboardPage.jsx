@@ -15,6 +15,7 @@ import KPICard from './components/KPICard';
 import ProgressChart from './components/ProgressChart';
 import ChartTabs from './components/ChartTabs';
 import RecentActivity from './components/RecentActivity';
+import DashboardSettings from './components/DashboardSettings';
 import useDashboardData from './hooks/useDashboardData';
 import { formatCurrency, formatPercentage } from '../../../utils';
 import styles from './DashboardPage.module.css';
@@ -26,13 +27,33 @@ const DashboardPage = () => {
   const { setHeader, clearHeader } = useLayout();
   const { data: dashboardData, loading, error } = useDashboardData(projectId);
   const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [dashboardSettings, setDashboardSettings] = useState(null);
 
   useEffect(() => {
     // Load project info if not already loaded
     if (!selectedProject || selectedProject.id !== projectId) {
       loadProject();
     }
+    // Load dashboard settings
+    loadDashboardSettings();
   }, [projectId]);
+
+  const loadDashboardSettings = () => {
+    const savedSettings = localStorage.getItem(`dashboard_settings_${projectId}`);
+    if (savedSettings) {
+      try {
+        setDashboardSettings(JSON.parse(savedSettings));
+      } catch (err) {
+        console.error('Error loading dashboard settings:', err);
+      }
+    }
+  };
+
+  const handleSaveSettings = (newSettings) => {
+    setDashboardSettings(newSettings);
+    // Optionally reload data or update UI based on new settings
+  };
 
   // Memoize header content
   const headerContent = useMemo(() => {
@@ -56,7 +77,7 @@ const DashboardPage = () => {
           {
             label: 'Configuración',
             variant: 'primary',
-            onClick: () => alert('Configuración - Por implementar')
+            onClick: () => setIsSettingsOpen(true)
           }
         ]}
       />
@@ -118,96 +139,121 @@ const DashboardPage = () => {
   const budgetPercentage = (kpis.budgetSpent / kpis.budgetTotal) * 100;
   const documentsPercentage = (kpis.documentsApproved / kpis.documentsTotal) * 100;
 
+  // Check widget visibility settings
+  const showWidget = (widgetKey) => {
+    if (!dashboardSettings?.widgets) return true;
+    return dashboardSettings.widgets[widgetKey] !== false;
+  };
+
   return (
     <div className={styles.container}>
       {/* KPI Cards */}
+      {showWidget('showProgress') || showWidget('showDocuments') || 
+       showWidget('showBudget') || showWidget('showTeam') ? (
       <div className={styles.kpiGrid}>
-        <div onClick={() => setIsProgressModalOpen(true)} style={{ cursor: 'pointer' }}>
+        {showWidget('showProgress') && (
+          <div onClick={() => setIsProgressModalOpen(true)} style={{ cursor: 'pointer' }}>
+            <KPICard
+              icon="📊"
+              value={`${kpis.progress}%`}
+              title="Avance General"
+              subtitle="Del proyecto (click para detalles)"
+              trend={kpis.progress > 50 ? '+5%' : '+2%'}
+              trendDirection="up"
+              color="primary"
+            />
+          </div>
+        )}
+        
+        {showWidget('showDocuments') && (
           <KPICard
-            icon="📊"
-            value={`${kpis.progress}%`}
-            title="Avance General"
-            subtitle="Del proyecto (click para detalles)"
-            trend={kpis.progress > 50 ? '+5%' : '+2%'}
-            trendDirection="up"
-            color="primary"
+            icon="📄"
+            value={`${kpis.documentsApproved}/${kpis.documentsTotal}`}
+            title="Documentos Aprobados"
+            subtitle={formatPercentage(documentsPercentage, false)}
+            trend={`${kpis.documentsTotal - kpis.documentsApproved} pendientes`}
+            trendDirection="neutral"
+            color="info"
           />
-        </div>
+        )}
         
-        <KPICard
-          icon="📄"
-          value={`${kpis.documentsApproved}/${kpis.documentsTotal}`}
-          title="Documentos Aprobados"
-          subtitle={formatPercentage(documentsPercentage, false)}
-          trend={`${kpis.documentsTotal - kpis.documentsApproved} pendientes`}
-          trendDirection="neutral"
-          color="info"
-        />
+        {showWidget('showBudget') && (
+          <KPICard
+            icon="💰"
+            value={formatCurrency(kpis.budgetSpent)}
+            title="Presupuesto Ejecutado"
+            subtitle={`${formatPercentage(budgetPercentage, false)} del total`}
+            trend={budgetPercentage > 90 ? 'Atención' : 'Normal'}
+            trendDirection={budgetPercentage > 90 ? 'down' : 'neutral'}
+            color={budgetPercentage > 90 ? 'warning' : 'success'}
+          />
+        )}
         
-        <KPICard
-          icon="💰"
-          value={formatCurrency(kpis.budgetSpent)}
-          title="Presupuesto Ejecutado"
-          subtitle={`${formatPercentage(budgetPercentage, false)} del total`}
-          trend={budgetPercentage > 90 ? 'Atención' : 'Normal'}
-          trendDirection={budgetPercentage > 90 ? 'down' : 'neutral'}
-          color={budgetPercentage > 90 ? 'warning' : 'success'}
-        />
-        
-        <KPICard
-          icon="👥"
-          value={kpis.teamMembers}
-          title="Miembros del Equipo"
-          subtitle={kpis.daysRemaining > 0 ? `${kpis.daysRemaining} días restantes` : 'Completado'}
-          color="info"
-        />
+        {showWidget('showTeam') && (
+          <KPICard
+            icon="👥"
+            value={kpis.teamMembers}
+            title="Miembros del Equipo"
+            subtitle={kpis.daysRemaining > 0 ? `${kpis.daysRemaining} días restantes` : 'Completado'}
+            color="info"
+          />
+        )}
       </div>
+      ) : null}
 
       {/* Charts and Activity */}
+      {(showWidget('showSCurve') || showWidget('showBudgetChart') || showWidget('showRecentActivity')) && (
       <div className={styles.contentGrid}>
-        <div className={styles.chartSection}>
-          <ChartTabs 
-            sCurveData={sCurve}
-            budgetData={budgetByDiscipline}
-            budgetOverTime={budgetOverTime}
-          />
-        </div>
+        {(showWidget('showSCurve') || showWidget('showBudgetChart')) && (
+          <div className={styles.chartSection}>
+            <ChartTabs 
+              sCurveData={sCurve}
+              budgetData={budgetByDiscipline}
+              budgetOverTime={budgetOverTime}
+            />
+          </div>
+        )}
         
-        <div className={styles.activitySection}>
-          <RecentActivity activities={recentActivity} />
-        </div>
+        {showWidget('showRecentActivity') && (
+          <div className={styles.activitySection}>
+            <RecentActivity activities={recentActivity} />
+          </div>
+        )}
       </div>
+      )}
 
       {/* Quick Actions */}
-      <div className={styles.quickActions}>
-        <h3 className={styles.sectionTitle}>Acciones Rápidas</h3>
-        <div className={styles.actionsGrid}>
-          <Button 
-            variant="outline" 
-            onClick={() => navigate(`/projects/${projectId}/lmd`)}
-          >
-            📄 Gestionar Documentos
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={() => navigate(`/projects/${projectId}/transmittals`)}
-          >
-            📤 Ver Transmittals
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={() => navigate(`/projects/${projectId}/rfi`)}
-          >
-            ❓ Gestionar RFIs
-          </Button>
-          <Button 
-            variant="outline"
-            onClick={() => navigate(`/projects/${projectId}/timesheets`)}
-          >
-            ⏱️ Registrar Horas
-          </Button>
+      {showWidget('showQuickActions') && (
+        <div className={styles.quickActions}>
+          <h3 className={styles.sectionTitle}>Acciones Rápidas</h3>
+          <div className={styles.actionsGrid}>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate(`/projects/${projectId}/lmd`)}
+            >
+              📄 Gestionar Documentos
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => navigate(`/projects/${projectId}/transmittals`)}
+            >
+              📤 Ver Transmittals
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => navigate(`/projects/${projectId}/rfi`)}
+            >
+              ❓ Gestionar RFIs
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => navigate(`/projects/${projectId}/timesheets`)}
+            >
+              ⏱️ Registrar Horas
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Progress Detail Modal */}
       <Modal
@@ -223,6 +269,14 @@ const DashboardPage = () => {
           />
         </div>
       </Modal>
+
+      {/* Dashboard Settings Modal */}
+      <DashboardSettings
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        projectId={projectId}
+        onSave={handleSaveSettings}
+      />
     </div>
   );
 };

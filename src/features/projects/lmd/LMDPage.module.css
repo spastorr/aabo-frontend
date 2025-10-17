@@ -101,6 +101,16 @@
   letter-spacing: 0.05em;
 }
 
+.pendingStat {
+  background-color: rgba(245, 158, 11, 0.1);
+  border-radius: 6px;
+  border: 1px solid var(--color-warning);
+}
+
+.pendingStat .statValue {
+  color: var(--color-warning);
+}
+
 /* Loading State */
 .loading {
   display: flex;

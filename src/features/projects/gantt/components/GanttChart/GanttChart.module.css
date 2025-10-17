@@ -1,0 +1,322 @@
+/**
+ * GanttChart styles
+ * @module features/projects/gantt/components/GanttChart/GanttChart.module.css
+ */
+
+.ganttChart {
+  width: 100%;
+  background-color: var(--color-background);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+/* Timeline Header */
+.timelineHeader {
+  display: flex;
+  background-color: var(--color-background-alt);
+  border-bottom: 2px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.leftPanel {
+  width: 300px;
+  min-width: 300px;
+  background-color: var(--color-background-alt);
+  border-right: 2px solid var(--color-border);
+}
+
+.panelHeader {
+  padding: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.timelineArea {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.timelineGrid {
+  position: relative;
+  height: 100%;
+}
+
+.timelineColumn {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-right: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timelineColumn.weekend {
+  background-color: var(--color-background-light);
+}
+
+.timelineLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+}
+
+/* Chart Body */
+.chartBody {
+  height: 600px;
+  overflow: auto;
+  position: relative;
+  background-color: var(--color-background);
+}
+
+.chartContent {
+  position: relative;
+  min-height: 100%;
+}
+
+/* Rows */
+.row {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid var(--color-border-light);
+  position: relative;
+}
+
+.row:nth-child(even) {
+  background-color: var(--color-background-light);
+}
+
+.rowLabel {
+  width: 300px;
+  min-width: 300px;
+  padding: 0.75rem;
+  background-color: var(--color-background);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.documentLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.documentCode {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+}
+
+.documentName {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.disciplineLabel {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.disciplineBadge {
+  color: white;
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.rowContent {
+  flex: 1;
+  position: relative;
+  background-color: var(--color-background);
+}
+
+/* Document Bars */
+.documentBar {
+  position: absolute;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.documentBar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.documentBar.selected {
+  border: 2px solid var(--color-primary);
+  z-index: 6;
+}
+
+.documentBar.hovered {
+  border: 2px solid var(--color-primary-light);
+  z-index: 5;
+}
+
+.barContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 500;
+  overflow: hidden;
+  width: 100%;
+}
+
+.barLabel {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barStatus {
+  font-size: 0.5rem;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Revision Markers */
+.revisionMarker {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  z-index: 4;
+}
+
+/* Milestones */
+.milestone {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid;
+  top: 0;
+  z-index: 7;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: var(--color-background-alt);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.75rem;
+}
+
+.legendSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.legendSection h4 {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid var(--color-border);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .leftPanel {
+    width: 250px;
+    min-width: 250px;
+  }
+  
+  .rowLabel {
+    width: 250px;
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .leftPanel {
+    width: 200px;
+    min-width: 200px;
+  }
+  
+  .rowLabel {
+    width: 200px;
+    min-width: 200px;
+    padding: 0.5rem;
+  }
+  
+  .chartBody {
+    height: 400px;
+  }
+  
+  .legend {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leftPanel {
+    width: 150px;
+    min-width: 150px;
+  }
+  
+  .rowLabel {
+    width: 150px;
+    min-width: 150px;
+    padding: 0.375rem;
+  }
+  
+  .documentCode {
+    font-size: 0.75rem;
+  }
+  
+  .documentName {
+    font-size: 0.625rem;
+  }
+  
+  .barContent {
+    font-size: 0.5rem;
+  }
+}

@@ -7,11 +7,12 @@
 import { useNavigate } from 'react-router-dom';
 import Card from '../../../../../components/shared/Card';
 import Badge from '../../../../../components/shared/Badge';
+import PendingDocumentsIndicator from '../PendingDocumentsIndicator';
 import { PROJECT_STATUS_LABELS, PROJECT_TYPE_LABELS } from '../../../../../constants';
 import { formatDate, formatCurrency, formatPercentage } from '../../../../../utils';
 import styles from './ProjectCard.module.css';
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, isReadOnly = false }) => {
   const navigate = useNavigate();
 
   const getStatusVariant = (status) => {
@@ -30,8 +31,15 @@ const ProjectCard = ({ project }) => {
   };
 
   const handleCardClick = () => {
-    navigate(`/projects/${project.id}/dashboard`);
+    // For read-only mode, navigate to historical project view
+    // For regular mode, navigate to project dashboard
+    if (isReadOnly) {
+      navigate(`/knowledge-hub/historical-projects/${project.id}`);
+    } else {
+      navigate(`/projects/${project.id}/dashboard`);
+    }
   };
+
 
   const progressPercentage = project.progress || 0;
   const budgetUsed = (project.spent / project.budget) * 100;
@@ -42,6 +50,9 @@ const ProjectCard = ({ project }) => {
         <div className={styles.titleSection}>
           <h3 className={styles.projectName}>{project.name}</h3>
           <p className={styles.projectCode}>{project.code}</p>
+          {isReadOnly && (
+            <span className={styles.readOnlyBadge}>📚 Histórico</span>
+          )}
         </div>
         <Badge variant={getStatusVariant(project.status)}>
           {PROJECT_STATUS_LABELS[project.status]}
@@ -106,6 +117,10 @@ const ProjectCard = ({ project }) => {
           <span className={styles.teamIcon}>👥</span>
           <span>{project.teamMembers} miembros</span>
         </div>
+        
+        {!isReadOnly && (
+          <PendingDocumentsIndicator project={project} />
+        )}
       </div>
     </Card>
   );

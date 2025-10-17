@@ -12,6 +12,7 @@ import SearchBar from '../../../../../components/shared/SearchBar';
 import Badge from '../../../../../components/shared/Badge';
 import Select from '../../../../../components/shared/Select';
 import UploadStandardModal from '../UploadStandardModal';
+import VersionControl from '../VersionControl';
 import useStandards from '../../hooks/useStandards';
 import { formatDate } from '../../../../../utils';
 import styles from './InternalGuides.module.css';
@@ -21,6 +22,7 @@ const InternalGuides = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [selectedGuide, setSelectedGuide] = useState(null);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const { internalGuides, loading } = useStandards('internal');
 
@@ -205,9 +207,26 @@ const InternalGuides = () => {
 
             <div className={styles.detailActions}>
               <Button variant="primary">📄 Descargar Documento</Button>
-              <Button variant="outline">📋 Ver Historial de Versiones</Button>
+              <Button 
+                variant="outline"
+                onClick={() => setShowVersionHistory(true)}
+              >
+                📋 Ver Historial de Versiones
+              </Button>
             </div>
           </div>
+        </Modal>
+      )}
+
+      {/* Version History Modal */}
+      {selectedGuide && showVersionHistory && (
+        <Modal
+          isOpen={showVersionHistory}
+          onClose={() => setShowVersionHistory(false)}
+          title="📋 Historial de Versiones"
+          size="large"
+        >
+          <VersionControl type="internal" entityId={selectedGuide.id} />
         </Modal>
       )}
 

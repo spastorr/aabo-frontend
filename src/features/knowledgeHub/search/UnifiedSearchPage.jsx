@@ -12,6 +12,7 @@ import Button from '../../../components/shared/Button';
 import SearchInput from './components/SearchInput';
 import SearchFilters from './components/SearchFilters';
 import ContextualResults from './components/ContextualResults';
+import ExampleQuestions from './components/ExampleQuestions';
 import useSearch from './hooks/useSearch';
 import styles from './UnifiedSearchPage.module.css';
 
@@ -144,14 +145,9 @@ const UnifiedSearchPage = () => {
         </div>
       )}
 
-      {/* Empty State */}
+      {/* Example Questions */}
       {!hasSearched && recentSearches.length === 0 && (
-        <div className={styles.emptyState}>
-          <div className={styles.emptyStateIcon}>🔍</div>
-          <p className={styles.emptyStateText}>
-            No hay búsquedas recientes. Realiza una búsqueda para comenzar.
-          </p>
-        </div>
+        <ExampleQuestions onQuestionClick={handleSearch} />
       )}
 
       {/* Search Results */}

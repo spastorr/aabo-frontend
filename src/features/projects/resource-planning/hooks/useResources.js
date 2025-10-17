@@ -3,7 +3,7 @@
  * @module features/projects/resource-planning/hooks/useResources
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   getTeamWorkload,
   getResourceAssignments,
@@ -138,6 +138,25 @@ const useResources = (projectId) => {
     loadCapacityPlanning();
   }, [projectId, loadTeamWorkload, loadAssignments, loadAvailableMembers, loadCapacityPlanning]);
 
+  // Memoize actions to prevent infinite re-renders
+  const actions = useMemo(() => ({
+    assign: handleAssignResource,
+    updateAssignment: handleUpdateAssignment,
+    removeAssignment: handleRemoveAssignment,
+    refresh: loadTeamWorkload,
+    refreshAssignments: loadAssignments,
+    refreshCapacity: loadCapacityPlanning,
+    loadAvailableMembers,
+  }), [
+    handleAssignResource,
+    handleUpdateAssignment,
+    handleRemoveAssignment,
+    loadTeamWorkload,
+    loadAssignments,
+    loadCapacityPlanning,
+    loadAvailableMembers,
+  ]);
+
   return {
     teamWorkload,
     assignments,
@@ -145,15 +164,7 @@ const useResources = (projectId) => {
     availableMembers,
     loading,
     error,
-    actions: {
-      assign: handleAssignResource,
-      updateAssignment: handleUpdateAssignment,
-      removeAssignment: handleRemoveAssignment,
-      refresh: loadTeamWorkload,
-      refreshAssignments: loadAssignments,
-      refreshCapacity: loadCapacityPlanning,
-      loadAvailableMembers,
-    },
+    actions,
   };
 };
 

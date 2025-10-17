@@ -9,6 +9,11 @@ import StatusBadge from '../StatusBadge';
 import Avatar from '../../../../../components/shared/Avatar';
 import { DISCIPLINE_LABELS } from '../../../../../constants';
 import { formatDate, formatCurrency } from '../../../../../utils';
+import { 
+  isDocumentPendingTransmission, 
+  getDocumentTransmissionPriority,
+  getTransmissionStatusIcon 
+} from '../../../../../utils/documentStatusUtils';
 import styles from './LMDTable.module.css';
 
 const LMDTable = ({ documents, onDocumentClick }) => {
@@ -70,6 +75,17 @@ const LMDTable = ({ documents, onDocumentClick }) => {
     return colors[status] || '#64748b';
   };
 
+  // Get transmission priority color
+  const getPriorityColor = (priority) => {
+    const colors = {
+      'URGENT': '#ef4444',  // Red
+      'HIGH': '#f59e0b',    // Orange
+      'NORMAL': '#3b82f6',  // Blue
+      'LOW': '#64748b',     // Gray
+    };
+    return colors[priority] || '#64748b';
+  };
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
@@ -89,82 +105,114 @@ const LMDTable = ({ documents, onDocumentClick }) => {
           </tr>
         </thead>
         <tbody>
-          {documents.map((doc, index) => (
-            <tr key={doc.id} className={styles.row} onClick={() => onDocumentClick(doc)}>
-              <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
-                {index + 1}
-              </td>
-              <td>
-                <span className={styles.code}>{doc.code}</span>
-              </td>
-              <td className={styles.nameCell}>
-                <span className={styles.name} title={doc.name}>{doc.name}</span>
-              </td>
-              <td>
-                <span className={styles.discipline}>
-                  {DISCIPLINE_LABELS[doc.discipline]}
-                </span>
-              </td>
-              <td>
-                <div className={styles.statusCell}>
-                  <span 
-                    className={styles.statusDot}
-                    style={{ backgroundColor: getStatusColor(doc.status) }}
-                  />
-                  <StatusBadge status={doc.status} />
-                </div>
-              </td>
-              <td style={{ textAlign: 'center' }}>
-                <span className={styles.revision}>{doc.revision}</span>
-              </td>
-              <td>
-                <Avatar name={doc.responsible} size="small" />
-              </td>
-              <td style={{ fontSize: '0.8125rem' }}>
-                {doc.sendDate ? formatDate(doc.sendDate) : '-'}
-              </td>
-              <td style={{ fontSize: '0.8125rem' }}>
-                {doc.approvalDate ? formatDate(doc.approvalDate) : '-'}
-              </td>
-              <td style={{ textAlign: 'right' }}>
-                <span className={styles.cost}>
-                  {formatCurrency(doc.cost)}
-                </span>
-              </td>
-              <td style={{ position: 'relative' }}>
-                <button 
-                  className={styles.actionButton}
-                  onClick={(e) => handleMenuClick(e, doc.id)}
-                  ref={activeMenu === doc.id ? menuRef : null}
-                >
-                  ⋮
-                </button>
-                
-                {activeMenu === doc.id && (
-                  <div className={styles.actionMenu} ref={menuRef}>
-                    <button onClick={(e) => handleMenuAction(e, 'details', doc)}>
-                      👁️ Ver Detalles
-                    </button>
-                    <button onClick={(e) => handleMenuAction(e, 'edit', doc)}>
-                      ✏️ Editar
-                    </button>
-                    <button onClick={(e) => handleMenuAction(e, 'download', doc)}>
-                      ⬇️ Descargar
-                    </button>
-                    <button onClick={(e) => handleMenuAction(e, 'history', doc)}>
-                      📜 Historial
-                    </button>
-                    <button 
-                      onClick={(e) => handleMenuAction(e, 'delete', doc)}
-                      className={styles.deleteAction}
-                    >
-                      🗑️ Eliminar
-                    </button>
+          {documents.map((doc, index) => {
+            const isPending = isDocumentPendingTransmission(doc);
+            const priority = getDocumentTransmissionPriority(doc);
+            const statusIcon = getTransmissionStatusIcon(isPending ? 'pending' : 'transmitted');
+            
+            return (
+              <tr 
+                key={doc.id} 
+                className={`${styles.row} ${isPending ? styles.pendingRow : ''}`}
+                onClick={() => onDocumentClick(doc)}
+              >
+                <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
+                  {index + 1}
+                </td>
+                <td>
+                  <div className={styles.codeCell}>
+                    <span className={styles.code}>{doc.code}</span>
+                    {isPending && (
+                      <span 
+                        className={styles.pendingIcon}
+                        title={`Documento pendiente de envío - Prioridad: ${priority}`}
+                      >
+                        {statusIcon}
+                      </span>
+                    )}
                   </div>
-                )}
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td className={styles.nameCell}>
+                  <span className={styles.name} title={doc.name}>{doc.name}</span>
+                </td>
+                <td>
+                  <span className={styles.discipline}>
+                    {DISCIPLINE_LABELS[doc.discipline]}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.statusCell}>
+                    <span 
+                      className={styles.statusDot}
+                      style={{ backgroundColor: getStatusColor(doc.status) }}
+                    />
+                    <StatusBadge status={doc.status} />
+                    {isPending && (
+                      <span 
+                        className={styles.priorityIndicator}
+                        style={{ backgroundColor: getPriorityColor(priority) }}
+                        title={`Prioridad: ${priority}`}
+                      />
+                    )}
+                  </div>
+                </td>
+                <td style={{ textAlign: 'center' }}>
+                  <span className={styles.revision}>{doc.revision}</span>
+                </td>
+                <td>
+                  <Avatar name={doc.responsible} size="small" />
+                </td>
+                <td style={{ fontSize: '0.8125rem' }}>
+                  {doc.sendDate ? formatDate(doc.sendDate) : '-'}
+                </td>
+                <td style={{ fontSize: '0.8125rem' }}>
+                  {doc.approvalDate ? formatDate(doc.approvalDate) : '-'}
+                </td>
+                <td style={{ textAlign: 'right' }}>
+                  <span className={styles.cost}>
+                    {formatCurrency(doc.cost)}
+                  </span>
+                </td>
+                <td style={{ position: 'relative' }}>
+                  <button 
+                    className={styles.actionButton}
+                    onClick={(e) => handleMenuClick(e, doc.id)}
+                    ref={activeMenu === doc.id ? menuRef : null}
+                  >
+                    ⋮
+                  </button>
+                  
+                  {activeMenu === doc.id && (
+                    <div className={styles.actionMenu} ref={menuRef}>
+                      <button onClick={(e) => handleMenuAction(e, 'details', doc)}>
+                        👁️ Ver Detalles
+                      </button>
+                      <button onClick={(e) => handleMenuAction(e, 'edit', doc)}>
+                        ✏️ Editar
+                      </button>
+                      <button onClick={(e) => handleMenuAction(e, 'download', doc)}>
+                        ⬇️ Descargar
+                      </button>
+                      <button onClick={(e) => handleMenuAction(e, 'history', doc)}>
+                        📜 Historial
+                      </button>
+                      {isPending && (
+                        <button onClick={(e) => handleMenuAction(e, 'transmittal', doc)}>
+                          📤 Crear Transmittal
+                        </button>
+                      )}
+                      <button 
+                        onClick={(e) => handleMenuAction(e, 'delete', doc)}
+                        className={styles.deleteAction}
+                      >
+                        🗑️ Eliminar
+                      </button>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

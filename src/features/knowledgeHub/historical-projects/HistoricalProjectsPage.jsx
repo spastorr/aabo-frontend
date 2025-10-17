@@ -1,48 +1,51 @@
 /**
  * HistoricalProjectsPage - Library of completed projects with full documentation
+ * Read-only portfolio view for archived projects
  * @module features/knowledgeHub/historical-projects/HistoricalProjectsPage
  */
 
-import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useProject } from '../../../contexts/ProjectContext';
 import { useLayout } from '../../../contexts/LayoutContext';
 import Button from '../../../components/shared/Button';
 import Modal from '../../../components/shared/Modal';
 import PageHeader from '../../../components/shared/PageHeader';
-import SearchBar from '../../../components/shared/SearchBar';
-import EmptyState from '../../../components/shared/EmptyState';
-import ProjectArchiveList from './components/ProjectArchiveList';
-import ArchiveFilters from './components/ArchiveFilters';
-import ProjectArchiveDetail from './components/ProjectArchiveDetail';
+import ProjectCard from '../../projects/portfolio/components/ProjectCard';
+import ProjectListItem from '../../projects/portfolio/components/ProjectListItem';
+import ProjectListHeader from '../../projects/portfolio/components/ProjectListHeader';
+import ProjectFilters from '../../projects/portfolio/components/ProjectFilters';
+import ViewToggle from '../../projects/portfolio/components/ViewToggle';
 import useHistoricalProjects from './hooks/useHistoricalProjects';
 import styles from './HistoricalProjectsPage.module.css';
 
 const HistoricalProjectsPage = () => {
-  const navigate = useNavigate();
+  const { projects, loading, error, filters, setFilters, stats } = useHistoricalProjects();
+  const { clearProject } = useProject();
   const { setHeader, clearHeader } = useLayout();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filters, setFilters] = useState({
-    client: '',
-    projectType: '',
-    discipline: '',
-    year: '',
-    tags: []
-  });
-  const [selectedProject, setSelectedProject] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  
+  // Get view preference from localStorage, default to 'grid'
+  const [view, setView] = useState(() => {
+    const savedView = localStorage.getItem('historicalProjectsView');
+    return savedView || 'grid';
+  });
 
-  const {
-    projects,
-    loading,
-    error,
-    stats
-  } = useHistoricalProjects({ searchQuery, filters });
+  // Save view preference to localStorage when it changes
+  const handleViewChange = (newView) => {
+    setView(newView);
+    localStorage.setItem('historicalProjectsView', newView);
+  };
+
+  // Clear selected project when entering historical projects
+  useEffect(() => {
+    clearProject();
+  }, [clearProject]);
 
   // Memoize header content
   const headerContent = useMemo(() => (
     <PageHeader
       title="📚 Proyectos Históricos"
-      subtitle="Biblioteca estructurada de proyectos finalizados con documentación completa y métricas de cierre"
+      subtitle={`${projects.length} proyecto${projects.length !== 1 ? 's' : ''} archivado${projects.length !== 1 ? 's' : ''} - Solo lectura`}
       backButton={{
         path: '/knowledge-hub',
         label: 'Knowledge Hub'
@@ -56,109 +59,61 @@ const HistoricalProjectsPage = () => {
         }
       ]}
     />
-  ), []);
+  ), [projects.length]);
 
   useEffect(() => {
     setHeader(headerContent);
     return () => clearHeader();
   }, [headerContent, setHeader, clearHeader]);
 
-  const handleProjectClick = (project) => {
-    setSelectedProject(project);
-  };
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <p>Cargando proyectos históricos...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const handleCloseDetail = () => {
-    setSelectedProject(null);
-  };
-
-  const handleFilterChange = (newFilters) => {
-    setFilters({ ...filters, ...newFilters });
-  };
-
-  const handleClearFilters = () => {
-    setFilters({
-      client: '',
-      projectType: '',
-      discipline: '',
-      year: '',
-      tags: []
-    });
-    setSearchQuery('');
-  };
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.error}>
+          <p>❌ {error}</p>
+          <Button onClick={() => window.location.reload()}>Reintentar</Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
-      {/* Search and Filters */}
-      <div className={styles.controlsSection}>
-        <div className={styles.searchWrapper}>
-          <SearchBar
-            placeholder="Buscar proyectos por nombre, código, cliente o etiquetas..."
-            value={searchQuery}
-            onChange={setSearchQuery}
-          />
-        </div>
-
-        <ArchiveFilters
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onClearFilters={handleClearFilters}
-        />
+      <div className={styles.controls}>
+        <ProjectFilters filters={filters} onFilterChange={setFilters} />
+        <ViewToggle view={view} onViewChange={handleViewChange} />
       </div>
 
-      {/* Results Info */}
-      {(searchQuery || Object.values(filters).some(f => f && (Array.isArray(f) ? f.length > 0 : true))) && (
-        <div className={styles.resultsInfo}>
-          <p className={styles.resultsText}>
-            Mostrando <strong>{projects.length}</strong> proyectos
-          </p>
-          {(searchQuery || Object.values(filters).some(f => f && (Array.isArray(f) ? f.length > 0 : true))) && (
-            <Button
-              variant="text"
-              onClick={handleClearFilters}
-              className={styles.clearButton}
-            >
-              Limpiar filtros
-            </Button>
-          )}
+      {projects.length === 0 ? (
+        <div className={styles.emptyState}>
+          <div className={styles.emptyIcon}>📚</div>
+          <h3>No se encontraron proyectos</h3>
+          <p>Intenta ajustar los filtros o revisa los proyectos disponibles</p>
         </div>
-      )}
-
-      {/* Content */}
-      <div className={styles.content}>
-        {loading ? (
-          <div className={styles.loadingState}>
-            <div className={styles.spinner}></div>
-            <p>Cargando proyectos históricos...</p>
+      ) : (
+        <>
+          {view === 'list' && <ProjectListHeader />}
+          <div className={view === 'grid' ? styles.grid : styles.list}>
+            {projects.map((project) => (
+              view === 'grid' ? (
+                <ProjectCard key={project.id} project={project} isReadOnly />
+              ) : (
+                <ProjectListItem key={project.id} project={project} isReadOnly />
+              )
+            ))}
           </div>
-        ) : error ? (
-          <div className={styles.errorState}>
-            <p>❌ {error}</p>
-            <Button onClick={() => window.location.reload()}>Reintentar</Button>
-          </div>
-        ) : projects.length === 0 ? (
-          <EmptyState
-            icon="📚"
-            title="No se encontraron proyectos"
-            description={
-              searchQuery || Object.values(filters).some(f => f && (Array.isArray(f) ? f.length > 0 : true))
-                ? 'Intenta ajustar los filtros de búsqueda'
-                : 'Aún no hay proyectos archivados en la biblioteca'
-            }
-          />
-        ) : (
-          <ProjectArchiveList
-            projects={projects}
-            onProjectClick={handleProjectClick}
-          />
-        )}
-      </div>
-
-      {/* Project Detail Modal */}
-      {selectedProject && (
-        <ProjectArchiveDetail
-          project={selectedProject}
-          onClose={handleCloseDetail}
-        />
+        </>
       )}
 
       {/* Info Modal */}

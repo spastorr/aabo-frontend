@@ -15,8 +15,8 @@ const TimesheetList = ({ timesheets, onEdit, onDelete, currentUserId }) => {
   if (!timesheets || timesheets.length === 0) {
     return (
       <div className={styles.empty}>
-        <p>No hay registros personales de horas</p>
-        <p className={styles.emptyHint}>Los registros se crean automáticamente al trabajar en documentos</p>
+        <p>📝 No tienes registros de horas</p>
+        <p className={styles.emptyHint}>Usa el botón "Registrar Horas" para crear tu primer registro</p>
       </div>
     );
   }
@@ -36,7 +36,6 @@ const TimesheetList = ({ timesheets, onEdit, onDelete, currentUserId }) => {
   return (
     <div className={styles.list}>
       {timesheets.map(timesheet => {
-        const isExpanded = expandedId === timesheet.id;
         const canEdit = timesheet.status === TIMESHEET_STATUS.DRAFT || 
                        timesheet.status === TIMESHEET_STATUS.REJECTED;
         const canDelete = timesheet.status !== TIMESHEET_STATUS.APPROVED;
@@ -60,47 +59,46 @@ const TimesheetList = ({ timesheets, onEdit, onDelete, currentUserId }) => {
                     {TIMESHEET_STATUS_LABELS[timesheet.status]}
                   </Badge>
                 </div>
+                {(canEdit || canDelete) && (
+                  <div className={styles.itemActions}>
+                    {canEdit && (
+                      <Button
+                        variant="ghost"
+                        size="small"
+                        onClick={() => onEdit(timesheet)}
+                      >
+                        ✏️ Editar
+                      </Button>
+                    )}
+                    {canDelete && (
+                      <Button
+                        variant="ghost"
+                        size="small"
+                        onClick={() => onDelete(timesheet.id)}
+                        className={styles.dangerBtn}
+                      >
+                        🗑️ Eliminar
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className={styles.itemDetails}>
                 <div className={styles.description}>
-                  {timesheet.description}
+                  <strong>Descripción:</strong> {timesheet.description}
                 </div>
                 {timesheet.status === TIMESHEET_STATUS.APPROVED && timesheet.approvedBy && (
                   <div className={styles.approvalInfo}>
-                    Aprobado por {timesheet.approvedBy}
+                    ✅ Aprobado por {timesheet.approvedBy}
                   </div>
                 )}
                 {timesheet.status === TIMESHEET_STATUS.REJECTED && timesheet.rejectedBy && (
                   <div className={styles.rejectionInfo}>
-                    Rechazado por {timesheet.rejectedBy}: {timesheet.rejectionReason}
+                    ❌ Rechazado por {timesheet.rejectedBy}: {timesheet.rejectionReason}
                   </div>
                 )}
               </div>
-
-              {(canEdit || canDelete) && (
-                <div className={styles.itemActions}>
-                  {canEdit && (
-                    <Button
-                      variant="ghost"
-                      size="small"
-                      onClick={() => onEdit(timesheet)}
-                    >
-                      ✏️
-                    </Button>
-                  )}
-                  {canDelete && (
-                    <Button
-                      variant="ghost"
-                      size="small"
-                      onClick={() => onDelete(timesheet.id)}
-                      className={styles.dangerBtn}
-                    >
-                      🗑️
-                    </Button>
-                  )}
-                </div>
-              )}
             </div>
           </div>
         );

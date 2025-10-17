@@ -18,6 +18,7 @@ const ApprovalQueue = ({ pendingTimesheets, onApprove, onReject }) => {
     return (
       <div className={styles.empty}>
         <p>✅ No hay planillas pendientes de aprobación</p>
+        <p className={styles.emptyHint}>Todas las planillas han sido procesadas</p>
       </div>
     );
   }

@@ -29,12 +29,12 @@
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--color-primary-light);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3), 
+              0 0 0 1px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   max-height: 90vh;
   animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
 }
 
 @keyframes slideUp {
@@ -112,6 +112,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem;
+  background-color: var(--color-background);
 }
 
 /* Footer */

@@ -1,0 +1,110 @@
+/**
+ * PendingDocumentsIndicator styles
+ * @module features/projects/portfolio/components/PendingDocumentsIndicator/PendingDocumentsIndicator.module.css
+ */
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-warning-light);
+  border: 1px solid var(--color-warning);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--color-warning-dark);
+}
+
+.icon {
+  font-size: 0.875rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.count {
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--color-warning);
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.625rem;
+}
+
+.detailLabel {
+  color: var(--color-text-secondary);
+}
+
+.detailValue {
+  font-weight: 500;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-background-alt);
+  border-top-color: var(--color-warning);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Compact variant for cards */
+.indicator.compact {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+}
+
+.indicator.compact .content {
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+.indicator.compact .count {
+  font-size: 0.75rem;
+}
+
+.indicator.compact .label {
+  font-size: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .indicator {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.625rem;
+  }
+  
+  .details {
+    display: none; /* Hide details on mobile */
+  }
+}

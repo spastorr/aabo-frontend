@@ -20,6 +20,16 @@ export const getHistoricalProjects = async (params = {}) => {
 };
 
 /**
+ * Get historical project by ID
+ */
+export const getHistoricalProjectById = async (projectId) => {
+  if (USE_MOCKS) {
+    return getKnowledgeHubMocks().getHistoricalProjectById(projectId);
+  }
+  return apiClient.get(`/knowledge-hub/historical-projects/${projectId}`);
+};
+
+/**
  * Get standards by type
  */
 export const getStandards = async (type) => {

@@ -9,12 +9,12 @@ import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
 import StatusBadge from '../StatusBadge';
 import DocumentTraceability from '../DocumentTraceability';
-import DocumentDownloadButtons from '../DocumentDownloadButtons';
+import DocumentActions from '../DocumentActions';
 import { DISCIPLINE_LABELS } from '../../../../../constants';
 import { formatDate, formatCurrency } from '../../../../../utils';
 import styles from './DocumentDetailModal.module.css';
 
-const DocumentDetailModal = ({ document, isOpen, onClose }) => {
+const DocumentDetailModal = ({ document, isOpen, onClose, isHistorical = false }) => {
   const [activeTab, setActiveTab] = useState('details');
 
   if (!document) return null;
@@ -156,11 +156,11 @@ const DocumentDetailModal = ({ document, isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Download Buttons */}
+              {/* Document Actions (View/Download) */}
               {document.currentFiles && (
                 <div className={styles.detailItem} style={{ gridColumn: '1 / -1' }}>
-                  <label>Descargar Documentos</label>
-                  <DocumentDownloadButtons files={document.currentFiles} variant="large" />
+                  <label>Acciones del Documento</label>
+                  <DocumentActions document={document} variant="large" isHistorical={isHistorical} />
                 </div>
               )}
             </div>

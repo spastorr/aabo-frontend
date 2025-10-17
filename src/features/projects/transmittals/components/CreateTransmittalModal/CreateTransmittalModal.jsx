@@ -11,6 +11,12 @@ import Input from '../../../../../components/shared/Input';
 import Select from '../../../../../components/shared/Select';
 import Badge from '../../../../../components/shared/Badge';
 import { getLMDByProject } from '../../../../../services/mocks/documentMocks';
+import { 
+  getPendingTransmissionDocuments, 
+  getTransmissionStatistics,
+  getDocumentTransmissionPriority,
+  getTransmissionStatusIcon
+} from '../../../../../utils/documentStatusUtils';
 import styles from './CreateTransmittalModal.module.css';
 
 const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
@@ -27,6 +33,7 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showOnlyPending, setShowOnlyPending] = useState(true);
 
   // Load LMD documents when modal opens
   useEffect(() => {
@@ -44,6 +51,10 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
           doc => doc.status !== 'ELB' && doc.currentRevision
         );
         setDocuments(readyDocs);
+        
+        // Auto-select pending documents
+        const pendingDocs = getPendingTransmissionDocuments(readyDocs);
+        setSelectedDocuments(pendingDocs);
       }
     } catch (err) {
       console.error('Error loading documents:', err);
@@ -128,11 +139,21 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
     onClose();
   };
 
-  // Filter documents by search term
-  const filteredDocuments = documents.filter(doc =>
-    doc.code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    doc.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter documents by search term and pending status
+  const filteredDocuments = documents.filter(doc => {
+    const matchesSearch = doc.code?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         doc.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (showOnlyPending) {
+      const isPending = getPendingTransmissionDocuments([doc]).length > 0;
+      return matchesSearch && isPending;
+    }
+    
+    return matchesSearch;
+  });
+
+  const pendingDocuments = getPendingTransmissionDocuments(documents);
+  const stats = getTransmissionStatistics(documents);
 
   const priorityOptions = [
     { value: 'LOW', label: 'Baja' },
@@ -216,29 +237,67 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
 
         {/* Document Selection */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>
-            Documentos Adjuntos 
-            <span className={styles.count}>
-              ({selectedDocuments.length} seleccionado{selectedDocuments.length !== 1 ? 's' : ''})
-            </span>
-          </h3>
+          <div className={styles.sectionHeader}>
+            <h3 className={styles.sectionTitle}>
+              Documentos Adjuntos 
+              <span className={styles.count}>
+                ({selectedDocuments.length} seleccionado{selectedDocuments.length !== 1 ? 's' : ''})
+              </span>
+            </h3>
+            
+            {/* Statistics */}
+            <div className={styles.stats}>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{stats.total}</span>
+                <span className={styles.statLabel}>Total</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{stats.pending}</span>
+                <span className={styles.statLabel}>Pendientes</span>
+              </div>
+              <div className={styles.stat}>
+                <span className={styles.statValue}>{stats.transmitted}</span>
+                <span className={styles.statLabel}>Enviados</span>
+              </div>
+            </div>
+          </div>
 
-          <div className={styles.formGroup}>
-            <Input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar documentos en la LMD..."
-            />
+          {/* Filter Controls */}
+          <div className={styles.filterControls}>
+            <div className={styles.formGroup}>
+              <Input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Buscar documentos en la LMD..."
+              />
+            </div>
+            
+            <div className={styles.toggleContainer}>
+              <label className={styles.toggleLabel}>
+                <input
+                  type="checkbox"
+                  checked={showOnlyPending}
+                  onChange={(e) => setShowOnlyPending(e.target.checked)}
+                />
+                <span className={styles.toggleText}>
+                  Solo mostrar documentos pendientes ({pendingDocuments.length})
+                </span>
+              </label>
+            </div>
           </div>
 
           <div className={styles.documentList}>
             {filteredDocuments.length > 0 ? (
               filteredDocuments.map(doc => {
                 const isSelected = selectedDocuments.some(d => d.id === doc.id);
+                const isPending = getPendingTransmissionDocuments([doc]).length > 0;
+                const priority = getDocumentTransmissionPriority(doc);
+                const statusIcon = getTransmissionStatusIcon(isPending ? 'pending' : 'transmitted');
+                
                 return (
                   <div
                     key={doc.id}
-                    className={`${styles.documentItem} ${isSelected ? styles.selected : ''}`}
+                    className={`${styles.documentItem} ${isSelected ? styles.selected : ''} ${isPending ? styles.pending : ''}`}
                     onClick={() => handleDocumentToggle(doc)}
                   >
                     <div className={styles.checkbox}>
@@ -250,11 +309,30 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
                       />
                     </div>
                     <div className={styles.documentInfo}>
-                      <div className={styles.documentCode}>{doc.code}</div>
+                      <div className={styles.documentHeader}>
+                        <div className={styles.documentCode}>{doc.code}</div>
+                        <div className={styles.documentStatus}>
+                          <span className={styles.statusIcon}>{statusIcon}</span>
+                          <Badge 
+                            variant={isPending ? 'warning' : 'neutral'}
+                            size="small"
+                          >
+                            {isPending ? 'Pendiente' : 'Enviado'}
+                          </Badge>
+                        </div>
+                      </div>
                       <div className={styles.documentName}>{doc.name}</div>
                       <div className={styles.documentMeta}>
-                        <Badge variant="neutral">Rev. {doc.currentRevision}</Badge>
+                        <Badge variant="neutral">Rev. {doc.currentRevision || doc.revision}</Badge>
                         <span className={styles.discipline}>{doc.discipline}</span>
+                        {isPending && (
+                          <Badge 
+                            variant={priority === 'URGENT' ? 'danger' : priority === 'HIGH' ? 'warning' : 'info'}
+                            size="small"
+                          >
+                            {priority}
+                          </Badge>
+                        )}
                       </div>
                     </div>
                   </div>

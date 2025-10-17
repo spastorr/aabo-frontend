@@ -423,6 +423,230 @@ export const mockDocuments = [
       },
     ],
   },
+  // Documentos pendientes de envío - Ejemplos
+  {
+    id: 'DOC-010',
+    code: 'B43ITT298-TPT-10-PFD-002',
+    name: 'Diagrama de Flujo de Proceso - Unidad de Hidrotratamiento',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.PROCESS,
+    type: 'PFD',
+    status: 'ELB',  // En elaboración - listo para primera entrega
+    revision: 'A',
+    currentRevision: 'A',
+    responsible: 'Ing. María González',
+    sendDate: null,  // No ha sido enviado aún
+    approvalDate: null,
+    cost: 3200,
+    description: 'PFD de la unidad de hidrotratamiento de naftas',
+    comments: 'Documento listo para primera entrega al cliente',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-TPT-10-PFD-002-A.pdf', name: 'B43ITT298-TPT-10-PFD-002-A.pdf' },
+      editable: { url: '/documents/B43ITT298-TPT-10-PFD-002-A.xlsx', name: 'B43ITT298-TPT-10-PFD-002-A.xlsx', type: 'xlsx' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'A', 
+        date: '2024-10-15', 
+        status: 'ELB', 
+        comments: 'Primera versión - Lista para envío', 
+        reviewer: 'Ing. María González',
+        cost: 3200,
+        costBreakdown: { hours: 40, rate: 80, resource: 'Ing. María González' }
+      },
+    ],
+  },
+  {
+    id: 'DOC-011',
+    code: 'B43ITT298-TPT-10-283',
+    name: 'P&ID - Sistema de Hidrotratamiento',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.PROCESS,
+    type: 'DRAWING',
+    status: 'CMN',  // Comentado - necesita incorporar comentarios
+    revision: 'D',
+    currentRevision: 'D',
+    responsible: 'Ing. Carlos Méndez',
+    sendDate: '2024-10-10',
+    approvalDate: null,
+    cost: 4800,
+    description: 'P&ID del sistema de hidrotratamiento con comentarios incorporados',
+    comments: 'Incorporar comentarios del cliente y reenviar Rev. E',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-TPT-10-283-D.pdf', name: 'B43ITT298-TPT-10-283-D.pdf' },
+      editable: { url: '/documents/B43ITT298-TPT-10-283-D.dwg', name: 'B43ITT298-TPT-10-283-D.dwg', type: 'dwg' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'D', 
+        date: '2024-10-15', 
+        status: 'CMN', 
+        comments: 'Comentarios incorporados - Listo para reenvío', 
+        reviewer: 'Ing. Carlos Méndez',
+        cost: 600,
+        costBreakdown: { hours: 8, rate: 75, resource: 'Ing. Carlos Méndez' }
+      },
+      { 
+        revision: 'C', 
+        date: '2024-10-10', 
+        status: 'CMN', 
+        comments: 'Revisar válvulas de control', 
+        reviewer: 'Fiscalizador PETROECUADOR',
+        cost: 450,
+        outgoingTransmittal: { id: 'TRN-017', code: 'TRN-B43-2024-017', date: '2024-10-08' },
+        incomingTransmittal: { id: 'TRN-018', code: 'TRN-B43-IN-2024-018', date: '2024-10-10', clientResponse: 'CMN' }
+      },
+    ],
+  },
+  {
+    id: 'DOC-012',
+    code: 'B43ITT298-TPT-80-DS-003',
+    name: 'Datasheet - Intercambiador de Calor E-201',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.MECHANICAL,
+    type: 'DS',
+    status: 'ACC',  // Aprobado con comentarios - listo para Rev. 0
+    revision: 'C',
+    currentRevision: 'C',
+    responsible: 'Ing. Ana Torres',
+    sendDate: '2024-10-12',
+    approvalDate: null,
+    cost: 2800,
+    description: 'Hoja de datos de intercambiador de calor',
+    comments: 'Aprobado con comentarios menores - Listo para Rev. 0',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-TPT-80-DS-003-C.pdf', name: 'B43ITT298-TPT-80-DS-003-C.pdf' },
+      editable: { url: '/documents/B43ITT298-TPT-80-DS-003-C.xlsx', name: 'B43ITT298-TPT-80-DS-003-C.xlsx', type: 'xlsx' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'C', 
+        date: '2024-10-15', 
+        status: 'ACC', 
+        comments: 'Comentarios menores incorporados - Listo para Rev. 0', 
+        reviewer: 'Ing. Ana Torres',
+        cost: 400,
+        costBreakdown: { hours: 5, rate: 80, resource: 'Ing. Ana Torres' }
+      },
+      { 
+        revision: 'B', 
+        date: '2024-10-12', 
+        status: 'ACC', 
+        comments: 'Ajustar especificaciones térmicas', 
+        reviewer: 'Fiscalizador PETROECUADOR',
+        cost: 600,
+        outgoingTransmittal: { id: 'TRN-019', code: 'TRN-B43-2024-019', date: '2024-10-10' },
+        incomingTransmittal: { id: 'TRN-020', code: 'TRN-B43-IN-2024-020', date: '2024-10-12', clientResponse: 'ACC' }
+      },
+    ],
+  },
+  {
+    id: 'DOC-013',
+    code: 'B43ITT298-TPT-70-316',
+    name: 'Diagrama Unifilar - Tablero de Distribución',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.ELECTRICAL,
+    type: 'DRAWING',
+    status: 'RCH',  // Rechazado - necesita reelaboración
+    revision: 'B',
+    currentRevision: 'B',
+    responsible: 'Ing. Luis Rodríguez',
+    sendDate: '2024-10-08',
+    approvalDate: null,
+    cost: 3600,
+    description: 'SLD del tablero de distribución principal',
+    comments: 'Reelaborar completamente - Errores en especificaciones eléctricas',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-TPT-70-316-B.pdf', name: 'B43ITT298-TPT-70-316-B.pdf' },
+      editable: { url: '/documents/B43ITT298-TPT-70-316-B.dwg', name: 'B43ITT298-TPT-70-316-B.dwg', type: 'dwg' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'B', 
+        date: '2024-10-15', 
+        status: 'RCH', 
+        comments: 'Reelaborado según comentarios - Listo para reenvío', 
+        reviewer: 'Ing. Luis Rodríguez',
+        cost: 1200,
+        costBreakdown: { hours: 15, rate: 80, resource: 'Ing. Luis Rodríguez' }
+      },
+      { 
+        revision: 'A', 
+        date: '2024-10-08', 
+        status: 'RCH', 
+        comments: 'Errores en especificaciones eléctricas', 
+        reviewer: 'Fiscalizador PETROECUADOR',
+        cost: 800,
+        outgoingTransmittal: { id: 'TRN-021', code: 'TRN-B43-2024-021', date: '2024-10-05' },
+        incomingTransmittal: { id: 'TRN-022', code: 'TRN-B43-IN-2024-022', date: '2024-10-08', clientResponse: 'RCH' }
+      },
+    ],
+  },
+  {
+    id: 'DOC-014',
+    code: 'B43ITT298-TPT-60-CALC-004',
+    name: 'Cálculo de Presión de Diseño',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.INSTRUMENTATION,
+    type: 'CALC',
+    status: 'APR',  // Aprobado - listo para Rev. 0
+    revision: 'D',
+    currentRevision: 'D',
+    responsible: 'Ing. Roberto Sánchez',
+    sendDate: '2024-10-14',
+    approvalDate: null,
+    cost: 2400,
+    description: 'Cálculo de presión de diseño para válvulas de seguridad',
+    comments: 'Aprobado sin comentarios - Listo para Rev. 0',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-TPT-60-CALC-004-D.pdf', name: 'B43ITT298-TPT-60-CALC-004-D.pdf' },
+      editable: { url: '/documents/B43ITT298-TPT-60-CALC-004-D.xlsx', name: 'B43ITT298-TPT-60-CALC-004-D.xlsx', type: 'xlsx' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'D', 
+        date: '2024-10-15', 
+        status: 'APR', 
+        comments: 'Aprobado sin comentarios - Listo para Rev. 0', 
+        reviewer: 'Fiscalizador PETROECUADOR',
+        cost: 300,
+        outgoingTransmittal: { id: 'TRN-023', code: 'TRN-B43-2024-023', date: '2024-10-12' },
+        incomingTransmittal: { id: 'TRN-024', code: 'TRN-B43-IN-2024-024', date: '2024-10-14', clientResponse: 'APR' }
+      },
+    ],
+  },
+  {
+    id: 'DOC-015',
+    code: 'B43ITT298-ZPF-30-086',
+    name: 'Plano de Fundaciones - Edificio de Control',
+    projectId: 'PROJ-001',
+    discipline: DISCIPLINES.CIVIL,
+    type: 'DRAWING',
+    status: 'ELB',  // En elaboración - listo para primera entrega
+    revision: 'A',
+    currentRevision: 'A',
+    responsible: 'Ing. Patricia Vega',
+    sendDate: null,  // No ha sido enviado aún
+    approvalDate: null,
+    cost: 4200,
+    description: 'Planos de fundaciones para edificio de control',
+    comments: 'Documento listo para primera entrega al cliente',
+    currentFiles: {
+      pdf: { url: '/documents/B43ITT298-ZPF-30-086-A.pdf', name: 'B43ITT298-ZPF-30-086-A.pdf' },
+      editable: { url: '/documents/B43ITT298-ZPF-30-086-A.dwg', name: 'B43ITT298-ZPF-30-086-A.dwg', type: 'dwg' }
+    },
+    revisionHistory: [
+      { 
+        revision: 'A', 
+        date: '2024-10-16', 
+        status: 'ELB', 
+        comments: 'Primera versión - Lista para envío', 
+        reviewer: 'Ing. Patricia Vega',
+        cost: 4200,
+        costBreakdown: { hours: 60, rate: 70, resource: 'Ing. Patricia Vega' }
+      },
+    ],
+  },
 ];
 
 export const getDocumentsByProject = (projectId) => {

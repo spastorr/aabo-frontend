@@ -1,0 +1,323 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+/* Loading & Error States */
+.loading,
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--color-background-alt);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading p,
+.error p {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.error p {
+  color: var(--color-danger);
+}
+
+/* Compact Header */
+.compactHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.projectTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.code {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  background: var(--color-background-secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.lockIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--color-warning-light);
+  border: 1px solid var(--color-warning);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lockIcon:hover {
+  background: var(--color-warning);
+  transform: scale(1.05);
+}
+
+.lockSymbol {
+  font-size: 1.25rem;
+  color: var(--color-warning-dark);
+}
+
+/* Project Details */
+.projectDetails {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detailLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.detailValue {
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.description {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.description h4 {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.description p {
+  font-size: 0.938rem;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  padding: 0.375rem 0.75rem;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* KPI Grid */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Tabs Container */
+.tabsContainer {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tabContent {
+  padding: 1.5rem;
+}
+
+/* Overview Content */
+.overviewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.overviewSection h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem 0;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.summaryCard {
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.summaryCard h4 {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.summaryValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0.5rem 0 0.25rem 0;
+}
+
+.summaryLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 1rem 0;
+}
+
+.disciplinesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.disciplineChip {
+  padding: 0.5rem 1rem;
+  background: var(--color-info-light);
+  color: var(--color-info);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--color-info);
+}
+
+.metricsQuickView {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-background-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.metricIcon {
+  font-size: 2rem;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.metricLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .compactHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .projectTitle {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .lockIcon {
+    align-self: flex-end;
+  }
+
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryGrid,
+  .metricsQuickView {
+    grid-template-columns: 1fr;
+  }
+}
+

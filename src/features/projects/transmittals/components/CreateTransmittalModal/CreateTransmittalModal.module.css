@@ -14,6 +14,13 @@
   gap: 1rem;
 }
 
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
 .sectionTitle {
   font-size: 1rem;
   font-weight: 600;
@@ -28,6 +35,67 @@
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-text-secondary);
+}
+
+/* Statistics */
+.stats {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-background-alt);
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.statLabel {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Filter Controls */
+.filterControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.toggleLabel input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.toggleText {
+  font-weight: 500;
 }
 
 /* Form Elements */
@@ -107,6 +175,14 @@
   background: rgba(37, 99, 235, 0.1);
 }
 
+.documentItem.pending {
+  border-left: 3px solid var(--color-warning);
+}
+
+.documentItem.pending.selected {
+  border-left-color: var(--color-primary);
+}
+
 .checkbox {
   display: flex;
   align-items: flex-start;
@@ -126,11 +202,28 @@
   gap: 0.375rem;
 }
 
+.documentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
 .documentCode {
   font-family: 'Courier New', monospace;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-primary);
+}
+
+.documentStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.statusIcon {
+  font-size: 0.875rem;
 }
 
 .documentName {
@@ -142,6 +235,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .discipline {
@@ -178,6 +272,31 @@
 @media (max-width: 768px) {
   .formRow {
     grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats {
+    justify-content: space-around;
+  }
+
+  .documentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .documentStatus {
+    align-self: flex-end;
+  }
+
+  .documentMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 
   .actions {

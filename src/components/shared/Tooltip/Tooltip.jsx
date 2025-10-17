@@ -1,69 +1,121 @@
 /**
- * Tooltip component
- * Simple tooltip for showing additional information
+ * Tooltip - Reusable tooltip component
  * @module components/shared/Tooltip
  */
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './Tooltip.module.css';
 
-const Tooltip = ({ content, children, position = 'top' }) => {
+const Tooltip = ({ 
+  children, 
+  content, 
+  position = 'top', 
+  delay = 300,
+  disabled = false,
+  className = '',
+  ...props 
+}) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const [tooltipPosition, setTooltipPosition] = useState({});
   const triggerRef = useRef(null);
   const tooltipRef = useRef(null);
+  const timeoutRef = useRef(null);
+
+  const showTooltip = () => {
+    if (disabled || !content) return;
+    
+    timeoutRef.current = setTimeout(() => {
+      setIsVisible(true);
+      calculatePosition();
+    }, delay);
+  };
+
+  const hideTooltip = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsVisible(false);
+  };
+
+  const calculatePosition = () => {
+    if (!triggerRef.current || !tooltipRef.current) return;
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    let top = 0;
+    let left = 0;
+
+    switch (position) {
+      case 'top':
+        top = triggerRect.top - tooltipRect.height - 8;
+        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case 'bottom':
+        top = triggerRect.bottom + 8;
+        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+        break;
+      case 'left':
+        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.left - tooltipRect.width - 8;
+        break;
+      case 'right':
+        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+        left = triggerRect.right + 8;
+        break;
+    }
+
+    // Adjust if tooltip goes off screen
+    if (left < 8) left = 8;
+    if (left + tooltipRect.width > viewportWidth - 8) {
+      left = viewportWidth - tooltipRect.width - 8;
+    }
+    if (top < 8) top = 8;
+    if (top + tooltipRect.height > viewportHeight - 8) {
+      top = viewportHeight - tooltipRect.height - 8;
+    }
+
+    setTooltipPosition({ top, left });
+  };
 
   useEffect(() => {
-    if (isVisible && triggerRef.current && tooltipRef.current) {
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      const tooltipRect = tooltipRef.current.getBoundingClientRect();
-      
-      let top = 0;
-      let left = 0;
-
-      switch (position) {
-        case 'top':
-          top = -(tooltipRect.height + 8);
-          left = (triggerRect.width - tooltipRect.width) / 2;
-          break;
-        case 'bottom':
-          top = triggerRect.height + 8;
-          left = (triggerRect.width - tooltipRect.width) / 2;
-          break;
-        case 'left':
-          top = (triggerRect.height - tooltipRect.height) / 2;
-          left = -(tooltipRect.width + 8);
-          break;
-        case 'right':
-          top = (triggerRect.height - tooltipRect.height) / 2;
-          left = triggerRect.width + 8;
-          break;
-        default:
-          break;
-      }
-
-      setTooltipPosition({ top, left });
+    if (isVisible) {
+      calculatePosition();
     }
-  }, [isVisible, position]);
+  }, [isVisible]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div 
-      className={styles.container}
       ref={triggerRef}
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
+      className={`${styles.tooltipTrigger} ${className}`}
+      onMouseEnter={showTooltip}
+      onMouseLeave={hideTooltip}
+      {...props}
     >
       {children}
-      {isVisible && (
+      {isVisible && content && (
         <div
           ref={tooltipRef}
-          className={`${styles.tooltip} ${styles[position]}`}
+          className={`${styles.tooltip} ${styles[`tooltip-${position}`]}`}
           style={{
-            top: `${tooltipPosition.top}px`,
-            left: `${tooltipPosition.left}px`,
+            top: tooltipPosition.top,
+            left: tooltipPosition.left,
           }}
         >
-          {content}
+          <div className={styles.tooltipContent}>
+            {content}
+          </div>
+          <div className={`${styles.tooltipArrow} ${styles[`arrow-${position}`]}`}></div>
         </div>
       )}
     </div>
@@ -71,4 +123,3 @@ const Tooltip = ({ content, children, position = 'top' }) => {
 };
 
 export default Tooltip;
-

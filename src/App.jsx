@@ -20,6 +20,7 @@ import {
   UnifiedSearchPage,
   StandardsPage
 } from './features/knowledgeHub';
+import HistoricalProjectDetailPage from './features/knowledgeHub/historical-projects/HistoricalProjectDetailPage';
 import { NotificationsPage } from './features/projects/notifications';
 import { SettingsPage } from './features/settings';
 import { ProfilePage } from './features/profile';
@@ -71,7 +72,7 @@ function App() {
             <Route index element={<KnowledgeHubPage />} />
             <Route path="search" element={<UnifiedSearchPage />} />
             <Route path="historical-projects" element={<HistoricalProjectsPage />} />
-            <Route path="historical-projects/:id" element={<div>Project Detail - To be implemented</div>} />
+            <Route path="historical-projects/:id" element={<HistoricalProjectDetailPage />} />
             <Route path="standards" element={<StandardsPage />} />
           </Route>
 

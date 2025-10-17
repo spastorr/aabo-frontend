@@ -11,4 +11,5 @@ export * from './permissions';
 export * from './fileHandlers';
 export * from './chartHelpers';
 export * from './errorHandlers';
+export * from './documentStatusUtils';
 

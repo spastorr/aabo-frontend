@@ -1,0 +1,162 @@
+.listItem {
+  background-color: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0.625rem 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: grid;
+  grid-template-columns: minmax(200px, 2fr) minmax(120px, 1fr) 100px 100px minmax(120px, 1fr) minmax(180px, 1.5fr) 100px;
+  gap: 1rem;
+  align-items: center;
+}
+
+.listItem:nth-child(even) {
+  background-color: var(--bg-secondary);
+}
+
+.listItem:hover {
+  border-color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  background-color: var(--primary-light);
+}
+
+.listItem:nth-child(even):hover {
+  background-color: var(--primary-light);
+}
+
+/* Name Section */
+.nameSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.projectName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projectCode {
+  font-size: 0.688rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-family: var(--font-mono);
+}
+
+/* Info Sections */
+.infoSection {
+  display: flex;
+  align-items: center;
+}
+
+.value {
+  font-size: 0.813rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Progress Section */
+.progressSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progressBar {
+  flex: 1;
+  height: 0.375rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Budget Section */
+.budgetSection {
+  display: flex;
+  align-items: center;
+}
+
+.budgetValue {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status Section */
+.statusSection {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .listItem {
+    grid-template-columns: minmax(180px, 2fr) minmax(100px, 1fr) 90px 90px minmax(100px, 1fr) minmax(150px, 1.5fr) 90px;
+    gap: 0.75rem;
+  }
+
+  .budgetValue {
+    font-size: 0.688rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .listItem {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .infoSection,
+  .progressSection,
+  .budgetSection,
+  .statusSection {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0.5rem;
+  }
+
+  .infoSection::before,
+  .progressSection::before,
+  .budgetSection::before {
+    content: attr(data-label);
+    font-size: 0.688rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+
+  .statusSection {
+    justify-content: flex-start;
+  }
+}
+

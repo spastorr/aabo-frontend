@@ -16,6 +16,8 @@ export const PERMISSIONS = {
   DOCUMENT_EDIT: 'document:edit',
   DOCUMENT_DELETE: 'document:delete',
   DOCUMENT_APPROVE: 'document:approve',
+  DOCUMENT_DOWNLOAD: 'document:download',
+  DOCUMENT_VIEW_CONTENT: 'document:view_content',
   
   // Transmittal permissions
   TRANSMITTAL_VIEW: 'transmittal:view',

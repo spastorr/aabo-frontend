@@ -39,9 +39,62 @@
   color: var(--color-text-primary);
 }
 
+/* Tooltip styles */
+.tooltip {
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.tooltipContent {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: var(--shadow-xl);
+  min-width: 200px;
+  backdrop-filter: blur(8px);
+}
+
+.tooltipTitle {
+  font-weight: var(--font-weight-semibold);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 4px;
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.tooltipRow:last-child {
+  margin-bottom: 0;
+}
+
+.tooltipLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.tooltipValue {
+  font-size: 12px;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
 @media (max-width: 768px) {
   .summary {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tooltipContent {
+    min-width: 180px;
+    padding: 10px;
   }
 }
 

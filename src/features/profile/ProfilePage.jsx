@@ -5,11 +5,13 @@
 
 import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import PageHeader from '../../components/shared/PageHeader';
 import styles from './ProfilePage.module.css';
 
 const ProfilePage = () => {
   const { user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isEditMode, setIsEditMode] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -78,7 +80,7 @@ const ProfilePage = () => {
     <div className={styles.profilePage}>
       <PageHeader
         title="Mi Perfil"
-        subtitle="Información personal y configuración"
+        subtitle="Información personal, configuración y preferencias"
       />
 
       <div className={styles.profileContainer}>
@@ -284,6 +286,156 @@ const ProfilePage = () => {
               <div className={styles.infoLabel}>Permisos</div>
               <div className={styles.infoValue}>
                 {user.permissions?.length || 0} permiso(s) asignado(s)
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Configuration Settings */}
+        <section className={styles.profileSection}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Configuración</h2>
+            <p className={styles.sectionDescription}>
+              Personaliza tu experiencia en la aplicación
+            </p>
+          </div>
+
+          <div className={styles.settingsList}>
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Notificaciones por Email</div>
+                <div className={styles.settingDescription}>Recibir notificaciones sobre proyectos y actividades</div>
+              </div>
+              <div className={styles.settingControl}>
+                <label className={styles.toggleSwitch}>
+                  <input type="checkbox" defaultChecked />
+                  <span className={styles.toggleSlider}></span>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Notificaciones Push</div>
+                <div className={styles.settingDescription}>Recibir notificaciones en tiempo real</div>
+              </div>
+              <div className={styles.settingControl}>
+                <label className={styles.toggleSwitch}>
+                  <input type="checkbox" />
+                  <span className={styles.toggleSlider}></span>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>
+                  {theme === 'dark' ? 'Tema Oscuro' : 'Tema Claro'}
+                </div>
+                <div className={styles.settingDescription}>
+                  {theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+                </div>
+              </div>
+              <div className={styles.settingControl}>
+                <label className={styles.toggleSwitch}>
+                  <input 
+                    type="checkbox" 
+                    checked={theme === 'dark'}
+                    onChange={toggleTheme}
+                  />
+                  <span className={styles.toggleSlider}></span>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Idioma</div>
+                <div className={styles.settingDescription}>Seleccionar idioma de la interfaz</div>
+              </div>
+              <div className={styles.settingControl}>
+                <select className={styles.settingSelect}>
+                  <option value="es">Español</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Zona Horaria</div>
+                <div className={styles.settingDescription}>Configurar zona horaria para fechas y horas</div>
+              </div>
+              <div className={styles.settingControl}>
+                <select className={styles.settingSelect}>
+                  <option value="America/Mexico_City">México (GMT-6)</option>
+                  <option value="America/New_York">Nueva York (GMT-5)</option>
+                  <option value="Europe/Madrid">Madrid (GMT+1)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Formato de Fecha</div>
+                <div className={styles.settingDescription}>Formato para mostrar fechas</div>
+              </div>
+              <div className={styles.settingControl}>
+                <select className={styles.settingSelect}>
+                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                </select>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Auto-guardado</div>
+                <div className={styles.settingDescription}>Guardar cambios automáticamente</div>
+              </div>
+              <div className={styles.settingControl}>
+                <label className={styles.toggleSwitch}>
+                  <input type="checkbox" defaultChecked />
+                  <span className={styles.toggleSlider}></span>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Mostrar Ayuda</div>
+                <div className={styles.settingDescription}>Mostrar consejos y ayuda contextual</div>
+              </div>
+              <div className={styles.settingControl}>
+                <label className={styles.toggleSwitch}>
+                  <input type="checkbox" defaultChecked />
+                  <span className={styles.toggleSlider}></span>
+                </label>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Cambiar Contraseña</div>
+                <div className={styles.settingDescription}>Actualizar tu contraseña de acceso</div>
+              </div>
+              <div className={styles.settingControl}>
+                <button className={styles.settingActionButton}>
+                  Cambiar
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.settingItem}>
+              <div className={styles.settingInfo}>
+                <div className={styles.settingLabel}>Exportar Datos</div>
+                <div className={styles.settingDescription}>Descargar una copia de tus datos</div>
+              </div>
+              <div className={styles.settingControl}>
+                <button className={styles.settingActionButton}>
+                  Exportar
+                </button>
               </div>
             </div>
           </div>

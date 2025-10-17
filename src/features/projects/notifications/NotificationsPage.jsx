@@ -139,13 +139,6 @@ const NotificationsPage = () => {
     }
   };
 
-  const handleDelete = (e, notificationId) => {
-    e.stopPropagation();
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta notificación?')) {
-      deleteNotification(notificationId);
-    }
-  };
-
   const handleMarkAsRead = (e, notificationId) => {
     e.stopPropagation();
     markAsRead(notificationId);
@@ -159,214 +152,118 @@ const NotificationsPage = () => {
     return true;
   });
 
-  // Group notifications by date
-  const groupedNotifications = filteredNotifications.reduce((groups, notification) => {
-    const date = new Date(notification.timestamp);
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    let groupKey;
-    if (date.toDateString() === today.toDateString()) {
-      groupKey = 'Hoy';
-    } else if (date.toDateString() === yesterday.toDateString()) {
-      groupKey = 'Ayer';
-    } else if (date > new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)) {
-      groupKey = 'Esta semana';
-    } else {
-      groupKey = 'Anteriores';
-    }
-
-    if (!groups[groupKey]) {
-      groups[groupKey] = [];
-    }
-    groups[groupKey].push(notification);
-    return groups;
-  }, {});
-
-  const groupOrder = ['Hoy', 'Ayer', 'Esta semana', 'Anteriores'];
-
   return (
     <div className={styles.page}>
-      <PageHeader
-        title="Notificaciones"
-        subtitle={`${unreadCount} notificaciones sin leer`}
-      />
-
-      <div className={styles.container}>
-        {/* Filters */}
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>Notificaciones</h1>
+          <p className={styles.subtitle}>{filteredNotifications.length} notificaciones · {unreadCount} sin leer</p>
+        </div>
+        
+        {/* Compact Filters */}
         <div className={styles.filters}>
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Estado</label>
-            <div className={styles.filterButtons}>
-              <button
-                className={`${styles.filterButton} ${filterRead === 'all' ? styles.active : ''}`}
-                onClick={() => setFilterRead('all')}
-              >
-                Todas
-              </button>
-              <button
-                className={`${styles.filterButton} ${filterRead === 'unread' ? styles.active : ''}`}
-                onClick={() => setFilterRead('unread')}
-              >
-                Sin leer ({unreadCount})
-              </button>
-              <button
-                className={`${styles.filterButton} ${filterRead === 'read' ? styles.active : ''}`}
-                onClick={() => setFilterRead('read')}
-              >
-                Leídas
-              </button>
-            </div>
-          </div>
+          <select
+            className={styles.filterSelect}
+            value={filterRead}
+            onChange={(e) => setFilterRead(e.target.value)}
+          >
+            <option value="all">Todas</option>
+            <option value="unread">Sin leer ({unreadCount})</option>
+            <option value="read">Leídas</option>
+          </select>
 
-          <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Tipo</label>
-            <select
-              className={styles.filterSelect}
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-            >
-              <option value="all">Todos los tipos</option>
-              <option value={NOTIFICATION_TYPES.DOCUMENT}>Documentos</option>
-              <option value={NOTIFICATION_TYPES.TRANSMITTAL}>Transmittals</option>
-              <option value={NOTIFICATION_TYPES.RFI}>RFIs</option>
-              <option value={NOTIFICATION_TYPES.COMMENT}>Comentarios</option>
-              <option value={NOTIFICATION_TYPES.MENTION}>Menciones</option>
-              <option value={NOTIFICATION_TYPES.APPROVAL}>Aprobaciones</option>
-              <option value={NOTIFICATION_TYPES.DEADLINE}>Vencimientos</option>
-              <option value={NOTIFICATION_TYPES.SYSTEM}>Sistema</option>
-            </select>
-          </div>
+          <select
+            className={styles.filterSelect}
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="all">Todos los tipos</option>
+            <option value={NOTIFICATION_TYPES.DOCUMENT}>Documentos</option>
+            <option value={NOTIFICATION_TYPES.TRANSMITTAL}>Transmittals</option>
+            <option value={NOTIFICATION_TYPES.RFI}>RFIs</option>
+            <option value={NOTIFICATION_TYPES.COMMENT}>Comentarios</option>
+            <option value={NOTIFICATION_TYPES.MENTION}>Menciones</option>
+            <option value={NOTIFICATION_TYPES.APPROVAL}>Aprobaciones</option>
+            <option value={NOTIFICATION_TYPES.DEADLINE}>Vencimientos</option>
+            <option value={NOTIFICATION_TYPES.SYSTEM}>Sistema</option>
+          </select>
 
           {unreadCount > 0 && (
             <button className={styles.markAllButton} onClick={markAllAsRead}>
-              Marcar todas como leídas
+              Marcar leídas
             </button>
           )}
         </div>
+      </div>
 
-        {/* Notifications Stats */}
-        {!loading && notifications.length > 0 && (
-          <div className={styles.stats}>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{notifications.length}</span>
-              <span className={styles.statLabel}>Total</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{unreadCount}</span>
-              <span className={styles.statLabel}>Sin leer</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statNumber}>{notifications.length - unreadCount}</span>
-              <span className={styles.statLabel}>Leídas</span>
-            </div>
-          </div>
-        )}
+      <div className={styles.container}>
 
         {/* Notifications */}
         {loading ? (
           <div className={styles.loading}>
             <div className={styles.spinner}></div>
-            <p>Cargando notificaciones...</p>
+            <p>Cargando...</p>
           </div>
         ) : filteredNotifications.length === 0 ? (
           <div className={styles.emptyState}>
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            <h3>No hay notificaciones</h3>
             <p>
               {notifications.length === 0
-                ? 'No tienes notificaciones pendientes'
-                : 'No hay notificaciones que coincidan con los filtros seleccionados'
-              }
+                ? 'No tienes notificaciones'
+                : 'No hay resultados'}
             </p>
-            {notifications.length > 0 && (
-              <button
-                className={styles.clearFiltersButton}
-                onClick={() => {
-                  setFilterType('all');
-                  setFilterRead('all');
-                }}
-              >
-                Limpiar filtros
-              </button>
-            )}
           </div>
         ) : (
-          <div className={styles.notificationGroups}>
-            {groupOrder.map((groupKey) => {
-              const groupNotifications = groupedNotifications[groupKey];
-              if (!groupNotifications || groupNotifications.length === 0) return null;
-
-              return (
-                <div key={groupKey} className={styles.notificationGroup}>
-                  <h3 className={styles.groupTitle}>{groupKey}</h3>
-                  <div className={styles.notificationList}>
-                    {groupNotifications.map((notification) => (
-                      <div
-                        key={notification.id}
-                        className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''}`}
-                        onClick={() => handleNotificationClick(notification)}
-                      >
-                        <div className={`${styles.notificationIcon} ${styles[`icon-${notification.type}`]}`}>
-                          {getNotificationIcon(notification.type)}
-                        </div>
-
-                        <div className={styles.notificationContent}>
-                          <div className={styles.notificationHeader}>
-                            <h4 className={styles.notificationTitle}>{notification.title}</h4>
-                            <span className={`${styles.priorityBadge} ${styles[`priority-${notification.priority}`]}`}>
-                              {notification.priority}
-                            </span>
-                          </div>
-
-                          <p className={styles.notificationMessage}>{notification.message}</p>
-
-                          <div className={styles.notificationFooter}>
-                            {notification.author && (
-                              <span className={styles.notificationAuthor}>
-                                Por {notification.author.name}
-                              </span>
-                            )}
-                            <span className={styles.notificationTime}>
-                              {formatTimestamp(notification.timestamp)}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className={styles.notificationActions}>
-                          {!notification.read && (
-                            <button
-                              className={styles.actionButton}
-                              onClick={(e) => handleMarkAsRead(e, notification.id)}
-                              title="Marcar como leída"
-                            >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <polyline points="20 6 9 17 4 12" />
-                              </svg>
-                            </button>
-                          )}
-                          <button
-                            className={styles.actionButton}
-                            onClick={(e) => handleDelete(e, notification.id)}
-                            title="Eliminar"
-                          >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                            </svg>
-                          </button>
-                        </div>
-
-                        {!notification.read && <div className={styles.unreadIndicator}></div>}
-                      </div>
-                    ))}
-                  </div>
+          <div className={styles.notificationList}>
+            {filteredNotifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''}`}
+                onClick={() => handleNotificationClick(notification)}
+              >
+                {!notification.read && <div className={styles.unreadDot}></div>}
+                
+                <div className={`${styles.notificationIcon} ${styles[`icon-${notification.type}`]}`}>
+                  {getNotificationIcon(notification.type)}
                 </div>
-              );
-            })}
+
+                <div className={styles.notificationContent}>
+                  <div className={styles.notificationHeader}>
+                    <h4 className={styles.notificationTitle}>{notification.title}</h4>
+                    {notification.priority !== 'low' && (
+                      <span className={`${styles.priorityBadge} ${styles[`priority-${notification.priority}`]}`}>
+                        {notification.priority === 'urgent' ? '!' : notification.priority === 'high' ? '!!' : ''}
+                      </span>
+                    )}
+                    <span className={styles.notificationTime}>
+                      {formatTimestamp(notification.timestamp)}
+                    </span>
+                  </div>
+
+                  <p className={styles.notificationMessage}>{notification.message}</p>
+
+                  {notification.author && (
+                    <span className={styles.notificationAuthor}>
+                      {notification.author.name}
+                    </span>
+                  )}
+                </div>
+
+                {!notification.read && (
+                  <button
+                    className={styles.actionButton}
+                    onClick={(e) => handleMarkAsRead(e, notification.id)}
+                    title="Marcar como leída"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

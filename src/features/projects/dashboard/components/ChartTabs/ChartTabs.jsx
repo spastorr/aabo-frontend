@@ -38,7 +38,7 @@ const ChartTabs = ({ sCurveData, budgetData, budgetOverTime }) => {
             className={`${styles.tab} ${activeTab === 'budget' ? styles.active : ''}`}
             onClick={() => setActiveTab('budget')}
           >
-            💰 Presupuesto por Disciplina
+            💰 Ejecución Presupuestal
           </button>
         </div>
       </div>

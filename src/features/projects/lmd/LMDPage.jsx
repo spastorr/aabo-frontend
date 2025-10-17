@@ -14,6 +14,7 @@ import PageHeader from '../../../components/shared/PageHeader';
 import LMDTable from './components/LMDTable';
 import LMDFilters from './components/LMDFilters';
 import DocumentDetailModal from './components/DocumentDetailModal';
+import { getTransmissionStatistics } from '../../../utils/documentStatusUtils';
 import useLMD from './hooks/useLMD';
 import styles from './LMDPage.module.css';
 
@@ -25,6 +26,11 @@ const LMDPage = () => {
   const { documents, loading, error, filters, setFilters } = useLMD(projectId);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
+  // Calculate transmission statistics
+  const transmissionStats = useMemo(() => {
+    return documents ? getTransmissionStatistics(documents) : null;
+  }, [documents]);
 
   useEffect(() => {
     // Load project info if not already loaded
@@ -51,6 +57,11 @@ const LMDPage = () => {
             variant: 'outline',
             onClick: () => navigate(`/projects/${projectId}/dashboard`)
           },
+          ...(transmissionStats && transmissionStats.pending > 0 ? [{
+            label: `📤 Crear Transmittal (${transmissionStats.pending})`,
+            variant: 'warning',
+            onClick: () => navigate(`/projects/${projectId}/transmittals?create=true`)
+          }] : []),
           {
             label: '+ Agregar Documento',
             variant: 'primary',
@@ -147,6 +158,18 @@ const LMDPage = () => {
           </span>
           <span className={styles.statLabel}>Pendientes</span>
         </div>
+        {transmissionStats && (
+          <>
+            <div className={`${styles.stat} ${styles.pendingStat}`}>
+              <span className={styles.statValue}>{transmissionStats.pending}</span>
+              <span className={styles.statLabel}>Pendientes Envío</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{transmissionStats.transmitted}</span>
+              <span className={styles.statLabel}>Ya Enviados</span>
+            </div>
+          </>
+        )}
       </div>
 
       {/* Table */}

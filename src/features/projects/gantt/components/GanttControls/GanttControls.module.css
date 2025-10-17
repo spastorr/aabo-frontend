@@ -1,0 +1,97 @@
+/**
+ * GanttControls styles
+ * @module features/projects/gantt/components/GanttControls/GanttControls.module.css
+ */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--color-background-alt);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.navigation {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.zoom {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.zoomLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  min-width: 60px;
+  text-align: center;
+}
+
+.range {
+  flex: 1;
+  text-align: center;
+}
+
+.rangeLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  
+  .navigation,
+  .zoom,
+  .actions {
+    justify-content: center;
+  }
+  
+  .range {
+    order: -1;
+  }
+  
+  .rangeLabel {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .controls {
+    padding: 0.5rem;
+  }
+  
+  .navigation,
+  .zoom,
+  .actions {
+    flex-wrap: wrap;
+  }
+  
+  .zoomLabel {
+    min-width: 50px;
+    font-size: 0.75rem;
+  }
+}

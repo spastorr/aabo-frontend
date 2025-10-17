@@ -11,7 +11,15 @@ export const mockUsers = [
     email: 'admin@aabo.com',
     name: 'Juan Pérez',
     role: ROLES.ADMIN,
-    permissions: ['project:view', 'project:create', 'document:approve', 'admin:access'],
+    permissions: [
+      'project:view',
+      'project:create',
+      'document:view',
+      'document:approve',
+      'document:download',
+      'document:view_content',
+      'admin:access'
+    ],
     projectIds: ['PROJ-001', 'PROJ-002', 'PROJ-003'],
     avatar: null,
   },
@@ -20,7 +28,13 @@ export const mockUsers = [
     email: 'engineer@aabo.com',
     name: 'María González',
     role: ROLES.ENGINEER,
-    permissions: ['project:view', 'document:view', 'document:create'],
+    permissions: [
+      'project:view',
+      'document:view',
+      'document:create',
+      'document:download',
+      'document:view_content'
+    ],
     projectIds: ['PROJ-001', 'PROJ-002'],
     avatar: null,
   },

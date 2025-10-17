@@ -12,6 +12,7 @@ import SearchBar from '../../../../../components/shared/SearchBar';
 import Select from '../../../../../components/shared/Select';
 import Badge from '../../../../../components/shared/Badge';
 import UploadStandardModal from '../UploadStandardModal';
+import VersionControl from '../VersionControl';
 import useStandards from '../../hooks/useStandards';
 import { formatDate } from '../../../../../utils';
 import styles from './ExternalNorms.module.css';
@@ -20,6 +21,7 @@ const ExternalNorms = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [organizationFilter, setOrganizationFilter] = useState('');
   const [selectedNorm, setSelectedNorm] = useState(null);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
 
   const { externalNorms, loading } = useStandards('external');
 
@@ -192,9 +194,26 @@ const ExternalNorms = () => {
 
             <div className={styles.detailActions}>
               <Button variant="primary">📄 Descargar Documento</Button>
-              <Button variant="outline">📋 Ver Historial de Versiones</Button>
+              <Button 
+                variant="outline"
+                onClick={() => setShowVersionHistory(true)}
+              >
+                📋 Ver Historial de Versiones
+              </Button>
             </div>
           </div>
+        </Modal>
+      )}
+
+      {/* Version History Modal */}
+      {selectedNorm && showVersionHistory && (
+        <Modal
+          isOpen={showVersionHistory}
+          onClose={() => setShowVersionHistory(false)}
+          title="📋 Historial de Versiones"
+          size="large"
+        >
+          <VersionControl type="external" entityId={selectedNorm.id} />
         </Modal>
       )}
 
