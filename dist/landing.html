@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AABO Services | Plataforma de Control Documental para Proyectos de Ingeniería</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Paleta de Colores: Industrial, Técnico y Seguro */
+        :root {
+            --bg-dark: #0D1B2A;      /* Azul naval profundo */
+            --bg-medium: #1B263B;    /* Gris azulado oscuro */
+            --text-light: #E0E1DD;   /* Blanco hueso suave */
+            --text-medium: #A9B4C2;  /* Gris azulado claro */
+            --accent-cyan: #48CAE4;  /* Cian vibrante para KPIs y datos */
+            --accent-amber: #FF9F1C; /* Ámbar para alertas o secundario */
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        /* Efecto de gradiente sutil y animado */
+        .gradient-bg {
+            background: linear-gradient(-45deg, var(--bg-dark), var(--bg-medium), var(--bg-dark), #0d1b2a);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* ----- NUEVO: SVG Background Conceptual ----- */
+        .animated-svg-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .data-flow {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 1000;
+            animation: flow 15s linear infinite;
+        }
+
+        .node {
+            animation: pulse-node 8s ease-in-out infinite;
+        }
+        
+        @keyframes flow {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes pulse-node {
+            0%, 100% { r: 3; opacity: 0.8; }
+            50% { r: 5; opacity: 1; }
+        }
+        
+        /* Partículas flotantes animadas */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(30, 64, 175, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        .particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { width: 7px; height: 7px; left: 60%; animation-delay: 10s; }
+        .particle:nth-child(7) { width: 3px; height: 3px; left: 70%; animation-delay: 12s; }
+        .particle:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-delay: 14s; }
+        .particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 16s; }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Animaciones de entrada */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+        .fade-in-up:nth-child(5) { animation-delay: 0.5s; }
+        .fade-in-up:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Animación del título principal */
+        .hero-title {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: heroTitleAnimation 1.2s ease forwards;
+        }
+        
+        @keyframes heroTitleAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Animación del subtítulo */
+        .hero-subtitle {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroSubtitleAnimation 1s ease 0.5s forwards;
+        }
+        
+        @keyframes heroSubtitleAnimation {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Animación de botones */
+        .hero-buttons {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroButtonsAnimation 1s ease 0.8s forwards;
+        }
+        
+        @keyframes heroButtonsAnimation {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Colores personalizados para la industria petrolera */
+        .primary-blue { color: #1e40af; }
+        .primary-gold { color: #d4af37; }
+        .bg-primary-blue { background-color: #1e40af; }
+        .bg-primary-gold { background-color: #d4af37; }
+        .border-primary-blue { border-color: #1e40af; }
+        .border-primary-gold { border-color: #d4af37; }
+        .hover-primary-blue:hover { color: #3b82f6; }
+        .hover-bg-primary-blue:hover { background-color: #2563eb; }
+        .hover-border-primary-blue:hover { border-color: #3b82f6; }
+        
+        /* Efectos avanzados para tarjetas */
+        .feature-card {
+            background-color: rgba(27, 38, 59, 0.6);
+            border: 1px solid #2a3b52;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 40px rgba(72, 202, 228, 0.1);
+        }
+        
+        .feature-card .icon-container {
+             background-color: rgba(72, 202, 228, 0.1);
+             color: var(--accent-cyan);
+             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-card:hover .icon-container {
+             transform: scale(1.1);
+             box-shadow: 0 0 20px rgba(72, 202, 228, 0.3);
+        }
+        
+        /* Efectos de botones mejorados */
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateZ(0); /* Promueve a su propia capa de composición */
+        }
+        
+        .btn-animated:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(72, 202, 228, 0.25);
+        }
+        
+        /* Animaciones de scroll */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Efectos de pulso para iconos */
+        .pulse-icon {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+        
+        /* Efectos de rotación para elementos decorativos */
+        .rotate-slow {
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Efectos de brillo */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Animaciones de texto */
+        .text-glow {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(72, 202, 228, 0.5), 0 0 20px rgba(72, 202, 228, 0.3);
+            animation: textGlow 2.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px rgba(72, 202, 228, 0.4); }
+            to { text-shadow: 0 0 20px rgba(72, 202, 228, 0.7), 0 0 30px rgba(72, 202, 228, 0.5); }
+        }
+        
+        /* Efectos de parallax suave */
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        /* Animaciones de carga */
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: loadingDots 1.5s infinite;
+        }
+        
+        @keyframes loadingDots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* SVG Background Enhancements */
+        .animated-svg-bg {
+            animation: backgroundPulse 20s ease-in-out infinite;
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        /* Interactive hover effects for SVG elements */
+        .animated-svg-bg:hover svg circle,
+        .animated-svg-bg:hover svg polygon,
+        .animated-svg-bg:hover svg rect {
+            animation-duration: 0.5s !important;
+        }
+        
+        /* Scroll-based SVG animations */
+        .svg-scroll-effect {
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+        
+        /* Additional floating elements */
+        .floating-geometric {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+        
+        .floating-geometric:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(30, 64, 175, 0.2);
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation: floatGeometric 25s ease-in-out infinite;
+        }
+        
+        .floating-geometric:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            transform: rotate(45deg);
+            top: 60%;
+            right: 15%;
+            animation: floatGeometric 30s ease-in-out infinite reverse;
+        }
+        
+        .floating-geometric:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20%;
+            top: 80%;
+            left: 20%;
+            animation: floatGeometric 35s ease-in-out infinite;
+        }
+        
+        @keyframes floatGeometric {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            25% {
+                transform: translateY(-20px) rotate(90deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+                opacity: 0.2;
+            }
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+                opacity: 0.4;
+            }
+        }
+        
+        /* Selector de idioma */
+        .language-selector {
+            position: relative;
+        }
+        
+        .language-selector:hover #language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .language-selector:hover #lang-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .language-option.active {
+            color: var(--accent-cyan);
+            background-color: rgba(72, 202, 228, 0.1);
+        }
+        
+        .mobile-language-option.active {
+            color: var(--accent-cyan);
+            background-color: rgba(72, 202, 228, 0.1);
+            border-radius: 6px;
+        }
+        
+        /* Responsive animations */
+        @media (max-width: 768px) {
+            .feature-card:hover {
+                transform: translateY(-5px);
+            }
+            
+            .btn-animated:hover {
+                transform: translateY(-2px) scale(1.02);
+            }
+            
+            .animated-svg-bg svg {
+                transform: scale(1.2);
+            }
+            
+            .floating-geometric {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .animated-svg-bg svg {
+                transform: scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body class="gradient-bg antialiased">
+
+    <div class="animated-svg-bg">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#48CAE4" stop-opacity="0" />
+                    <stop offset="50%" stop-color="#48CAE4" stop-opacity="1" />
+                    <stop offset="100%" stop-color="#48CAE4" stop-opacity="0" />
+                </linearGradient>
+            </defs>
+
+            <path class="data-flow" d="M -100 150 Q 400 50, 800 250 T 1600 350 L 2200 400" stroke="url(#flowGradient)" stroke-width="1" fill="none" />
+            <path class="data-flow" d="M -100 800 Q 500 900, 900 700 T 1700 600 L 2200 580" stroke="url(#flowGradient)" stroke-width="1" fill="none" style="animation-delay: -5s;"/>
+            <path class="data-flow" d="M 800 -100 Q 900 300, 1100 500 T 1200 900 L 1250 1200" stroke="url(#flowGradient)" stroke-width="1" fill="none" style="animation-delay: -10s;"/>
+            
+            <circle class="node" cx="800" cy="250" fill="#48CAE4" />
+            <circle class="node" cx="1600" cy="350" fill="#48CAE4" style="animation-delay: -2s;" />
+            <circle class="node" cx="900" cy="700" fill="#48CAE4" style="animation-delay: -4s;" />
+            <circle class="node" cx="1700" cy="600" fill="#48CAE4" style="animation-delay: -6s;" />
+            <circle class="node" cx="1100" cy="500" fill="#48CAE4" style="animation-delay: -8s;" />
+            <circle class="node" cx="400" cy="100" fill="#48CAE4" style="animation-delay: -1s;" />
+            <circle class="node" cx="1400" cy="800" fill="#48CAE4" style="animation-delay: -3s;" />
+            <circle class="node" cx="200" cy="500" fill="#48CAE4" style="animation-delay: -5s;" />
+        </svg>
+    </div>
+
+    <!-- Partículas flotantes adicionales -->
+    <div class="floating-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Additional floating geometric elements -->
+    <div class="floating-geometric"></div>
+    <div class="floating-geometric"></div>
+    <div class="floating-geometric"></div>
+
+    <div id="root" class="overflow-x-hidden">
+
+        <!-- ===== Barra de Navegación ===== -->
+        <header class="fixed top-0 left-0 w-full z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="landing.html" class="text-2xl font-bold tracking-tight text-white">
+                    AABO Services<span style="color: var(--accent-cyan);">.</span>
+                </a>
+                
+                <!-- Menú para escritorio -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#caracteristicas" class="text-slate-300 hover:text-white transition-colors duration-300">Características</a>
+                    <a href="#solucion" class="text-slate-300 hover:text-white transition-colors duration-300">Solución</a>
+                    <a href="#contacto" class="text-slate-300 hover:text-white transition-colors duration-300">Contacto</a>
+                    
+                    <!-- Selector de idioma -->
+                    <div class="relative language-selector">
+                        <button id="language-btn" class="flex items-center space-x-2 text-slate-300 hover:text-white transition-colors duration-300 px-3 py-2 rounded-lg hover:bg-slate-700/50">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span id="current-lang" class="text-sm font-medium">ES</span>
+                            <svg class="w-4 h-4 transition-transform duration-200" id="lang-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Dropdown de idiomas -->
+                        <div id="language-dropdown" class="absolute right-0 mt-2 w-32 bg-slate-800 border border-slate-700 rounded-lg shadow-lg opacity-0 invisible transition-all duration-200 transform translate-y-2">
+                            <div class="py-1">
+                                <button class="language-option w-full text-left px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition-colors duration-200 flex items-center space-x-2" data-lang="es">
+                                    <span class="text-lg">🇪🇸</span>
+                                    <span>Español</span>
+                                </button>
+                                <button class="language-option w-full text-left px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition-colors duration-200 flex items-center space-x-2" data-lang="en">
+                                    <span class="text-lg">🇺🇸</span>
+                                    <span>English</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="/" class="btn-animated font-medium py-2 px-4 rounded-lg transition-transform duration-300" style="background-color: var(--accent-cyan); color: var(--bg-dark);">Acceder a la Plataforma</a>
+                </nav>
+                
+                <!-- Botón para menú móvil -->
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Menú desplegable para móvil -->
+            <div id="mobile-menu" class="hidden md:hidden bg-slate-800/95">
+                <a href="#caracteristicas" class="block text-center py-3 px-4 text-sm text-slate-200 hover:bg-slate-700">Características</a>
+                <a href="#solucion" class="block text-center py-3 px-4 text-sm text-slate-200 hover:bg-slate-700">Solución</a>
+                <a href="#contacto" class="block text-center py-3 px-4 text-sm text-slate-200 hover:bg-slate-700">Contacto</a>
+                
+                <!-- Selector de idioma móvil -->
+                <div class="border-t border-slate-700 py-2">
+                    <div class="flex justify-center space-x-4">
+                        <button class="mobile-language-option flex items-center space-x-2 px-3 py-2 text-sm text-slate-200 hover:text-white transition-colors duration-200" data-lang="es">
+                            <span class="text-lg">🇪🇸</span>
+                            <span>ES</span>
+                        </button>
+                        <button class="mobile-language-option flex items-center space-x-2 px-3 py-2 text-sm text-slate-200 hover:text-white transition-colors duration-200" data-lang="en">
+                            <span class="text-lg">🇺🇸</span>
+                            <span>EN</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <a href="/" class="block text-center py-3 px-4 text-sm text-slate-200 hover:bg-slate-700">Acceder a la Plataforma</a>
+            </div>
+        </header>
+
+        <main class="pt-24">
+
+            <!-- ===== Sección Principal (Hero) ===== -->
+            <section class="min-h-[80vh] flex items-center relative">
+                <div class="container mx-auto px-6 text-center">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 fade-in-up">
+                        La Plataforma Integral para <span class="text-glow">Gestión de Proyectos de Ingeniería</span>
+                    </h1>
+                    <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-300 mb-10 fade-in-up" style="animation-delay: 0.2s;">
+                        AABO Services es la única fuente de verdad para compañías de ingeniería. Gestione documentos, controle costos, formalice la comunicación y capitalice el conocimiento histórico en una sola plataforma.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in-up" style="animation-delay: 0.4s;">
+                        <a href="/" class="btn-animated font-bold py-4 px-8 rounded-lg text-lg" style="background-color: var(--accent-cyan); color: var(--bg-dark);">
+                            Acceder a la Plataforma
+                        </a>
+                        <a href="#solucion" class="btn-animated border text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 hover:bg-white hover:text-slate-900" style="border-color: var(--text-light);">
+                            Conocer la Solución
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Sección de Características ===== -->
+            <section id="caracteristicas" class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16 scroll-reveal">
+                        <h2 class="text-sm font-bold uppercase tracking-widest" style="color: var(--accent-cyan);">Funcionalidades Clave</h2>
+                        <p class="text-3xl md:text-4xl font-bold text-white mt-2">3 Módulos para Gestión Completa de Proyectos</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Tarjeta de Característica 1 -->
+                        <div class="feature-card rounded-xl p-8 scroll-reveal">
+                            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Lista Maestra de Documentos (LMD)</h3>
+                            <p class="text-slate-400">El corazón del control documental. Gestione el ciclo de vida completo de cada entregable con estados, revisiones, responsables y costos en tiempo real.</p>
+                        </div>
+                        <!-- Tarjeta de Característica 2 -->
+                        <div class="feature-card rounded-xl p-8 scroll-reveal" style="transition-delay: 100ms;">
+                             <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Dashboard con KPIs en Tiempo Real</h3>
+                            <p class="text-slate-400">Visualice avance vs planificado, costos ejecutados vs presupuesto, documentos aprobados y Curva S, todo desglosado por disciplina de ingeniería.</p>
+                        </div>
+                        <!-- Tarjeta de Característica 3 -->
+                        <div class="feature-card rounded-xl p-8 scroll-reveal" style="transition-delay: 200ms;">
+                             <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Transmittals y RFIs</h3>
+                            <p class="text-slate-400">Sistema formal de comunicación con código único para cada envío. Gestione Solicitudes de Información (RFI) con seguimiento completo y auditable.</p>
+                        </div>
+                        <!-- Tarjeta de Característica 4 -->
+                         <div class="feature-card rounded-xl p-8 scroll-reveal" style="transition-delay: 0ms;">
+                             <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Control de Horas (Timesheets)</h3>
+                            <p class="text-slate-400">Los ingenieros registran horas trabajadas vinculadas directamente a entregables de la LMD. Transforme estimaciones en costos reales y auditables.</p>
+                        </div>
+                        <!-- Tarjeta de Característica 5 -->
+                         <div class="feature-card rounded-xl p-8 scroll-reveal" style="transition-delay: 100ms;">
+                            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Knowledge Hub Inteligente</h3>
+                            <p class="text-slate-400">Biblioteca de proyectos históricos, repositorio de estándares de clientes (API, ASME), guías internas y búsqueda semántica unificada.</p>
+                        </div>
+                        <!-- Tarjeta de Característica 6 -->
+                        <div class="feature-card rounded-xl p-8 scroll-reveal" style="transition-delay: 200ms;">
+                            <div class="icon-container w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Gestión de Recursos y Equipos</h3>
+                            <p class="text-slate-400">Visualice la carga de trabajo por ingeniero, asigne entregables directamente desde la LMD y evite sobrecarga o subutilización de recursos.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ===== Sección Solución ===== -->
+            <section id="solucion" class="py-20" style="background-color: rgba(13, 27, 42, 0.5);">
+                <div class="container mx-auto px-6">
+                    <div class="lg:flex lg:items-center lg:gap-16">
+                        <div class="lg:w-1/2 scroll-reveal">
+                           <h2 class="text-sm font-bold uppercase tracking-widest" style="color: var(--accent-cyan);">Nuestra Solución</h2>
+                           <p class="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">3 Módulos Integrados, Una Sola Fuente de Verdad</p>
+                           
+                           <div class="mb-6">
+                               <h4 class="text-xl font-bold text-white mb-2">📊 Módulo I: Gestión de Proyectos</h4>
+                               <p class="text-slate-300 text-sm">Portafolio multi-proyecto, LMD (Lista Maestra de Documentos), Dashboard con KPIs y Curva S, Transmittals formales, RFIs, Timesheets vinculados y planificación de recursos.</p>
+                           </div>
+                           
+                           <div class="mb-6">
+                               <h4 class="text-xl font-bold text-white mb-2">📚 Módulo II: Knowledge Hub</h4>
+                               <p class="text-slate-300 text-sm">Biblioteca de proyectos históricos, repositorio de especificaciones de clientes (versionado), guías internas, normativas externas (API, ASME, ISO) y búsqueda inteligente unificada.</p>
+                           </div>
+                           
+                           <div class="mb-4">
+                               <h4 class="text-xl font-bold text-white mb-2">⚙️ Módulo III: Administración</h4>
+                               <p class="text-slate-300 text-sm">Gestión de usuarios y permisos (RBAC/ABAC), administración de clientes, configuración de nomenclatura automática, plantillas y auditoría completa.</p>
+                           </div>
+                        </div>
+                        <div class="lg:w-1/2 mt-10 lg:mt-0 scroll-reveal">
+                            <svg class="w-full h-auto rounded-xl shadow-2xl" style="--shadow-color: var(--accent-cyan);" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgb(27, 38, 59);stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:rgb(13, 27, 42);stop-opacity:1" />
+                                    </linearGradient>
+                                    <style>
+                                        .s-curve-planned { stroke-dasharray: 5 3; animation: dash 1s linear infinite; }
+                                        .s-curve-real { stroke-dasharray: 200; stroke-dashoffset: 200; animation: draw-curve 2s ease-out forwards; animation-delay: 0.5s; }
+                                        .kpi-value { opacity: 0; animation: fade-in-text 1s ease forwards; }
+                                        @keyframes dash { to { stroke-dashoffset: -16; } }
+                                        @keyframes draw-curve { to { stroke-dashoffset: 0; } }
+                                        @keyframes fade-in-text { to { opacity: 1; } }
+                                    </style>
+                                </defs>
+                                <rect width="500" height="350" rx="10" fill="url(#grad1)" stroke="#2a3b52" stroke-width="1"/>
+                                <text x="20" y="30" font-family="Inter" font-size="14" font-weight="bold" fill="#E0E1DD">Dashboard</text>
+                                <rect x="20" y="50" width="100" height="70" rx="5" fill="#1B263B"/>
+                                <text x="70" y="70" font-family="Inter" font-size="10" fill="#A9B4C2" text-anchor="middle">AVANCE</text>
+                                <text class="kpi-value" x="70" y="100" font-family="Inter" font-size="24" font-weight="bold" fill="#48CAE4" text-anchor="middle" style="animation-delay: 1.5s;">85%</text>
+
+                                <rect x="130" y="50" width="100" height="70" rx="5" fill="#1B263B"/>
+                                <text x="180" y="70" font-family="Inter" font-size="10" fill="#A9B4C2" text-anchor="middle">ATRASADOS</text>
+                                <text class="kpi-value" x="180" y="100" font-family="Inter" font-size="24" font-weight="bold" fill="#FF9F1C" text-anchor="middle" style="animation-delay: 1.7s;">12</text>
+                                
+                                <rect x="240" y="50" width="100" height="70" rx="5" fill="#1B263B"/>
+                                <text x="290" y="70" font-family="Inter" font-size="10" fill="#A9B4C2" text-anchor="middle">EN REVISIÓN</text>
+                                <text class="kpi-value" x="290" y="100" font-family="Inter" font-size="24" font-weight="bold" fill="#E0E1DD" text-anchor="middle" style="animation-delay: 1.9s;">43</text>
+                                <rect x="20" y="140" width="460" height="190" rx="5" fill="#1B263B"/>
+                                <text x="35" y="160" font-family="Inter" font-size="10" fill="#A9B4C2">Curva S de Avance Documental</text>
+                                <path d="M 40 180 V 310 H 480" stroke="#2a3b52" stroke-width="1" fill="none"/>
+                                <path class="s-curve-planned" d="M 40 300 C 150 290, 250 200, 480 190" stroke="#A9B4C2" stroke-width="1.5" fill="none"/>
+                                <path class="s-curve-real" d="M 40 305 C 150 295, 250 210, 400 205" stroke="#48CAE4" stroke-width="2.5" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Sección de Seguridad ===== -->
+            <section class="py-20 bg-slate-800/30">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 scroll-reveal">
+                        <h2 class="text-sm font-bold uppercase tracking-widest" style="color: var(--accent-cyan);">Seguridad y Control Total</h2>
+                        <p class="text-3xl md:text-4xl font-bold text-white mt-2">Instalación en su Propia Infraestructura</p>
+                        <p class="max-w-3xl mx-auto text-slate-300 mt-4">El Control Absoluto de sus Datos es la Prioridad</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Datos en tu Servidor</h3>
+                            <p class="text-slate-400 text-sm">Toda la información permanece dentro de tu infraestructura corporativa, sin dependencias externas.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Sin Conexión Externa</h3>
+                            <p class="text-slate-400 text-sm">Funciona completamente offline, eliminando riesgos de interrupciones de red o vulnerabilidades externas.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/><path d="M9 12l2 2 4-4"/></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Cumplimiento Normativo</h3>
+                            <p class="text-slate-400 text-sm">Cumple con estándares ISO 27001 y regulaciones de protección de datos industriales.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-white mb-3">Auditoría Completa</h3>
+                            <p class="text-slate-400 text-sm">Logs detallados de todas las acciones para auditorías internas y cumplimiento regulatorio.</p>
+                        </div>
+                    </div>
+                    <div class="mt-12 bg-slate-800/50 rounded-xl p-8 border border-slate-700">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-white mb-4">El Control Absoluto de sus Datos es la Prioridad</h3>
+                            <p class="text-slate-300 mb-6">A diferencia de las soluciones en internet, AABO Services se instala directamente en sus propios servidores. Esto elimina los riesgos de terceros y le otorga control total sobre los datos más críticos de sus proyectos. Es la máxima garantía de seguridad y confidencialidad.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background-color: var(--accent-cyan);"></div>
+                                <p class="text-slate-300 text-sm">Sin necesidad de servicios externos ni conexión a internet.</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background-color: var(--accent-cyan);"></div>
+                                <p class="text-slate-300 text-sm">Cumplimiento con las más estrictas normas de protección de información.</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background-color: var(--accent-cyan);"></div>
+                                <p class="text-slate-300 text-sm">Integración segura con sus sistemas de acceso existentes.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary-gold/20 text-primary-gold w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white mb-3">Garantía de Seguridad Total</h3>
+                                <p class="text-slate-300 mb-4">AABO Services se instala directamente en sus propios servidores, garantizando que toda la información sensible de sus proyectos permanezca bajo su control absoluto. No hay transferencia de datos a servidores externos, eliminando completamente los riesgos de seguridad asociados con soluciones en internet.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-primary-gold rounded-full"></div>
+                                        <span class="text-slate-300">Encriptación completa de todos los documentos</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-primary-gold rounded-full"></div>
+                                        <span class="text-slate-300">Verificación de identidad múltiple obligatoria</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-primary-gold rounded-full"></div>
+                                        <span class="text-slate-300">Respaldos automáticos en su infraestructura</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-2 h-2 bg-primary-gold rounded-full"></div>
+                                        <span class="text-slate-300">Control de acceso basado en roles y permisos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Sección de Beneficios ===== -->
+            <section class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 scroll-reveal">
+                        <h2 class="text-sm font-bold uppercase primary-gold tracking-widest">Beneficios Clave</h2>
+                        <p class="text-3xl md:text-4xl font-bold text-white mt-2">ROI Comprobado para tu Organización</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Reducción de Costos</h3>
+                            <p class="text-slate-400">Eliminación de retrabajos por documentos obsoletos y penalizaciones por incumplimiento normativo.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Mayor Eficiencia</h3>
+                            <p class="text-slate-400">Automatización de procesos manuales y optimización de flujos de trabajo colaborativos.</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="bg-primary-blue/20 text-primary-blue w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"/></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Cumplimiento Garantizado</h3>
+                            <p class="text-slate-400">Cumplimiento sistemático de estándares del cliente con trazabilidad completa y auditoría.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== Sección de Contacto ===== -->
+            <section id="contacto" class="py-20">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-12 scroll-reveal">
+                        <h2 class="text-sm font-bold uppercase tracking-widest" style="color: var(--accent-cyan);">Contacto</h2>
+                        <p class="text-3xl md:text-4xl font-bold text-white mt-2">Transforme su Gestión Documental Hoy</p>
+                        <p class="max-w-2xl mx-auto text-slate-400 mt-4">Póngase en contacto para una demostración personalizada y descubra cómo AABO Services puede blindar sus proyectos contra riesgos documentales.</p>
+                    </div>
+                    <div class="max-w-xl mx-auto scroll-reveal">
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-slate-300">Nombre Completo</label>
+                                    <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2" style="background-color: var(--bg-medium); border: 1px solid #2a3b52; --tw-ring-color: var(--accent-cyan);" placeholder="Su Nombre">
+                            </div>
+                            <div>
+                                <label for="company" class="block text-sm font-medium text-slate-300">Empresa</label>
+                                    <input type="text" id="company" name="company" class="mt-1 block w-full rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2" style="background-color: var(--bg-medium); border: 1px solid #2a3b52; --tw-ring-color: var(--accent-cyan);" placeholder="Nombre de su Empresa">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-slate-300">Email de Empresa</label>
+                                <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2" style="background-color: var(--bg-medium); border: 1px solid #2a3b52; --tw-ring-color: var(--accent-cyan);" placeholder="su@empresa.com">
+                            </div>
+                             <div>
+                                <label for="message" class="block text-sm font-medium text-slate-300">Mensaje (Opcional)</label>
+                                <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md shadow-sm py-3 px-4 text-white focus:outline-none focus:ring-2" style="background-color: var(--bg-medium); border: 1px solid #2a3b52; --tw-ring-color: var(--accent-cyan);" placeholder="Cuéntenos sobre sus necesidades..."></textarea>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-animated w-full font-bold py-3 px-6 rounded-lg text-lg" style="background-color: var(--accent-cyan); color: var(--bg-dark);">
+                                    Contactar a un Especialista
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- ===== Footer ===== -->
+        <footer class="bg-slate-900/50 border-t border-slate-700/50">
+            <div class="container mx-auto px-6 py-6 text-center text-slate-400">
+                <p>&copy; 2024 AABO Services. Plataforma de Control Documental para Proyectos de Ingeniería. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Script para menú móvil
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Animaciones al hacer scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll para anclas
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Selector de idioma
+        let currentLanguage = 'es'; // Idioma por defecto
+        
+        // Contenido en diferentes idiomas
+        const translations = {
+            es: {
+                nav: {
+                    features: 'Características',
+                    solution: 'Solución',
+                    contact: 'Contacto',
+                    access: 'Acceder a la Plataforma'
+                },
+                hero: {
+                    title: 'La Plataforma Integral para',
+                    subtitle: 'Gestión de Proyectos de Ingeniería',
+                    description: 'AABO Services es la única fuente de verdad para compañías de ingeniería. Gestione documentos, controle costos, formalice la comunicación y capitalice el conocimiento histórico en una sola plataforma.',
+                    btn1: 'Acceder a la Plataforma',
+                    btn2: 'Conocer la Solución'
+                },
+                features: {
+                    title: 'Funcionalidades Clave',
+                    subtitle: '3 Módulos para Gestión Completa de Proyectos',
+                    items: [
+                        {
+                            title: 'Lista Maestra de Documentos (LMD)',
+                            description: 'El corazón del control documental. Gestione el ciclo de vida completo de cada entregable con estados, revisiones, responsables y costos en tiempo real.'
+                        },
+                        {
+                            title: 'Dashboard con KPIs en Tiempo Real',
+                            description: 'Visualice avance vs planificado, costos ejecutados vs presupuesto, documentos aprobados y Curva S, todo desglosado por disciplina de ingeniería.'
+                        },
+                        {
+                            title: 'Transmittals y RFIs',
+                            description: 'Sistema formal de comunicación con código único para cada envío. Gestione Solicitudes de Información (RFI) con seguimiento completo y auditable.'
+                        },
+                        {
+                            title: 'Control de Horas (Timesheets)',
+                            description: 'Los ingenieros registran horas trabajadas vinculadas directamente a entregables de la LMD. Transforme estimaciones en costos reales y auditables.'
+                        },
+                        {
+                            title: 'Knowledge Hub Inteligente',
+                            description: 'Biblioteca de proyectos históricos, repositorio de estándares de clientes (API, ASME), guías internas y búsqueda semántica unificada.'
+                        },
+                        {
+                            title: 'Gestión de Recursos y Equipos',
+                            description: 'Visualice la carga de trabajo por ingeniero, asigne entregables directamente desde la LMD y evite sobrecarga o subutilización de recursos.'
+                        }
+                    ]
+                },
+                solution: {
+                    title: 'Nuestra Solución',
+                    subtitle: '3 Módulos Integrados, Una Sola Fuente de Verdad',
+                    module1Title: 'Módulo I: Gestión de Proyectos',
+                    module1Desc: 'Portafolio multi-proyecto, LMD (Lista Maestra de Documentos), Dashboard con KPIs y Curva S, Transmittals formales, RFIs, Timesheets vinculados y planificación de recursos.',
+                    module2Title: 'Módulo II: Knowledge Hub',
+                    module2Desc: 'Biblioteca de proyectos históricos, repositorio de especificaciones de clientes (versionado), guías internas, normativas externas (API, ASME, ISO) y búsqueda inteligente unificada.',
+                    module3Title: 'Módulo III: Administración',
+                    module3Desc: 'Gestión de usuarios y permisos (RBAC/ABAC), administración de clientes, configuración de nomenclatura automática, plantillas y auditoría completa.'
+                },
+                security: {
+                    title: 'Seguridad y Control Total',
+                    subtitle: 'Instalación en su Propia Infraestructura',
+                    description: 'El Control Absoluto de sus Datos es la Prioridad',
+                    content: 'A diferencia de las soluciones en internet, AABO Services se instala directamente en sus propios servidores. Esto elimina los riesgos de terceros y le otorga control total sobre los datos más críticos de sus proyectos. Es la máxima garantía de seguridad y confidencialidad.',
+                    points: [
+                        'Sin necesidad de servicios externos ni conexión a internet.',
+                        'Cumplimiento con las más estrictas normas de protección de información.',
+                        'Integración segura con sus sistemas de acceso existentes.'
+                    ],
+                    guarantee: 'Garantía de Seguridad Total',
+                    guaranteeDesc: 'AABO Services se instala directamente en sus propios servidores, garantizando que toda la información sensible de sus proyectos permanezca bajo su control absoluto. No hay transferencia de datos a servidores externos, eliminando completamente los riesgos de seguridad asociados con soluciones en internet.',
+                    securityFeatures: [
+                        'Encriptación completa de todos los documentos',
+                        'Verificación de identidad múltiple obligatoria',
+                        'Respaldos automáticos en su infraestructura',
+                        'Control de acceso basado en roles y permisos'
+                    ]
+                },
+                benefits: {
+                    title: 'Beneficios Clave',
+                    subtitle: 'ROI Comprobado para su Organización'
+                },
+                contact: {
+                    title: 'Contacto',
+                    subtitle: 'Transforme su Gestión Documental Hoy',
+                    description: 'Póngase en contacto para una demostración personalizada y descubra cómo AABO Services puede blindar sus proyectos contra riesgos documentales.',
+                    form: {
+                        name: 'Nombre Completo',
+                        company: 'Empresa',
+                        email: 'Email de Empresa',
+                        message: 'Mensaje (Opcional)',
+                        namePlaceholder: 'Su Nombre',
+                        companyPlaceholder: 'Nombre de su Empresa',
+                        emailPlaceholder: 'su@empresa.com',
+                        messagePlaceholder: 'Cuéntenos sobre sus necesidades...',
+                        submit: 'Contactar a un Especialista'
+                    }
+                },
+                footer: '© 2024 AABO Services. Plataforma de Control Documental para Proyectos de Ingeniería. Todos los derechos reservados.'
+            },
+            en: {
+                nav: {
+                    features: 'Features',
+                    solution: 'Solution',
+                    contact: 'Contact',
+                    access: 'Access Platform'
+                },
+                hero: {
+                    title: 'The Complete Platform for',
+                    subtitle: 'Engineering Project Management',
+                    description: 'AABO Services is the single source of truth for engineering companies. Manage documents, control costs, formalize communication and capitalize historical knowledge in one platform.',
+                    btn1: 'Access Platform',
+                    btn2: 'Learn More'
+                },
+                features: {
+                    title: 'Key Features',
+                    subtitle: '3 Modules for Complete Project Management',
+                    items: [
+                        {
+                            title: 'Master Document List (MDL)',
+                            description: 'The heart of document control. Manage the complete lifecycle of every deliverable with statuses, revisions, responsible parties and real-time costs.'
+                        },
+                        {
+                            title: 'Real-Time KPI Dashboard',
+                            description: 'Visualize actual vs planned progress, executed costs vs budget, approved documents and S-curve, all broken down by engineering discipline.'
+                        },
+                        {
+                            title: 'Transmittals and RFIs',
+                            description: 'Formal communication system with unique code for each submission. Manage Requests for Information (RFI) with complete and auditable tracking.'
+                        },
+                        {
+                            title: 'Time Tracking (Timesheets)',
+                            description: 'Engineers record worked hours directly linked to MDL deliverables. Transform estimates into real and auditable costs.'
+                        },
+                        {
+                            title: 'Intelligent Knowledge Hub',
+                            description: 'Historical projects library, client standards repository (API, ASME), internal guides and unified semantic search.'
+                        },
+                        {
+                            title: 'Resource and Team Management',
+                            description: 'Visualize workload per engineer, assign deliverables directly from the MDL and avoid resource overload or underutilization.'
+                        }
+                    ]
+                },
+                solution: {
+                    title: 'Our Solution',
+                    subtitle: '3 Integrated Modules, One Single Source of Truth',
+                    module1Title: 'Module I: Project Management',
+                    module1Desc: 'Multi-project portfolio, MDL (Master Document List), Dashboard with KPIs and S-curve, formal Transmittals, RFIs, linked Timesheets and resource planning.',
+                    module2Title: 'Module II: Knowledge Hub',
+                    module2Desc: 'Historical projects library, client specifications repository (versioned), internal guides, external standards (API, ASME, ISO) and unified intelligent search.',
+                    module3Title: 'Module III: Administration',
+                    module3Desc: 'User and permission management (RBAC/ABAC), client administration, automatic nomenclature configuration, templates and complete audit.'
+                },
+                security: {
+                    title: 'Security and Total Control',
+                    subtitle: 'Installation in Your Own Infrastructure',
+                    description: 'Absolute Control of Your Data is the Priority',
+                    content: 'Unlike internet-based solutions, AABO Services installs directly on your own servers. This eliminates third-party risks and gives you total control over your projects\' most critical data. It\'s the maximum guarantee of security and confidentiality.',
+                    points: [
+                        'No need for external services or internet connection.',
+                        'Compliance with the strictest information protection standards.',
+                        'Secure integration with your existing access systems.'
+                    ],
+                    guarantee: 'Total Security Guarantee',
+                    guaranteeDesc: 'AABO Services installs directly on your own servers, ensuring that all sensitive information from your projects remains under your absolute control. There is no data transfer to external servers, completely eliminating security risks associated with internet solutions.',
+                    securityFeatures: [
+                        'Complete encryption of all documents',
+                        'Mandatory multi-factor identity verification',
+                        'Automatic backups on your infrastructure',
+                        'Role and permission-based access control'
+                    ]
+                },
+                benefits: {
+                    title: 'Key Benefits',
+                    subtitle: 'Proven ROI for Your Organization'
+                },
+                contact: {
+                    title: 'Contact',
+                    subtitle: 'Transform Your Document Management Today',
+                    description: 'Get in touch for a personalized demonstration and discover how AABO Services can shield your projects against document risks.',
+                    form: {
+                        name: 'Full Name',
+                        company: 'Company',
+                        email: 'Company Email',
+                        message: 'Message (Optional)',
+                        namePlaceholder: 'Your Name',
+                        companyPlaceholder: 'Your Company Name',
+                        emailPlaceholder: 'your@company.com',
+                        messagePlaceholder: 'Tell us about your needs...',
+                        submit: 'Contact a Specialist'
+                    }
+                },
+                footer: '© 2024 AABO Services. Document Control Platform for Engineering Projects. All rights reserved.'
+            }
+        };
+
+        // Función para cambiar idioma
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Actualizar botones de idioma
+            document.querySelectorAll('.language-option, .mobile-language-option').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Actualizar indicador de idioma actual
+            document.getElementById('current-lang').textContent = lang.toUpperCase();
+            
+            // Actualizar contenido
+            updateContent(lang);
+            
+            // Guardar preferencia
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // Función para actualizar contenido
+        function updateContent(lang) {
+            const t = translations[lang];
+            
+            // Actualizar navegación
+            const navLinks = document.querySelectorAll('nav a[href="#caracteristicas"], nav a[href="#solucion"], nav a[href="#contacto"]');
+            if (navLinks[0]) navLinks[0].textContent = t.nav.features;
+            if (navLinks[1]) navLinks[1].textContent = t.nav.solution;
+            if (navLinks[2]) navLinks[2].textContent = t.nav.contact;
+            
+            const accessLinks = document.querySelectorAll('a[href="/"]');
+            accessLinks.forEach(link => {
+                if (link.classList.contains('btn-animated')) {
+                    link.textContent = t.nav.access;
+                }
+            });
+            
+            // Actualizar hero section
+            const heroTitle = document.querySelector('h1');
+            heroTitle.innerHTML = `${t.hero.title} <span class="text-glow">${t.hero.subtitle}</span>`;
+            
+            const heroDesc = document.querySelector('.max-w-3xl.mx-auto.text-lg');
+            if (heroDesc) heroDesc.textContent = t.hero.description;
+            
+            const buttons = document.querySelectorAll('.flex.flex-col.sm\\:flex-row.gap-4.justify-center a');
+            if (buttons[0]) buttons[0].textContent = t.hero.btn1;
+            if (buttons[1]) buttons[1].textContent = t.hero.btn2;
+            
+            // Actualizar sección de características
+            const featuresSection = document.querySelector('#caracteristicas');
+            if (featuresSection) {
+                const featuresTitle = featuresSection.querySelector('h2');
+                const featuresSubtitle = featuresSection.querySelector('p');
+                if (featuresTitle) featuresTitle.textContent = t.features.title;
+                if (featuresSubtitle) featuresSubtitle.textContent = t.features.subtitle;
+                
+                // Actualizar tarjetas de características
+                const featureCards = featuresSection.querySelectorAll('.feature-card');
+                featureCards.forEach((card, index) => {
+                    if (t.features.items[index]) {
+                        const title = card.querySelector('h3');
+                        const description = card.querySelector('p');
+                        if (title) title.textContent = t.features.items[index].title;
+                        if (description) description.textContent = t.features.items[index].description;
+                    }
+                });
+            }
+            
+            // Actualizar sección de solución
+            const solutionSection = document.querySelector('#solucion');
+            if (solutionSection) {
+                const solutionTitle = solutionSection.querySelector('h2');
+                const solutionSubtitle = solutionSection.querySelector('.text-3xl');
+                const moduleHeaders = solutionSection.querySelectorAll('h4');
+                const moduleDescriptions = solutionSection.querySelectorAll('.text-slate-300.text-sm');
+                
+                if (solutionTitle) solutionTitle.textContent = t.solution.title;
+                if (solutionSubtitle) solutionSubtitle.textContent = t.solution.subtitle;
+                
+                // Update module 1
+                if (moduleHeaders[0]) moduleHeaders[0].textContent = '📊 ' + t.solution.module1Title;
+                if (moduleDescriptions[0]) moduleDescriptions[0].textContent = t.solution.module1Desc;
+                
+                // Update module 2
+                if (moduleHeaders[1]) moduleHeaders[1].textContent = '📚 ' + t.solution.module2Title;
+                if (moduleDescriptions[1]) moduleDescriptions[1].textContent = t.solution.module2Desc;
+                
+                // Update module 3
+                if (moduleHeaders[2]) moduleHeaders[2].textContent = '⚙️ ' + t.solution.module3Title;
+                if (moduleDescriptions[2]) moduleDescriptions[2].textContent = t.solution.module3Desc;
+            }
+            
+            // Actualizar footer
+            const footer = document.querySelector('footer p');
+            if (footer) footer.textContent = t.footer;
+        }
+
+        // Event listeners para selector de idioma
+        document.querySelectorAll('.language-option, .mobile-language-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                changeLanguage(btn.dataset.lang);
+            });
+        });
+
+        // Cargar idioma guardado o usar por defecto
+        const savedLang = localStorage.getItem('preferred-language') || 'es';
+        changeLanguage(savedLang);
+    </script>
+
+</body>
+</html>
