@@ -1,8 +1,8 @@
 # 📊 AABO Frontend - Sistema de Control de Documentos
 
-![React](https://img.shields.io/badge/React-18.3.1-61dafb?logo=react)
-![Vite](https://img.shields.io/badge/Vite-6.0.3-646cff?logo=vite)
-![Redux](https://img.shields.io/badge/Redux_Toolkit-2.5.0-764abc?logo=redux)
+![React](https://img.shields.io/badge/React-19.2.0-61dafb?logo=react)
+![Vite](https://img.shields.io/badge/Vite-7.1.7-646cff?logo=vite)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-2.9.0-764abc?logo=redux)
 ![License](https://img.shields.io/badge/License-Proprietary-red)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 
@@ -69,6 +69,7 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
   - Filtros por cliente, tipo, año
   - Etiquetas y categorización
   - Métricas y lecciones aprendidas
+  - Vista Gantt histórica para análisis temporal
 - **Estándares y Normativas**:
   - Guías internas de la organización
   - Normas externas (ISO, ASME, API, etc.)
@@ -76,26 +77,39 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
   - Estándares por cliente
 - **Gestión de Conocimiento**: Reutilización de información de proyectos pasados
 
+### 🔔 Sistema de Notificaciones
+- **Notificaciones en Tiempo Real**: Alertas instantáneas de cambios importantes
+- **Centro de Notificaciones**: Panel centralizado para gestión de alertas
+- **Configuración Personalizada**: Preferencias de notificación por usuario
+- **Historial de Notificaciones**: Registro completo de todas las alertas
+
+### 📊 Dashboard Avanzado
+- **Widgets Personalizables**: Configuración flexible de métricas
+- **Resumen de Documentos Pendientes**: Vista rápida de tareas urgentes
+- **Gráficos Interactivos**: Visualizaciones dinámicas con Chart.js
+- **Filtros Dinámicos**: Análisis granular de datos del proyecto
+
 ## 🛠️ Stack Tecnológico
 
 ### Core
-- **React 18.3.1**: Biblioteca principal para UI
-- **Vite 6.0.3**: Build tool y dev server ultrarrápido
-- **React Router DOM 7.1.1**: Navegación y routing
+- **React 19.2.0**: Biblioteca principal para UI con las últimas características
+- **Vite 7.1.7**: Build tool y dev server ultrarrápido
+- **React Router DOM 7.9.4**: Navegación y routing avanzado
 
 ### Estado y Datos
-- **Redux Toolkit 2.5.0**: Gestión de estado global
-- **Axios 1.7.9**: Cliente HTTP para API calls
+- **Redux Toolkit 2.9.0**: Gestión de estado global optimizada
+- **Axios 1.12.2**: Cliente HTTP para API calls con interceptores
 
 ### UI y Estilos
+- **Material-UI 7.3.4**: Sistema de componentes moderno
+- **Chart.js 4.5.0**: Gráficos y visualizaciones avanzadas
+- **React Chart.js 2 5.3.0**: Integración React para Chart.js
 - **CSS Modules**: Estilos con scope local
 - **CSS Variables**: Sistema de diseño con temas
-- **Recharts 2.15.0**: Gráficos y visualizaciones
-- **Lucide React 0.469.0**: Sistema de iconos moderno
 
 ### Calidad de Código
-- **ESLint 9.17.0**: Linting de código JavaScript/React
-- **Globals 15.14.0**: Variables globales para entornos
+- **ESLint 9.36.0**: Linting de código JavaScript/React
+- **Globals 16.4.0**: Variables globales para entornos
 
 ## 📦 Instalación
 
@@ -229,6 +243,7 @@ El build genera archivos optimizados en la carpeta `dist/`:
 - Code splitting automático
 - Asset optimization
 - Source maps
+- Tree shaking para bundles más pequeños
 
 ### Opciones de Deploy
 
@@ -237,25 +252,64 @@ El build genera archivos optimizados en la carpeta `dist/`:
 npm install -g vercel
 vercel
 ```
+- Deploy automático desde GitHub
+- Preview deployments para PRs
+- Variables de entorno integradas
 
 #### Netlify
 ```bash
-# netlify.toml ya configurado
 npm run build
 # Arrastra la carpeta dist/ a Netlify
 ```
+- Deploy continuo desde GitHub
+- Formularios y funciones serverless
+- CDN global incluido
 
 #### GitHub Pages
 ```bash
-# Actualiza vite.config.js con base: '/aabo-frontend/'
+# Configura vite.config.js con base: '/aabo-frontend/'
 npm run build
-# Usa gh-pages branch
+# Usa GitHub Actions para deploy automático
 ```
 
-#### Variables de Entorno
-Recuerda configurar las variables de entorno en tu plataforma:
+#### Docker (Nuevo)
+```dockerfile
+FROM node:18-alpine as builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Variables de Entorno
+Configura estas variables en tu plataforma de deploy:
 - `VITE_API_URL`: URL de tu backend API
 - `VITE_ENV`: production | development
+- `VITE_APP_NAME`: Nombre de la aplicación
+- `VITE_VERSION`: Versión de la aplicación
+
+## 🆕 Últimas Actualizaciones
+
+### v2.0.0 (Enero 2025)
+- **React 19.2.0**: Migración a la última versión de React
+- **Material-UI 7.3.4**: Integración completa del sistema de componentes
+- **Chart.js 4.5.0**: Nuevos gráficos interactivos y visualizaciones
+- **Sistema de Notificaciones**: Centro de notificaciones en tiempo real
+- **Dashboard Personalizable**: Widgets configurables por usuario
+- **Mejoras de Performance**: Optimizaciones de bundle y carga
+- **Docker Support**: Containerización para deployment
+
+### Características Destacadas
+- **Responsive Design Mejorado**: Mejor experiencia en dispositivos móviles
+- **Accesibilidad**: Cumplimiento con estándares WCAG 2.1
+- **PWA Ready**: Preparado para Progressive Web App
+- **TypeScript Support**: Preparado para migración a TypeScript
 
 ## 📚 Documentación Adicional
 
@@ -269,6 +323,8 @@ El proyecto incluye documentación detallada en markdown:
 - `PORTFOLIO_FEATURE.md`: Feature de portfolio
 - `TRANSMITTALS_IMPLEMENTATION.md`: Sistema de transmitales
 - `CURSOR_GUIDELINES.md`: Guías de desarrollo
+- `NOTIFICATIONS_SYSTEM_SUMMARY.md`: Sistema de notificaciones
+- `UI_IMPROVEMENTS.md`: Mejoras de interfaz de usuario
 
 ## 🤝 Contribución
 
