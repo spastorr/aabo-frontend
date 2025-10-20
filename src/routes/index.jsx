@@ -15,6 +15,7 @@ import DashboardPage from '../features/projects/dashboard/DashboardPage';
 import LMDPage from '../features/projects/lmd/LMDPage';
 import TransmittalsPage from '../features/projects/transmittals/TransmittalsPage';
 import RFIPage from '../features/projects/rfi/RFIPage';
+import ReportsPage from '../features/projects/reports/ReportsPage';
 import EconomicControlPage from '../features/projects/economic-control/EconomicControlPage';
 import GanttPage from '../features/projects/gantt/GanttPage';
 import NotificationsPage from '../features/projects/notifications/NotificationsPage';
@@ -42,6 +43,7 @@ const AppRoutes = () => {
       <Route path="/projects/:id/lmd" element={<LMDPage />} />
       <Route path="/projects/:id/transmittals" element={<TransmittalsPage />} />
       <Route path="/projects/:id/rfi" element={<RFIPage />} />
+      <Route path="/projects/:id/reports" element={<ReportsPage />} />
       <Route path="/projects/:id/gantt" element={<GanttPage />} />
       
       {/* Notifications */}

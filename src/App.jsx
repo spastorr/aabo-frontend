@@ -13,6 +13,8 @@ import TransmittalsPage from './features/projects/transmittals';
 import RFIPage from './features/projects/rfi';
 import TimesheetsPage from './features/projects/timesheets';
 import ResourcesPage from './features/projects/resource-planning';
+import GanttPage from './features/projects/gantt';
+import ReportsPage from './features/projects/reports';
 // PASO 5: Habilitando todo el KnowledgeHub completo
 import {
   KnowledgeHubPage,
@@ -63,6 +65,8 @@ function App() {
           <Route path="projects/:id/rfi" element={<RFIPage />} />
           <Route path="projects/:id/timesheets" element={<TimesheetsPage />} />
           <Route path="projects/:id/resources" element={<ResourcesPage />} />
+          <Route path="projects/:id/gantt" element={<GanttPage />} />
+          <Route path="projects/:id/reports" element={<ReportsPage />} />
 
           {/* Notifications Route */}
           <Route path="notifications" element={<NotificationsPage />} />

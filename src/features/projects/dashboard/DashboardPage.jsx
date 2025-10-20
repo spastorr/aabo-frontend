@@ -16,7 +16,10 @@ import ProgressChart from './components/ProgressChart';
 import ChartTabs from './components/ChartTabs';
 import RecentActivity from './components/RecentActivity';
 import DashboardSettings from './components/DashboardSettings';
+import CloseProjectModal from './components/CloseProjectModal';
+import ProjectStatusBanner from './components/ProjectStatusBanner';
 import useDashboardData from './hooks/useDashboardData';
+import useCloseProject from './hooks/useCloseProject';
 import { formatCurrency, formatPercentage } from '../../../utils';
 import styles from './DashboardPage.module.css';
 
@@ -26,8 +29,16 @@ const DashboardPage = () => {
   const { selectedProject, selectProject } = useProject();
   const { setHeader, clearHeader } = useLayout();
   const { data: dashboardData, loading, error } = useDashboardData(projectId);
+  const { 
+    loading: closeLoading, 
+    closeProject, 
+    canCloseProject, 
+    getCloseButtonText, 
+    getCloseButtonVariant 
+  } = useCloseProject();
   const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
   const [dashboardSettings, setDashboardSettings] = useState(null);
 
   useEffect(() => {
@@ -55,6 +66,15 @@ const DashboardPage = () => {
     // Optionally reload data or update UI based on new settings
   };
 
+  const handleCloseProject = async (closeData) => {
+    try {
+      await closeProject(projectId, closeData);
+      setIsCloseModalOpen(false);
+    } catch (error) {
+      console.error('Error closing project:', error);
+    }
+  };
+
   // Memoize header content
   const headerContent = useMemo(() => {
     if (!selectedProject) return null;
@@ -75,6 +95,12 @@ const DashboardPage = () => {
             onClick: () => navigate(`/projects/${projectId}/lmd`)
           },
           {
+            label: getCloseButtonText(selectedProject),
+            variant: getCloseButtonVariant(selectedProject),
+            onClick: () => setIsCloseModalOpen(true),
+            disabled: !canCloseProject(selectedProject) || closeLoading
+          },
+          {
             label: 'Configuración',
             variant: 'primary',
             onClick: () => setIsSettingsOpen(true)
@@ -82,7 +108,7 @@ const DashboardPage = () => {
         ]}
       />
     );
-  }, [selectedProject, projectId, navigate]);
+  }, [selectedProject, projectId, navigate, getCloseButtonText, getCloseButtonVariant, canCloseProject, closeLoading]);
 
   useEffect(() => {
     if (headerContent) {
@@ -147,6 +173,9 @@ const DashboardPage = () => {
 
   return (
     <div className={styles.container}>
+      {/* Project Status Banner */}
+      <ProjectStatusBanner project={selectedProject} />
+
       {/* KPI Cards */}
       {showWidget('showProgress') || showWidget('showDocuments') || 
        showWidget('showBudget') || showWidget('showTeam') ? (
@@ -247,9 +276,9 @@ const DashboardPage = () => {
             </Button>
             <Button 
               variant="outline"
-              onClick={() => navigate(`/projects/${projectId}/timesheets`)}
+              onClick={() => navigate(`/projects/${projectId}/reports`)}
             >
-              ⏱️ Registrar Horas
+              📊 Ver Reportes
             </Button>
           </div>
         </div>
@@ -276,6 +305,15 @@ const DashboardPage = () => {
         onClose={() => setIsSettingsOpen(false)}
         projectId={projectId}
         onSave={handleSaveSettings}
+      />
+
+      {/* Close Project Modal */}
+      <CloseProjectModal
+        isOpen={isCloseModalOpen}
+        onClose={() => setIsCloseModalOpen(false)}
+        project={selectedProject}
+        onConfirmClose={handleCloseProject}
+        loading={closeLoading}
       />
     </div>
   );

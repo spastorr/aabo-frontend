@@ -12,6 +12,12 @@
   margin-bottom: 1.5rem;
 }
 
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* Header */
 .header {
   display: flex;
@@ -145,6 +151,11 @@
   .controls {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .rightControls {
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .header {

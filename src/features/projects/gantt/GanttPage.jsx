@@ -138,42 +138,42 @@ const GanttPage = () => {
     { id: 'REV-020', documentId: 'DOC-006', revision: 'C', date: '2024-05-10', type: 'FOR_REVIEW', status: 'PENDING' }
   ];
 
-  // Header content
-  const headerContent = useMemo(() => (
-    <PageHeader
-      title="📅 Cronograma de Documentos"
-      subtitle={`Proyecto: ${project?.name || 'Demo'} - Vista del timeline de documentos y revisiones`}
-      backButton={{
-        path: `/projects/${projectId}/dashboard`,
-        label: 'Dashboard'
-      }}
-      actions={[
-        {
-          label: '📥 PNG',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => console.log('Download PNG')
-        },
-        {
-          label: '📄 PDF',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => console.log('Download PDF')
-        },
-        {
-          label: '📊 Excel',
-          variant: 'outline',
-          size: 'small',
-          onClick: () => console.log('Download Excel')
-        }
-      ]}
-    />
-  ), [project?.name, projectId]);
-
+  // Set header content directly in useEffect to avoid infinite loops
   useEffect(() => {
+    const headerContent = (
+      <PageHeader
+        title="📅 Cronograma de Documentos"
+        subtitle={`Proyecto: ${project?.name || 'Demo'} - Vista del timeline de documentos y revisiones`}
+        backButton={{
+          path: `/projects/${projectId}/dashboard`,
+          label: 'Dashboard'
+        }}
+        actions={[
+          {
+            label: '📥 PNG',
+            variant: 'outline',
+            size: 'small',
+            onClick: () => console.log('Download PNG')
+          },
+          {
+            label: '📄 PDF',
+            variant: 'outline',
+            size: 'small',
+            onClick: () => console.log('Download PDF')
+          },
+          {
+            label: '📊 Excel',
+            variant: 'outline',
+            size: 'small',
+            onClick: () => console.log('Download Excel')
+          }
+        ]}
+      />
+    );
+    
     setHeader(headerContent);
     return () => clearHeader();
-  }, [headerContent, setHeader, clearHeader]);
+  }, [project?.name, projectId, setHeader, clearHeader]);
 
   return (
     <div className={styles.container}>

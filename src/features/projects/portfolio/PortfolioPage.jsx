@@ -14,6 +14,7 @@ import ProjectListItem from './components/ProjectListItem';
 import ProjectListHeader from './components/ProjectListHeader';
 import ProjectFilters from './components/ProjectFilters';
 import ViewToggle from './components/ViewToggle';
+import ExportButtons from './components/ExportButtons';
 import CreateProjectModal from './components/CreateProjectModal';
 import usePortfolio from './hooks/usePortfolio';
 import styles from './PortfolioPage.module.css';
@@ -92,7 +93,10 @@ const PortfolioPage = () => {
     <div className={styles.container}>
       <div className={styles.controls}>
         <ProjectFilters filters={filters} onFilterChange={setFilters} />
-        <ViewToggle view={view} onViewChange={handleViewChange} />
+        <div className={styles.rightControls}>
+          <ExportButtons projects={projects} filters={filters} disabled={loading} />
+          <ViewToggle view={view} onViewChange={handleViewChange} />
+        </div>
       </div>
 
       {projects.length === 0 ? (

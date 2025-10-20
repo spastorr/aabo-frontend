@@ -79,6 +79,36 @@ export const deleteProject = async (id) => {
 };
 
 /**
+ * Close/Finalize project
+ * @param {string} id - Project ID
+ * @param {Object} closeData - Close project data (reason, notes, closedAt)
+ * @returns {Promise} Updated project
+ */
+export const closeProject = async (id, closeData) => {
+  if (env.useMocks) {
+    // Mock close project
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const updatedProject = {
+          id,
+          status: 'COMPLETED',
+          closedAt: closeData.closedAt,
+          closeReason: closeData.reason,
+          finalNotes: closeData.notes,
+          progress: 100
+        };
+        resolve({ 
+          success: true, 
+          data: updatedProject,
+          message: 'Proyecto cerrado exitosamente'
+        });
+      }, 500);
+    });
+  }
+  return apiClient.put(`/projects/${id}/close`, closeData);
+};
+
+/**
  * Get project documents for Gantt chart
  * @param {string} projectId - Project ID
  * @returns {Promise} Documents data

@@ -6,6 +6,16 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
   base: '/aabo-frontend/',
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      '@components': resolve(__dirname, 'src/components'),
+      '@utils': resolve(__dirname, 'src/utils'),
+      '@features': resolve(__dirname, 'src/features'),
+      '@constants': resolve(__dirname, 'src/constants'),
+      '@services': resolve(__dirname, 'src/services')
+    }
+  },
   build: {
     rollupOptions: {
       input: {
