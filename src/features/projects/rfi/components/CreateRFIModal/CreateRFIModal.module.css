@@ -74,6 +74,36 @@
   margin: 0 0 0.5rem 0;
 }
 
+/* Response Days Input */
+.responseDaysContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.numberInput {
+  width: 80px;
+  text-align: center;
+  padding: 0.625rem 0.5rem;
+}
+
+.daysLabel {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.estimatedDate {
+  font-size: 0.8125rem;
+  color: var(--color-primary);
+  font-weight: 500;
+  margin: 0.5rem 0 0 0;
+  padding: 0.5rem;
+  background: var(--color-primary-light);
+  border-radius: 4px;
+  border: 1px solid var(--color-primary);
+}
+
 /* Document Selector */
 .documentSelector {
   display: flex;

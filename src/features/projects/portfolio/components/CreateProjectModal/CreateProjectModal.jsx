@@ -15,7 +15,7 @@ import { isRequired, minLength } from '../../../../../utils/validators';
 import { getTeamWorkload } from '../../../../../services/resourcesApi';
 import styles from './CreateProjectModal.module.css';
 
-const CreateProjectModal = ({ isOpen, onClose, onSubmit }) => {
+const CreateProjectModal = ({ isOpen, onClose, onSubmit, projects = [] }) => {
   const [formData, setFormData] = useState({
     name: '',
     code: '',
@@ -34,6 +34,18 @@ const CreateProjectModal = ({ isOpen, onClose, onSubmit }) => {
   const [availableResources, setAvailableResources] = useState([]);
   const [loadingResources, setLoadingResources] = useState(false);
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+
+  // Duplication state
+  const [duplicateFromExisting, setDuplicateFromExisting] = useState(false);
+  const [sourceProjectId, setSourceProjectId] = useState('');
+  const [importOptions, setImportOptions] = useState({
+    team: true,
+    dates: true,
+    budget: true,
+    description: true,
+    typeAndStatus: true,
+    client: true,
+  });
 
   // Load available team members when modal opens
   useEffect(() => {
@@ -55,6 +67,32 @@ const CreateProjectModal = ({ isOpen, onClose, onSubmit }) => {
       setLoadingResources(false);
     }
   };
+
+  // When a source project is selected, prefill fields based on options
+  useEffect(() => {
+    if (!duplicateFromExisting || !sourceProjectId) return;
+
+    const selected = projects.find(p => p.id === sourceProjectId);
+    if (!selected) return;
+
+    setFormData(prev => ({
+      ...prev,
+      // Keep name and code empty for user to define unique values
+      client: importOptions.client ? (selected.client || '') : prev.client,
+      type: importOptions.typeAndStatus ? (selected.type || '') : prev.type,
+      status: importOptions.typeAndStatus ? (selected.status || prev.status) : prev.status,
+      startDate: importOptions.dates ? (selected.startDate || '') : prev.startDate,
+      endDate: importOptions.dates ? (selected.endDate || '') : prev.endDate,
+      budget: importOptions.budget ? (selected.budget != null ? String(selected.budget) : '') : prev.budget,
+      description: importOptions.description ? (selected.description || '') : prev.description,
+      teamMembers: importOptions.team
+        ? (
+            // Prefer full team data if present (from created items), fallback to empty when only count exists
+            Array.isArray(selected.teamMembersData) ? selected.teamMembersData : []
+          )
+        : prev.teamMembers,
+    }));
+  }, [duplicateFromExisting, sourceProjectId, importOptions, projects]);
 
   // Handle input changes
   const handleChange = (field, value) => {
@@ -256,6 +294,98 @@ const CreateProjectModal = ({ isOpen, onClose, onSubmit }) => {
         )}
 
         <div className={styles.formGrid}>
+          {/* Duplicate From Existing */}
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+            <label className={styles.label}>
+              Duplicar de proyecto existente
+            </label>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <input
+                  type="checkbox"
+                  checked={duplicateFromExisting}
+                  onChange={(e) => {
+                    const enabled = e.target.checked;
+                    setDuplicateFromExisting(enabled);
+                    if (!enabled) {
+                      setSourceProjectId('');
+                    }
+                  }}
+                  disabled={isSubmitting}
+                />
+                Habilitar duplicación
+              </label>
+
+              <div style={{ minWidth: '280px', flex: '1 1 280px' }}>
+                <Select
+                  value={sourceProjectId}
+                  onChange={(e) => setSourceProjectId(e.target.value)}
+                  options={projects.map(p => ({ value: p.id, label: `${p.code || p.id} — ${p.name}` }))}
+                  placeholder="Seleccionar proyecto origen..."
+                  disabled={!duplicateFromExisting || isSubmitting}
+                />
+              </div>
+            </div>
+
+            {duplicateFromExisting && sourceProjectId && (
+              <div style={{ marginTop: '0.75rem', display: 'grid', gridTemplateColumns: 'repeat(2, minmax(220px, 1fr))', gap: '0.75rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.team}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, team: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar equipo
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.dates}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, dates: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar fechas
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.budget}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, budget: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar presupuesto
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.description}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, description: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar descripción
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.typeAndStatus}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, typeAndStatus: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar tipo y estado
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={importOptions.client}
+                    onChange={(e) => setImportOptions(prev => ({ ...prev, client: e.target.checked }))}
+                    disabled={isSubmitting}
+                  />
+                  Importar cliente
+                </label>
+              </div>
+            )}
+          </div>
           {/* Project Name */}
           <div className={styles.formGroup}>
             <label className={styles.label}>

@@ -11,6 +11,7 @@ import { useLayout } from '../../../contexts/LayoutContext';
 import { getProjectById } from '../../../services/projectsApi';
 import Button from '../../../components/shared/Button';
 import PageHeader from '../../../components/shared/PageHeader';
+import ExportDropdown from '../../../components/shared/ExportDropdown';
 import RFIList from './components/RFIList';
 import CreateRFIModal from './components/CreateRFIModal';
 import RFIDetailModal from './components/RFIDetailModal';
@@ -58,6 +59,12 @@ const RFIPage = () => {
             onClick: () => setIsCreateModalOpen(true)
           }
         ]}
+        actionsComponent={
+          <ExportDropdown
+            onExportPDF={() => console.log('Export RFI PDF')}
+            onExportExcel={() => console.log('Export RFI Excel')}
+          />
+        }
       />
     );
   }, [selectedProject, rfis, projectId, navigate]);

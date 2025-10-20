@@ -4,13 +4,71 @@
  * @module features/projects/transmittals/components/TransmittalDetailModal
  */
 
+import { useState, useEffect } from 'react';
 import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
 import Badge from '../../../../../components/shared/Badge';
 import { formatDate } from '../../../../../utils';
+import { getRFIsByTransmittal, getResponseTransmittal } from '../../../../../services/mocks/transmittalMocks';
 import styles from './TransmittalDetailModal.module.css';
 
 const TransmittalDetailModal = ({ transmittal, isOpen, onClose }) => {
+  const [relatedRFIs, setRelatedRFIs] = useState([]);
+  const [responseTransmittal, setResponseTransmittal] = useState(null);
+  const [loadingRFIs, setLoadingRFIs] = useState(false);
+  const [loadingResponse, setLoadingResponse] = useState(false);
+
+  // Load related RFIs when modal opens
+  useEffect(() => {
+    if (isOpen && transmittal?.relatedRFIs?.length > 0) {
+      loadRelatedRFIs();
+    } else {
+      setRelatedRFIs([]);
+    }
+  }, [isOpen, transmittal?.relatedRFIs]);
+
+  // Load response transmittal when modal opens
+  useEffect(() => {
+    if (isOpen && transmittal?.responseTransmittalId) {
+      loadResponseTransmittal();
+    } else {
+      setResponseTransmittal(null);
+    }
+  }, [isOpen, transmittal?.responseTransmittalId]);
+
+  const loadRelatedRFIs = async () => {
+    setLoadingRFIs(true);
+    try {
+      const rfis = [];
+      for (const rfiId of transmittal.relatedRFIs) {
+        const response = await getRFIsByTransmittal(transmittal.id);
+        if (response.success) {
+          const rfi = response.data.find(r => r.id === rfiId);
+          if (rfi) rfis.push(rfi);
+        }
+      }
+      setRelatedRFIs(rfis);
+    } catch (error) {
+      console.error('Error loading related RFIs:', error);
+    } finally {
+      setLoadingRFIs(false);
+    }
+  };
+
+  const loadResponseTransmittal = async () => {
+    setLoadingResponse(true);
+    try {
+      const response = await getResponseTransmittal(transmittal.id);
+      if (response.success) {
+        setResponseTransmittal(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading response transmittal:', error);
+    } finally {
+      setLoadingResponse(false);
+    }
+  };
+
   if (!transmittal) return null;
 
   const getStatusBadge = (status) => {
@@ -150,6 +208,68 @@ const TransmittalDetailModal = ({ transmittal, isOpen, onClose }) => {
             </div>
           )}
         </div>
+
+        {/* Related RFIs */}
+        {transmittal.relatedRFIs && transmittal.relatedRFIs.length > 0 && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>
+              📋 RFIs Incluidos ({transmittal.relatedRFIs.length})
+            </h3>
+            {loadingRFIs ? (
+              <div className={styles.loading}>Cargando RFIs...</div>
+            ) : (
+              <div className={styles.rfiList}>
+                {relatedRFIs.map((rfi) => (
+                  <div key={rfi.id} className={styles.rfiItem}>
+                    <div className={styles.rfiHeader}>
+                      <span className={styles.rfiCode}>{rfi.code}</span>
+                      <Badge variant={rfi.status === 'ANSWERED' ? 'success' : 'warning'}>
+                        {rfi.status === 'ANSWERED' ? 'Respondido' : 'Pendiente'}
+                      </Badge>
+                    </div>
+                    <div className={styles.rfiSubject}>{rfi.subject}</div>
+                    <div className={styles.rfiMeta}>
+                      <span>Creado: {formatDate(rfi.createdDate)}</span>
+                      {rfi.responseDate && (
+                        <span> · Respondido: {formatDate(rfi.responseDate)}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Response Transmittal */}
+        {responseTransmittal && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>📤 Transmittal de Respuesta</h3>
+            {loadingResponse ? (
+              <div className={styles.loading}>Cargando transmittal de respuesta...</div>
+            ) : (
+              <div className={styles.responseTransmittal}>
+                <div className={styles.responseTransmittalHeader}>
+                  <span className={styles.responseTransmittalCode}>
+                    {responseTransmittal.code}
+                  </span>
+                  <Badge variant="success">Respondido</Badge>
+                </div>
+                <div className={styles.responseTransmittalDetails}>
+                  <p className={styles.responseTransmittalSubject}>
+                    {responseTransmittal.subject}
+                  </p>
+                  <p className={styles.responseTransmittalDate}>
+                    Fecha de respuesta: {formatDate(responseTransmittal.responseDate)}
+                  </p>
+                  <p className={styles.responseTransmittalBy}>
+                    Por: {responseTransmittal.responseBy}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Response Information (if applicable) */}
         {transmittal.response && (

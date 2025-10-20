@@ -1,6 +1,6 @@
 /**
  * RFIList Component
- * Displays a table of RFIs with status indicators
+ * Displays RFIs in a card layout similar to transmittals
  * @module features/projects/rfi/components/RFIList
  */
 
@@ -12,9 +12,9 @@ import styles from './RFIList.module.css';
 
 const RFI_STATUS_CONFIG = {
   [RFI_STATUS.OPEN]: { label: 'Abierta', variant: 'info' },
-  [RFI_STATUS.PENDING_RESPONSE]: { label: 'Pendiente Respuesta', variant: 'warning' },
+  [RFI_STATUS.PENDING_RESPONSE]: { label: 'Pendiente', variant: 'warning' },
   [RFI_STATUS.ANSWERED]: { label: 'Respondida', variant: 'success' },
-  [RFI_STATUS.CLOSED]: { label: 'Cerrada', variant: 'default' },
+  [RFI_STATUS.CLOSED]: { label: 'Cerrada', variant: 'neutral' },
 };
 
 const RFIList = ({ rfis, onRFIClick }) => {
@@ -54,6 +54,31 @@ const RFIList = ({ rfis, onRFIClick }) => {
     }
   }, [rfis]);
 
+  const getStatusBadge = (status) => {
+    const config = RFI_STATUS_CONFIG[status] || { label: status, variant: 'neutral' };
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
+  const getAlertBadge = (alertStatus, daysOverdue) => {
+    if (alertStatus === 'OVERDUE') {
+      return <Badge variant="error">🚨 {daysOverdue}d vencido</Badge>;
+    } else if (alertStatus === 'APPROACHING_DUE') {
+      return <Badge variant="warning">⚠️ Próximo</Badge>;
+    } else if (alertStatus === 'RESPONDED') {
+      return <Badge variant="success">✅ Respondido</Badge>;
+    }
+    return null;
+  };
+
+  const getPriorityIcon = (priority) => {
+    switch (priority) {
+      case 'HIGH': return '🔴';
+      case 'MEDIUM': return '🟡';
+      case 'LOW': return '🟢';
+      default: return '⚪';
+    }
+  };
+
   if (!rfis || rfis.length === 0) {
     return (
       <div className={styles.emptyState}>
@@ -65,88 +90,94 @@ const RFIList = ({ rfis, onRFIClick }) => {
   }
 
   return (
-    <div className={styles.tableContainer}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Asunto</th>
-            <th>Estado</th>
-            <th>Creado Por</th>
-            <th>Fecha Creación</th>
-            <th>Fecha Respuesta</th>
-            <th>Transmittal</th>
-            <th>Documentos</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rfis.map((rfi) => (
-            <tr key={rfi.id} onClick={() => onRFIClick(rfi)} className={styles.tableRow}>
-              <td className={styles.codeCell}>
-                <span className={styles.code}>{rfi.code}</span>
-              </td>
-              <td className={styles.subjectCell}>
-                <span className={styles.subject}>{rfi.subject}</span>
-                {rfi.priority === 'HIGH' && (
-                  <span className={styles.priorityBadge}>🔴 Alta</span>
-                )}
-              </td>
-              <td>
-                <Badge 
-                  variant={RFI_STATUS_CONFIG[rfi.status]?.variant || 'default'}
-                >
-                  {RFI_STATUS_CONFIG[rfi.status]?.label || rfi.status}
+    <div className={styles.container}>
+      {rfis.map((rfi) => (
+        <div 
+          key={rfi.id} 
+          className={styles.card}
+          onClick={() => onRFIClick(rfi)}
+        >
+          {/* Card Header */}
+          <div className={styles.cardHeader}>
+            <div className={styles.codeSection}>
+              <span className={styles.code}>{rfi.code}</span>
+              {rfi.transmittalId && transmittals[rfi.transmittalId] && (
+                <Badge variant="info" className={styles.transmittalBadge}>
+                  📦 En Transmittal
                 </Badge>
-              </td>
-              <td>{rfi.createdBy}</td>
-              <td>{formatDate(rfi.createdDate)}</td>
-              <td>
-                {rfi.responseDate ? (
-                  formatDate(rfi.responseDate)
-                ) : (
-                  <span className={styles.noData}>—</span>
-                )}
-              </td>
-              <td>
-                {rfi.transmittalId && transmittals[rfi.transmittalId] ? (
-                  <div className={styles.transmittalCell}>
-                    <span className={styles.transmittalCode}>
-                      {transmittals[rfi.transmittalId].code}
-                    </span>
-                    <span className={styles.transmittalDate}>
-                      {formatDate(transmittals[rfi.transmittalId].date)}
-                    </span>
-                  </div>
-                ) : (
-                  <span className={styles.noData}>—</span>
-                )}
-              </td>
-              <td>
-                {rfi.linkedDocuments?.length > 0 ? (
-                  <span className={styles.documentCount}>
-                    📄 {rfi.linkedDocuments.length}
-                  </span>
-                ) : (
-                  <span className={styles.noData}>—</span>
-                )}
-              </td>
-              <td>
-                <button
-                  className={styles.actionButton}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onRFIClick(rfi);
-                  }}
-                  title="Ver detalles"
-                >
-                  👁️
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              )}
+            </div>
+            <div className={styles.statusSection}>
+              {getStatusBadge(rfi.status)}
+              {getAlertBadge(rfi.alertStatus, rfi.daysOverdue)}
+            </div>
+          </div>
+
+           {/* Card Content - Horizontal Layout with Inline Action */}
+           <div className={styles.cardContent}>
+             <div className={styles.subjectSection}>
+               <h3 className={styles.subject}>{rfi.subject}</h3>
+               <div className={styles.priority}>
+                 {getPriorityIcon(rfi.priority)} {rfi.priority}
+               </div>
+             </div>
+
+             <div className={styles.detailsSection}>
+               <div className={styles.detailItem}>
+                 <span className={styles.detailLabel}>Creado por</span>
+                 <span className={styles.detailValue}>{rfi.createdBy}</span>
+               </div>
+               <div className={styles.detailItem}>
+                 <span className={styles.detailLabel}>Fecha</span>
+                 <span className={styles.detailValue}>{formatDate(rfi.createdDate)}</span>
+               </div>
+               <div className={styles.detailItem}>
+                 <span className={styles.detailLabel}>Para</span>
+                 <span className={styles.detailValue}>{rfi.recipient || 'Cliente'}</span>
+               </div>
+               {rfi.estimatedResponseDate && (
+                 <div className={styles.detailItem}>
+                   <span className={styles.detailLabel}>Respuesta</span>
+                   <span className={styles.detailValue}>{formatDate(rfi.estimatedResponseDate)}</span>
+                 </div>
+               )}
+               
+               {/* Transmittal Info - Inline */}
+               {rfi.transmittalId && transmittals[rfi.transmittalId] && (
+                 <div className={styles.transmittalInfo}>
+                   <span className={styles.transmittalLabel}>📦</span>
+                   <span className={styles.transmittalCode}>
+                     {transmittals[rfi.transmittalId].code}
+                   </span>
+                 </div>
+               )}
+
+               {/* Documents Count - Inline */}
+               {rfi.linkedDocuments?.length > 0 && (
+                 <div className={styles.documentsInfo}>
+                   <span className={styles.documentsCount}>
+                     📄 {rfi.linkedDocuments.length}
+                   </span>
+                 </div>
+               )}
+
+               {/* Inline Action Button */}
+               <div className={styles.detailItem}>
+                 <button
+                   className={styles.actionButton}
+                   onClick={(e) => {
+                     e.stopPropagation();
+                     onRFIClick(rfi);
+                   }}
+                   title="Ver detalles"
+                 >
+                   →
+                 </button>
+               </div>
+             </div>
+           </div>
+        </div>
+      ))}
     </div>
   );
 };
@@ -162,4 +193,3 @@ const formatDate = (dateString) => {
 };
 
 export default RFIList;
-

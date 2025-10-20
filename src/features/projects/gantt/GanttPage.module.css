@@ -4,11 +4,12 @@
  */
 
 .container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 1rem;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--color-background);
-  min-height: 100vh;
+  overflow: hidden;
 }
 
 /* Controls Panel */
@@ -42,14 +43,12 @@
   margin: 0;
 }
 
-/* Chart Container */
-.chartContainer {
-  background-color: var(--color-background);
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
+/* Gantt Container */
+.ganttContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  min-height: 600px;
-  position: relative;
 }
 
 /* Loading State */
@@ -129,11 +128,10 @@
 
 /* Download Section */
 .downloadSection {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   background-color: var(--color-background-alt);
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 .downloadSection h4 {

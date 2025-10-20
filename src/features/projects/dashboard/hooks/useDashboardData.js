@@ -4,7 +4,7 @@
  * @module features/projects/dashboard/hooks/useDashboardData
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { env } from '../../../../config/env';
 import { getDashboardData } from '../../../../services/mocks/dashboardMocks';
 import { getErrorMessage } from '../../../../utils/errorHandlers';
@@ -14,16 +14,7 @@ export const useDashboardData = (projectId) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!projectId) {
-      setLoading(false);
-      return;
-    }
-
-    fetchDashboardData();
-  }, [projectId]);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -47,7 +38,16 @@ export const useDashboardData = (projectId) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId]);
+
+  useEffect(() => {
+    if (!projectId) {
+      setLoading(false);
+      return;
+    }
+
+    fetchDashboardData();
+  }, [projectId, fetchDashboardData]);
 
   return {
     data,

@@ -69,6 +69,11 @@ const SimpleGanttChart = ({ documents = [], revisions = [] }) => {
                 <div className={styles.endDate}>
                   Fin: {formatDate(doc.endDate)}
                 </div>
+                {doc.responseDueDate && (
+                  <div className={`${styles.responseDate} ${doc.responseDueDate < new Date().toISOString().split('T')[0] ? styles.overdue : ''}`}>
+                    Respuesta: {formatDate(doc.responseDueDate)}
+                  </div>
+                )}
                 {doc.dueDate && (
                   <div className={styles.dueDate}>
                     Vence: {formatDate(doc.dueDate)}

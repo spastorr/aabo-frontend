@@ -109,6 +109,11 @@ export const getProjectNavigation = (projectId) => [
         icon: '❓',
       },
       {
+        path: `/projects/${projectId}/lessons-learned`,
+        label: 'Lecciones Aprendidas',
+        icon: '💡',
+      },
+      {
         path: `/projects/${projectId}/reports`,
         label: 'Reportes',
         icon: '📊',

@@ -146,7 +146,7 @@ const HistoricalProjectLMD = ({ lmd, projectCode }) => {
                   {activeMenu === doc.id && (
                     <div className={styles.actionMenu} ref={menuRef}>
                       <button onClick={(e) => handleMenuAction(e, 'details', doc)}>
-                        👁️ Ver Detalles
+                        → Ver Detalles
                       </button>
                       <button onClick={(e) => handleMenuAction(e, 'download', doc)}>
                         ⬇️ Descargar
@@ -175,6 +175,8 @@ const HistoricalProjectLMD = ({ lmd, projectCode }) => {
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
         isHistorical={true}
+        projectId={projectId}
+        onDocumentUpdate={() => {}} // No updates allowed for historical projects
       />
     </div>
   );

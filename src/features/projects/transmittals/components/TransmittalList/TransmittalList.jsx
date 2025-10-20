@@ -1,15 +1,15 @@
 /**
- * TransmittalList - Table view of transmittals
+ * TransmittalList - Card view of transmittals
  * @module features/projects/transmittals/components/TransmittalList
  */
 
-import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from '../../../../../components/shared/Table';
 import Badge from '../../../../../components/shared/Badge';
 import { formatDate } from '../../../../../utils';
 import styles from './TransmittalList.module.css';
 
 const TransmittalList = ({ transmittals, onTransmittalClick, type }) => {
   const isOutgoing = type === 'OUTGOING';
+  const isAll = type === 'ALL';
 
   const getStatusBadge = (status) => {
     const statusConfig = {
@@ -27,49 +27,70 @@ const TransmittalList = ({ transmittals, onTransmittalClick, type }) => {
 
   return (
     <div className={styles.container}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableHeader>Código</TableHeader>
-            <TableHeader>{isOutgoing ? 'Destinatario' : 'Remitente'}</TableHeader>
-            <TableHeader>Asunto</TableHeader>
-            <TableHeader>Fecha</TableHeader>
-            <TableHeader>Docs</TableHeader>
-            <TableHeader>Estado</TableHeader>
-            <TableHeader></TableHeader>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {transmittals.map((transmittal) => (
-            <TableRow
-              key={transmittal.id}
-              onClick={() => onTransmittalClick(transmittal)}
-            >
-              <TableCell>
-                <span className={styles.code}>{transmittal.code}</span>
-              </TableCell>
-              <TableCell>
-                <span className={styles.party}>
-                  {isOutgoing ? transmittal.recipient : transmittal.sender || 'N/A'}
+      {transmittals.map((transmittal) => (
+        <div
+          key={transmittal.id}
+          className={styles.card}
+          onClick={() => onTransmittalClick(transmittal)}
+        >
+          {/* Header with Code and Type */}
+          <div className={styles.cardHeader}>
+            <div className={styles.codeSection}>
+              <span className={styles.code}>{transmittal.code}</span>
+              {isAll && (
+                <Badge variant={transmittal.type === 'OUTGOING' ? 'info' : 'success'}>
+                  {transmittal.type === 'OUTGOING' ? '📤' : '📥'}
+                </Badge>
+              )}
+              {transmittal.relatedRFIs && transmittal.relatedRFIs.length > 0 && (
+                <Badge variant="warning" className={styles.rfiBadge}>
+                  📋 {transmittal.relatedRFIs.length}
+                </Badge>
+              )}
+            </div>
+            <div className={styles.statusSection}>
+              {getStatusBadge(transmittal.status)}
+            </div>
+          </div>
+
+          {/* Content - Horizontal Layout with Inline Action */}
+          <div className={styles.cardContent}>
+            <div className={styles.subjectSection}>
+              <h3 className={styles.subject}>{transmittal.subject}</h3>
+            </div>
+            
+            <div className={styles.detailsSection}>
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>
+                  {isAll 
+                    ? (transmittal.type === 'OUTGOING' ? 'Para' : 'De')
+                    : (isOutgoing ? 'Para' : 'De')
+                  }
                 </span>
-              </TableCell>
-              <TableCell>
-                <span className={styles.subject}>{transmittal.subject}</span>
-              </TableCell>
-              <TableCell>
-                <span className={styles.date}>
+                <span className={styles.detailValue}>
+                  {isAll 
+                    ? (transmittal.type === 'OUTGOING' ? transmittal.recipient : transmittal.sender || 'N/A')
+                    : (isOutgoing ? transmittal.recipient : transmittal.sender || 'N/A')
+                  }
+                </span>
+              </div>
+              
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>Fecha</span>
+                <span className={styles.detailValue}>
                   {formatDate(transmittal.date)}
                 </span>
-              </TableCell>
-              <TableCell>
+              </div>
+              
+              <div className={styles.detailItem}>
+                <span className={styles.detailLabel}>Docs</span>
                 <span className={styles.docCount}>
                   {transmittal.documentCount || 0}
                 </span>
-              </TableCell>
-              <TableCell>
-                {getStatusBadge(transmittal.status)}
-              </TableCell>
-              <TableCell>
+              </div>
+              
+              {/* Inline Action Button */}
+              <div className={styles.detailItem}>
                 <button
                   className={styles.actionButton}
                   onClick={(e) => {
@@ -78,13 +99,13 @@ const TransmittalList = ({ transmittals, onTransmittalClick, type }) => {
                   }}
                   title="Ver detalles"
                 >
-                  👁️
+                  →
                 </button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

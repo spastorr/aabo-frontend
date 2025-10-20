@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
 import { getTransmittalsByProject } from '../../../../../services/mocks/transmittalMocks';
+import { calculateEstimatedResponseDate } from '../../../../../services/mocks/rfiMocks';
 import styles from './CreateRFIModal.module.css';
 
 const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
@@ -19,6 +20,8 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
     linkedDocuments: [],
     dueDate: '',
     transmittalId: '',
+    responseDays: 5, // Default 5 days for response
+    estimatedResponseDate: '', // Will be calculated
   });
 
   const [errors, setErrors] = useState({});
@@ -48,7 +51,15 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
   };
 
   const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value });
+    const newFormData = { ...formData, [field]: value };
+    
+    // Calculate estimated response date when responseDays changes
+    if (field === 'responseDays') {
+      const today = new Date().toISOString().split('T')[0];
+      newFormData.estimatedResponseDate = calculateEstimatedResponseDate(today, parseInt(value));
+    }
+    
+    setFormData(newFormData);
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors({ ...errors, [field]: null });
@@ -97,6 +108,8 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
         linkedDocuments: [],
         dueDate: '',
         transmittalId: '',
+        responseDays: 5,
+        estimatedResponseDate: '',
       });
       setErrors({});
     } catch (error) {
@@ -115,6 +128,8 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
       linkedDocuments: [],
       dueDate: '',
       transmittalId: '',
+      responseDays: 5,
+      estimatedResponseDate: '',
     });
     setErrors({});
     onClose();
@@ -173,15 +188,43 @@ const CreateRFIModal = ({ isOpen, onClose, onSubmit, projectId }) => {
           </div>
         </div>
 
-        {/* Due Date */}
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Fecha Límite de Respuesta</label>
-          <input
-            type="date"
-            value={formData.dueDate}
-            onChange={(e) => handleChange('dueDate', e.target.value)}
-            className={styles.input}
-          />
+        {/* Due Date and Response Time */}
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Fecha Límite de Respuesta</label>
+            <input
+              type="date"
+              value={formData.dueDate}
+              onChange={(e) => handleChange('dueDate', e.target.value)}
+              className={styles.input}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              Días Estimados para Respuesta
+              <span className={styles.required}>*</span>
+            </label>
+            <div className={styles.responseDaysContainer}>
+              <input
+                type="number"
+                min="1"
+                max="30"
+                value={formData.responseDays}
+                onChange={(e) => handleChange('responseDays', e.target.value)}
+                className={styles.numberInput}
+              />
+              <span className={styles.daysLabel}>días</span>
+            </div>
+            {formData.estimatedResponseDate && (
+              <p className={styles.estimatedDate}>
+                📅 Fecha estimada: {new Date(formData.estimatedResponseDate).toLocaleDateString('es-ES')}
+              </p>
+            )}
+            <p className={styles.helperText}>
+              ⏰ Tiempo estándar: 5 días. Se generarán alertas si se excede este tiempo.
+            </p>
+          </div>
         </div>
 
         {/* Transmittal Selection */}

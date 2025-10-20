@@ -469,7 +469,7 @@ const ResultDetailsModal = ({ isOpen, onClose, item, type }) => {
               Cerrar
             </Button>
             <Button variant="secondary" onClick={handleViewDocument}>
-              👁️ Vista Previa
+              → Vista Previa
             </Button>
             <Button variant="primary" onClick={handleAccessGuide}>
               📄 Abrir Guía
@@ -484,7 +484,7 @@ const ResultDetailsModal = ({ isOpen, onClose, item, type }) => {
             </Button>
             {item.accessType === 'local' && (
               <Button variant="secondary" onClick={handleViewDocument}>
-                👁️ Vista Previa
+                → Vista Previa
               </Button>
             )}
             <Button variant="primary" onClick={handleAccessNorm}>
@@ -499,7 +499,7 @@ const ResultDetailsModal = ({ isOpen, onClose, item, type }) => {
               Cerrar
             </Button>
             <Button variant="secondary" onClick={handleViewDocument}>
-              👁️ Vista Previa
+              → Vista Previa
             </Button>
             <Button variant="primary" onClick={handleAccessStandard}>
               📋 Ver en Estándares
@@ -536,6 +536,8 @@ const ResultDetailsModal = ({ isOpen, onClose, item, type }) => {
         isOpen={isDocumentModalOpen}
         onClose={handleCloseDocumentModal}
         isHistorical={true}
+        projectId={selectedDocument?.projectId}
+        onDocumentUpdate={() => {}} // No updates allowed for search results
       />
     </>
   );

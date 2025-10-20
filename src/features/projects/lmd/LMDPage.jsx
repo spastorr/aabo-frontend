@@ -11,10 +11,13 @@ import { useLayout } from '../../../contexts/LayoutContext';
 import { getProjectById } from '../../../services/projectsApi';
 import Button from '../../../components/shared/Button';
 import PageHeader from '../../../components/shared/PageHeader';
+import ExportDropdown from '../../../components/shared/ExportDropdown';
+import { exportToPDF as exportProjectsPDF, exportToExcel as exportProjectsExcel } from '../../../utils/exportUtils';
 import LMDTable from './components/LMDTable';
 import LMDFilters from './components/LMDFilters';
 import DocumentDetailModal from './components/DocumentDetailModal';
 import { getTransmissionStatistics } from '../../../utils/documentStatusUtils';
+import QuickAddDocumentModal from './components/QuickAddDocumentModal/QuickAddDocumentModal';
 import useLMD from './hooks/useLMD';
 import styles from './LMDPage.module.css';
 
@@ -26,6 +29,7 @@ const LMDPage = () => {
   const { documents, loading, error, filters, setFilters } = useLMD(projectId);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Calculate transmission statistics
   const transmissionStats = useMemo(() => {
@@ -65,9 +69,15 @@ const LMDPage = () => {
           {
             label: '+ Agregar Documento',
             variant: 'primary',
-            onClick: () => alert('Agregar documento - Por implementar')
+            onClick: () => setIsAddModalOpen(true)
           }
         ]}
+        actionsComponent={
+          <ExportDropdown
+            onExportPDF={() => exportProjectsPDF(documents, { search: filters.search || '' })}
+            onExportExcel={() => exportProjectsExcel(documents, { search: filters.search || '' })}
+          />
+        }
       />
     );
   }, [selectedProject, documents, projectId]);
@@ -102,7 +112,7 @@ const LMDPage = () => {
   };
 
   const handleAddDocument = () => {
-    alert('Agregar documento - Por implementar');
+    setIsAddModalOpen(true);
   };
 
   if (loading) {
@@ -180,6 +190,19 @@ const LMDPage = () => {
         document={selectedDocument}
         isOpen={isDetailModalOpen}
         onClose={handleCloseDetailModal}
+        projectId={projectId}
+        onDocumentUpdate={() => {
+          // Refresh documents when a document is updated
+          window.location.reload(); // Simple refresh for now
+        }}
+      />
+
+      <QuickAddDocumentModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={() => window.location.reload()}
+        projectId={projectId}
+        projectCode={selectedProject?.code}
       />
     </div>
   );

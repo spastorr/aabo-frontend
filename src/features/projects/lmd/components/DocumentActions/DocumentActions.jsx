@@ -86,7 +86,7 @@ const DocumentActions = ({ document, variant = 'default', isHistorical = false }
                 disabled={!canView}
                 title={canView ? 'Ver documento PDF' : 'Sin permisos para ver documentos'}
               >
-                <span className={styles.buttonIcon}>👁️</span>
+                <span className={styles.buttonIcon}>→</span>
                 <span className={styles.buttonLabel}>Ver</span>
               </button>
               <button

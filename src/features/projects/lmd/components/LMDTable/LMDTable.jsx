@@ -14,6 +14,11 @@ import {
   getDocumentTransmissionPriority,
   getTransmissionStatusIcon 
 } from '../../../../../utils/documentStatusUtils';
+import { 
+  generateDocumentAlerts, 
+  checkReviewOverdue,
+  formatDocumentStatus 
+} from '../../../../../utils/documentTraceabilityUtils';
 import styles from './LMDTable.module.css';
 
 const LMDTable = ({ documents, onDocumentClick }) => {
@@ -95,10 +100,11 @@ const LMDTable = ({ documents, onDocumentClick }) => {
             <th style={{ width: '200px' }}>Código</th>
             <th>Nombre</th>
             <th style={{ width: '120px' }}>Disciplina</th>
-            <th style={{ width: '180px' }}>Estado</th>
+            <th style={{ width: '200px' }}>Estado</th>
             <th style={{ width: '60px', textAlign: 'center' }}>Rev.</th>
             <th style={{ width: '100px' }}>Resp.</th>
             <th style={{ width: '110px' }}>F. Envío</th>
+            <th style={{ width: '110px' }}>F. Respuesta</th>
             <th style={{ width: '110px' }}>F. Aprobación</th>
             <th style={{ width: '120px', textAlign: 'right' }}>Costo</th>
             <th style={{ width: '50px' }}></th>
@@ -110,10 +116,16 @@ const LMDTable = ({ documents, onDocumentClick }) => {
             const priority = getDocumentTransmissionPriority(doc);
             const statusIcon = getTransmissionStatusIcon(isPending ? 'pending' : 'transmitted');
             
+            // Check for alerts and overdue status
+            const alerts = generateDocumentAlerts(doc);
+            const overdueCheck = doc.reviewDeadline ? checkReviewOverdue(doc, doc.reviewDeadline) : { isOverdue: false, daysOverdue: 0 };
+            const hasAlerts = alerts.length > 0 || overdueCheck.isOverdue;
+            const statusConfig = formatDocumentStatus(doc.status);
+            
             return (
               <tr 
                 key={doc.id} 
-                className={`${styles.row} ${isPending ? styles.pendingRow : ''}`}
+                className={`${styles.row} ${isPending ? styles.pendingRow : ''} ${hasAlerts ? styles.alertRow : ''}`}
                 onClick={() => onDocumentClick(doc)}
               >
                 <td style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>
@@ -144,7 +156,7 @@ const LMDTable = ({ documents, onDocumentClick }) => {
                   <div className={styles.statusCell}>
                     <span 
                       className={styles.statusDot}
-                      style={{ backgroundColor: getStatusColor(doc.status) }}
+                      style={{ backgroundColor: statusConfig.color.bg }}
                     />
                     <StatusBadge status={doc.status} />
                     {isPending && (
@@ -153,6 +165,28 @@ const LMDTable = ({ documents, onDocumentClick }) => {
                         style={{ backgroundColor: getPriorityColor(priority) }}
                         title={`Prioridad: ${priority}`}
                       />
+                    )}
+                    {hasAlerts && (
+                      <div className={styles.alertsContainer}>
+                        {overdueCheck.isOverdue && (
+                          <span 
+                            className={styles.overdueAlert}
+                            title={`Revisión vencida hace ${overdueCheck.daysOverdue} días`}
+                          >
+                            ⚠️ {overdueCheck.daysOverdue}d
+                          </span>
+                        )}
+                        {alerts.some(a => a.severity === 'high') && (
+                          <span className={styles.highAlert} title="Alerta de alta prioridad">
+                            🚨
+                          </span>
+                        )}
+                        {alerts.some(a => a.severity === 'medium') && !alerts.some(a => a.severity === 'high') && (
+                          <span className={styles.mediumAlert} title="Alerta de prioridad media">
+                            ⚠️
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
                 </td>
@@ -164,6 +198,13 @@ const LMDTable = ({ documents, onDocumentClick }) => {
                 </td>
                 <td style={{ fontSize: '0.8125rem' }}>
                   {doc.sendDate ? formatDate(doc.sendDate) : '-'}
+                </td>
+                <td style={{ fontSize: '0.8125rem' }}>
+                  {doc.responseDueDate ? (
+                    <span className={doc.responseDueDate < new Date().toISOString().split('T')[0] ? styles.overdue : ''}>
+                      {formatDate(doc.responseDueDate)}
+                    </span>
+                  ) : '-'}
                 </td>
                 <td style={{ fontSize: '0.8125rem' }}>
                   {doc.approvalDate ? formatDate(doc.approvalDate) : '-'}
@@ -185,7 +226,7 @@ const LMDTable = ({ documents, onDocumentClick }) => {
                   {activeMenu === doc.id && (
                     <div className={styles.actionMenu} ref={menuRef}>
                       <button onClick={(e) => handleMenuAction(e, 'details', doc)}>
-                        👁️ Ver Detalles
+                        → Ver Detalles
                       </button>
                       <button onClick={(e) => handleMenuAction(e, 'edit', doc)}>
                         ✏️ Editar

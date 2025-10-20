@@ -135,13 +135,28 @@
 
 .startDate,
 .endDate,
-.dueDate {
+.dueDate,
+.responseDate {
   color: var(--color-text-secondary);
 }
 
 .dueDate {
   color: var(--color-warning);
   font-weight: 500;
+}
+
+.responseDate {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.responseDate.overdue {
+  color: var(--color-danger);
+  font-weight: 600;
+  background-color: rgba(239, 68, 68, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Revision Column */

@@ -5,17 +5,29 @@
  */
 
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import Modal from '../../../../../components/shared/Modal';
 import Button from '../../../../../components/shared/Button';
 import StatusBadge from '../StatusBadge';
 import DocumentTraceability from '../DocumentTraceability';
 import DocumentActions from '../DocumentActions';
+import EditDocumentModal from '../EditDocumentModal';
 import { DISCIPLINE_LABELS } from '../../../../../constants';
 import { formatDate, formatCurrency } from '../../../../../utils';
 import styles from './DocumentDetailModal.module.css';
 
-const DocumentDetailModal = ({ document, isOpen, onClose, isHistorical = false }) => {
+const DocumentDetailModal = ({ document, isOpen, onClose, isHistorical = false, projectId, onDocumentUpdate }) => {
   const [activeTab, setActiveTab] = useState('details');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    setIsEditModalOpen(false);
+    onDocumentUpdate?.();
+  };
 
   if (!document) return null;
 
@@ -30,7 +42,7 @@ const DocumentDetailModal = ({ document, isOpen, onClose, isHistorical = false }
           <Button variant="outline" onClick={onClose}>
             Cerrar
           </Button>
-          <Button variant="primary" onClick={() => alert('Editar - Por implementar')}>
+          <Button variant="primary" onClick={handleEditClick} disabled={isHistorical}>
             Editar
           </Button>
         </>
@@ -174,8 +186,26 @@ const DocumentDetailModal = ({ document, isOpen, onClose, isHistorical = false }
           </div>
         )}
       </div>
+      
+      {/* Edit Document Modal */}
+      <EditDocumentModal
+        document={document}
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleEditSuccess}
+        projectId={projectId}
+      />
     </Modal>
   );
+};
+
+DocumentDetailModal.propTypes = {
+  document: PropTypes.object,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isHistorical: PropTypes.bool,
+  projectId: PropTypes.string,
+  onDocumentUpdate: PropTypes.func,
 };
 
 export default DocumentDetailModal;

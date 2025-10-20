@@ -70,6 +70,7 @@ const useGanttData = (projectId) => {
         startDate: doc.startDate || doc.createdDate || new Date().toISOString(),
         endDate: doc.endDate || doc.dueDate || doc.startDate || doc.createdDate || new Date().toISOString(),
         sendDate: doc.sendDate,
+        responseDueDate: doc.responseDueDate,
         approvalDate: doc.approvalDate,
         // Add calculated fields
         duration: calculateDuration(doc.startDate || doc.createdDate, doc.endDate || doc.dueDate),

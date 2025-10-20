@@ -95,7 +95,8 @@ export const closeProject = async (id, closeData) => {
           closedAt: closeData.closedAt,
           closeReason: closeData.reason,
           finalNotes: closeData.notes,
-          progress: 100
+          progress: 100,
+          lessonsLearned: closeData.lessonsLearned || []
         };
         resolve({ 
           success: true, 
@@ -130,5 +131,57 @@ export const getProjectRevisions = async (projectId) => {
     return getProjectGanttRevisions(projectId);
   }
   return apiClient.get(`/projects/${projectId}/revisions`);
+};
+
+/**
+ * Get project lessons learned
+ * @param {string} projectId - Project ID
+ * @returns {Promise} Lessons learned data
+ */
+export const getProjectLessonsLearned = async (projectId) => {
+  if (env.useMocks) {
+    return projectMocks.getProjectLessonsLearned(projectId);
+  }
+  return apiClient.get(`/projects/${projectId}/lessons-learned`);
+};
+
+/**
+ * Add lesson learned to project
+ * @param {string} projectId - Project ID
+ * @param {Object} lessonData - Lesson learned data
+ * @returns {Promise} Created lesson learned
+ */
+export const addLessonLearned = async (projectId, lessonData) => {
+  if (env.useMocks) {
+    return projectMocks.addLessonLearned(projectId, lessonData);
+  }
+  return apiClient.post(`/projects/${projectId}/lessons-learned`, lessonData);
+};
+
+/**
+ * Update lesson learned
+ * @param {string} projectId - Project ID
+ * @param {string} lessonId - Lesson learned ID
+ * @param {Object} lessonData - Updated lesson learned data
+ * @returns {Promise} Updated lesson learned
+ */
+export const updateLessonLearned = async (projectId, lessonId, lessonData) => {
+  if (env.useMocks) {
+    return projectMocks.updateLessonLearned(projectId, lessonId, lessonData);
+  }
+  return apiClient.put(`/projects/${projectId}/lessons-learned/${lessonId}`, lessonData);
+};
+
+/**
+ * Delete lesson learned
+ * @param {string} projectId - Project ID
+ * @param {string} lessonId - Lesson learned ID
+ * @returns {Promise} Deletion result
+ */
+export const deleteLessonLearned = async (projectId, lessonId) => {
+  if (env.useMocks) {
+    return projectMocks.deleteLessonLearned(projectId, lessonId);
+  }
+  return apiClient.delete(`/projects/${projectId}/lessons-learned/${lessonId}`);
 };
 

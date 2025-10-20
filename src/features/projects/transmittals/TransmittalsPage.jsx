@@ -11,8 +11,10 @@ import { useLayout } from '../../../contexts/LayoutContext';
 import { getProjectById } from '../../../services/projectsApi';
 import Button from '../../../components/shared/Button';
 import PageHeader from '../../../components/shared/PageHeader';
+import ExportDropdown from '../../../components/shared/ExportDropdown';
 import Tabs from '../../../components/shared/Tabs';
 import InboxOutbox from './components/InboxOutbox';
+import AllTransmittals from './components/AllTransmittals';
 import CreateTransmittalModal from './components/CreateTransmittalModal';
 import TransmittalDetailModal from './components/TransmittalDetailModal';
 import useTransmittals from './hooks/useTransmittals';
@@ -26,7 +28,7 @@ const TransmittalsPage = () => {
   const { setHeader, clearHeader } = useLayout();
   const { transmittals, loading, error, refreshTransmittals } = useTransmittals(projectId);
   
-  const [activeTab, setActiveTab] = useState('outbox');
+  const [activeTab, setActiveTab] = useState('all');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedTransmittal, setSelectedTransmittal] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -83,6 +85,12 @@ const TransmittalsPage = () => {
             onClick: () => setIsCreateModalOpen(true)
           }
         ]}
+        actionsComponent={
+          <ExportDropdown
+            onExportPDF={() => console.log('Export Transmittals PDF')}
+            onExportExcel={() => console.log('Export Transmittals Excel')}
+          />
+        }
       />
     );
   }, [selectedProject, projectId, navigate]);
@@ -149,32 +157,14 @@ const TransmittalsPage = () => {
 
   return (
     <div className={styles.container}>
-      {/* Statistics */}
-      <div className={styles.stats}>
-        <div className={styles.stat}>
-          <span className={styles.statValue}>{transmittals.length}</span>
-          <span className={styles.statLabel}>Total Transmittals</span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statValue}>{outgoingTransmittals.length}</span>
-          <span className={styles.statLabel}>Enviados</span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statValue}>{incomingTransmittals.length}</span>
-          <span className={styles.statLabel}>Recibidos</span>
-        </div>
-        <div className={styles.stat}>
-          <span className={styles.statValue}>
-            {transmittals.filter(t => t.status === 'PENDING_RESPONSE').length}
-          </span>
-          <span className={styles.statLabel}>Pendientes Respuesta</span>
-        </div>
-      </div>
-
       {/* Inbox/Outbox Tabs */}
       <div className={styles.tabsContainer}>
         <Tabs
           tabs={[
+            { 
+              id: 'all', 
+              label: `📋 Todos los Transmittals (${transmittals.length})` 
+            },
             { 
               id: 'outbox', 
               label: `📤 Bandeja de Salida (${outgoingTransmittals.length})` 
@@ -191,11 +181,18 @@ const TransmittalsPage = () => {
 
       {/* Content */}
       <div className={styles.content}>
-        <InboxOutbox
-          type={activeTab === 'outbox' ? 'OUTGOING' : 'INCOMING'}
-          transmittals={activeTab === 'outbox' ? outgoingTransmittals : incomingTransmittals}
-          onTransmittalClick={handleTransmittalClick}
-        />
+        {activeTab === 'all' ? (
+          <AllTransmittals
+            transmittals={transmittals}
+            onTransmittalClick={handleTransmittalClick}
+          />
+        ) : (
+          <InboxOutbox
+            type={activeTab === 'outbox' ? 'OUTGOING' : 'INCOMING'}
+            transmittals={activeTab === 'outbox' ? outgoingTransmittals : incomingTransmittals}
+            onTransmittalClick={handleTransmittalClick}
+          />
+        )}
       </div>
 
       {/* Create Transmittal Modal */}

@@ -4,10 +4,11 @@
  * @module features/projects/dashboard/components/CloseProjectModal
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '@components/shared/Modal';
 import Button from '@components/shared/Button';
 import { PROJECT_STATUS, PROJECT_STATUS_LABELS } from '@constants';
+import { getProjectLessonsLearned } from '@services/projectsApi';
 import styles from './CloseProjectModal.module.css';
 
 const CloseProjectModal = ({ 
@@ -20,6 +21,28 @@ const CloseProjectModal = ({
   const [closeReason, setCloseReason] = useState('');
   const [finalNotes, setFinalNotes] = useState('');
   const [confirmText, setConfirmText] = useState('');
+  const [lessonsLearned, setLessonsLearned] = useState([]);
+  const [lessonsLoading, setLessonsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && project) {
+      loadLessonsLearned();
+    }
+  }, [isOpen, project]);
+
+  const loadLessonsLearned = async () => {
+    try {
+      setLessonsLoading(true);
+      const response = await getProjectLessonsLearned(project.id);
+      if (response.success) {
+        setLessonsLearned(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error loading lessons learned:', error);
+    } finally {
+      setLessonsLoading(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +55,8 @@ const CloseProjectModal = ({
     onConfirmClose({
       reason: closeReason,
       notes: finalNotes,
-      closedAt: new Date().toISOString()
+      closedAt: new Date().toISOString(),
+      lessonsLearned: lessonsLearned.map(lesson => lesson.description)
     });
   };
 
@@ -101,6 +125,41 @@ const CloseProjectModal = ({
             <p>❌ Este proyecto no puede ser cerrado porque no está en estado Activo.</p>
           </div>
         )}
+
+        {/* Lessons Learned Section */}
+        <div className={styles.lessonsSection}>
+          <h4>💡 Lecciones Aprendidas</h4>
+          {lessonsLoading ? (
+            <div className={styles.loading}>
+              <p>Cargando lecciones aprendidas...</p>
+            </div>
+          ) : lessonsLearned.length > 0 ? (
+            <div className={styles.lessonsList}>
+              <p className={styles.lessonsNote}>
+                Se encontraron <strong>{lessonsLearned.length}</strong> lecciones aprendidas que se incluirán en el archivo del proyecto:
+              </p>
+              <div className={styles.lessonsPreview}>
+                {lessonsLearned.slice(0, 3).map((lesson, index) => (
+                  <div key={lesson.id} className={styles.lessonItem}>
+                    <span className={styles.lessonNumber}>{index + 1}.</span>
+                    <span className={styles.lessonText}>{lesson.title}</span>
+                  </div>
+                ))}
+                {lessonsLearned.length > 3 && (
+                  <div className={styles.lessonItem}>
+                    <span className={styles.lessonMore}>
+                      ... y {lessonsLearned.length - 3} lecciones más
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.noLessons}>
+              <p>No se encontraron lecciones aprendidas registradas para este proyecto.</p>
+            </div>
+          )}
+        </div>
 
         {canClose && (
           <form onSubmit={handleSubmit} className={styles.form}>

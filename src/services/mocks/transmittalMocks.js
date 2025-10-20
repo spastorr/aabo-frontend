@@ -17,6 +17,8 @@ export const mockTransmittals = [
     documentCount: 3,
     status: 'PENDING_RESPONSE',
     priority: 'HIGH',
+    relatedRFIs: ['RFI-001'], // RFI enviado en este transmittal
+    responseTransmittalId: 'TRN-002', // Transmittal de respuesta
     documents: [
       {
         code: 'RLL-MOD-PRC-001-PFD',
@@ -49,6 +51,11 @@ export const mockTransmittals = [
         date: '2024-09-01T14:30:00Z'
       },
       {
+        action: 'RFI RFI-RLL-MOD-0001 incluido',
+        user: 'Juan Pérez',
+        date: '2024-09-01T15:00:00Z'
+      },
+      {
         action: 'Transmittal enviado a Petroecuador',
         user: 'María González',
         date: '2024-09-02T09:15:00Z'
@@ -67,6 +74,8 @@ export const mockTransmittals = [
     documentCount: 3,
     status: 'RESPONDED',
     priority: 'HIGH',
+    originalTransmittalId: 'TRN-001', // Transmittal original al que responde
+    relatedRFIs: ['RFI-001'], // RFI respondido en este transmittal
     response: 'Los documentos han sido revisados. Se aprueban con comentarios que deben ser incorporados en la siguiente revisión. Ver archivo adjunto con comentarios detallados.',
     responseBy: 'Ing. Carlos Rodríguez - Petroecuador',
     responseDate: '2024-09-15',
@@ -121,6 +130,7 @@ export const mockTransmittals = [
     documentCount: 5,
     status: 'SENT',
     priority: 'NORMAL',
+    relatedRFIs: ['RFI-003'], // RFI enviado en este transmittal
     documents: [
       {
         code: 'RLL-MOD-MEC-001-PLE',
@@ -375,5 +385,69 @@ export const createTransmittal = (transmittalData) => {
       mockTransmittals.push(newTransmittal);
       resolve({ success: true, data: newTransmittal });
     }, 500);
+  });
+};
+
+/**
+ * Get transmittals related to an RFI
+ * @param {string} rfiId - The RFI ID
+ * @returns {Promise} Promise with related transmittals
+ */
+export const getTransmittalsByRFI = (rfiId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const relatedTransmittals = mockTransmittals.filter(t => 
+        t.relatedRFIs && t.relatedRFIs.includes(rfiId)
+      );
+      resolve({ success: true, data: relatedTransmittals });
+    }, 300);
+  });
+};
+
+/**
+ * Get response transmittal for an original transmittal
+ * @param {string} originalTransmittalId - The original transmittal ID
+ * @returns {Promise} Promise with response transmittal
+ */
+export const getResponseTransmittal = (originalTransmittalId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const responseTransmittal = mockTransmittals.find(t => 
+        t.originalTransmittalId === originalTransmittalId
+      );
+      if (responseTransmittal) {
+        resolve({ success: true, data: responseTransmittal });
+      } else {
+        resolve({ success: false, error: 'No se encontró transmittal de respuesta' });
+      }
+    }, 300);
+  });
+};
+
+/**
+ * Get RFIs related to a transmittal
+ * @param {string} transmittalId - The transmittal ID
+ * @returns {Promise} Promise with related RFIs
+ */
+export const getRFIsByTransmittal = (transmittalId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const transmittal = mockTransmittals.find(t => t.id === transmittalId);
+      if (transmittal && transmittal.relatedRFIs) {
+        // Mock RFI data - in a real app, this would fetch from RFI service
+        const mockRFIs = transmittal.relatedRFIs.map(rfiId => ({
+          id: rfiId,
+          code: `RFI-${rfiId.split('-')[1]}`,
+          subject: `RFI relacionado al transmittal ${transmittal.code}`,
+          status: 'OPEN',
+          priority: 'NORMAL',
+          date: transmittal.date,
+          discipline: 'General'
+        }));
+        resolve({ success: true, data: mockRFIs });
+      } else {
+        resolve({ success: true, data: [] });
+      }
+    }, 300);
   });
 };

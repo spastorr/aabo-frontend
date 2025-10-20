@@ -12,7 +12,8 @@ const Modal = ({
   title, 
   children, 
   size = 'medium',
-  footer 
+  footer,
+  headerActions
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -50,6 +51,11 @@ const Modal = ({
       <div className={`${styles.modal} ${styles[size]}`} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
+          {headerActions && (
+            <div className={styles.headerActions}>
+              {headerActions}
+            </div>
+          )}
           <button className={styles.closeButton} onClick={onClose}>
             ✕
           </button>

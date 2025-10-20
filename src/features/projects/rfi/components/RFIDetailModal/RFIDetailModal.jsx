@@ -10,7 +10,7 @@ import Button from '../../../../../components/shared/Button';
 import Badge from '../../../../../components/shared/Badge';
 import RFIStatusTracker from '../RFIStatusTracker';
 import { RFI_STATUS } from '../../../../../constants/statuses';
-import { getTransmittalById } from '../../../../../services/mocks/transmittalMocks';
+import { getTransmittalById, getTransmittalsByRFI, getResponseTransmittal } from '../../../../../services/mocks/transmittalMocks';
 import styles from './RFIDetailModal.module.css';
 
 const RFI_STATUS_CONFIG = {
@@ -31,24 +31,48 @@ const RFIDetailModal = ({ rfi, isOpen, onClose, onUpdate }) => {
   const [responseText, setResponseText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [relatedTransmittal, setRelatedTransmittal] = useState(null);
+  const [allRelatedTransmittals, setAllRelatedTransmittals] = useState([]);
+  const [responseTransmittal, setResponseTransmittal] = useState(null);
+  const [loadingTransmittals, setLoadingTransmittals] = useState(false);
 
-  // Load related transmittal when modal opens
+  // Load related transmittals when modal opens
   useEffect(() => {
-    if (isOpen && rfi?.transmittalId) {
-      loadRelatedTransmittal();
+    if (isOpen && rfi) {
+      loadAllRelatedTransmittals();
     } else {
       setRelatedTransmittal(null);
+      setAllRelatedTransmittals([]);
     }
-  }, [isOpen, rfi?.transmittalId]);
+  }, [isOpen, rfi]);
 
-  const loadRelatedTransmittal = async () => {
+  const loadAllRelatedTransmittals = async () => {
+    setLoadingTransmittals(true);
     try {
-      const response = await getTransmittalById(rfi.transmittalId);
+      // Load transmittal where this RFI was sent
+      if (rfi.transmittalId) {
+        const response = await getTransmittalById(rfi.transmittalId);
+        if (response.success) {
+          setRelatedTransmittal(response.data);
+        }
+      }
+
+      // Load response transmittal if exists
+      if (rfi.responseTransmittalId) {
+        const responseTransmittalResponse = await getTransmittalById(rfi.responseTransmittalId);
+        if (responseTransmittalResponse.success) {
+          setResponseTransmittal(responseTransmittalResponse.data);
+        }
+      }
+
+      // Load all transmittals related to this RFI
+      const response = await getTransmittalsByRFI(rfi.id);
       if (response.success) {
-        setRelatedTransmittal(response.data);
+        setAllRelatedTransmittals(response.data);
       }
     } catch (error) {
-      console.error('Error loading related transmittal:', error);
+      console.error('Error loading related transmittals:', error);
+    } finally {
+      setLoadingTransmittals(false);
     }
   };
 
@@ -135,6 +159,45 @@ const RFIDetailModal = ({ rfi, isOpen, onClose, onUpdate }) => {
         {/* Status Tracker */}
         <RFIStatusTracker currentStatus={rfi.status} />
 
+        {/* Alert Information */}
+        {rfi.estimatedResponseDate && (
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>⏰ Información de Tiempo</h3>
+            <div className={styles.alertInfo}>
+              <div className={styles.alertItem}>
+                <span className={styles.alertLabel}>Fecha Estimada de Respuesta:</span>
+                <span className={styles.alertValue}>
+                  {formatDate(rfi.estimatedResponseDate)}
+                </span>
+              </div>
+              {rfi.alertStatus && (
+                <div className={styles.alertItem}>
+                  <span className={styles.alertLabel}>Estado de Alerta:</span>
+                  <Badge 
+                    variant={
+                      rfi.alertStatus === 'OVERDUE' ? 'error' :
+                      rfi.alertStatus === 'APPROACHING_DUE' ? 'warning' :
+                      rfi.alertStatus === 'RESPONDED' ? 'success' : 'info'
+                    }
+                  >
+                    {rfi.alertStatus === 'OVERDUE' ? '🚨 Vencido' :
+                     rfi.alertStatus === 'APPROACHING_DUE' ? '⚠️ Se acerca la fecha' :
+                     rfi.alertStatus === 'RESPONDED' ? '✅ Respondido' : '⏰ En tiempo'}
+                  </Badge>
+                </div>
+              )}
+              {rfi.daysOverdue > 0 && (
+                <div className={styles.alertItem}>
+                  <span className={styles.alertLabel}>Días de Retraso:</span>
+                  <span className={styles.alertValue}>
+                    {rfi.daysOverdue} día{rfi.daysOverdue !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Subject */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Asunto</h3>
@@ -163,23 +226,86 @@ const RFIDetailModal = ({ rfi, isOpen, onClose, onUpdate }) => {
           </div>
         </div>
 
-        {/* Related Transmittal */}
-        {relatedTransmittal && (
+        {/* Related Transmittals */}
+        {(relatedTransmittal || responseTransmittal || allRelatedTransmittals.length > 0) && (
           <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>📦 Transmittal Relacionado</h3>
-            <div className={styles.transmittalInfo}>
-              <div className={styles.transmittalHeader}>
-                <span className={styles.transmittalCode}>{relatedTransmittal.code}</span>
-                <span className={styles.transmittalDate}>Fecha: {formatDate(relatedTransmittal.date)}</span>
+            <h3 className={styles.sectionTitle}>📦 Trazabilidad de Transmittals</h3>
+            {loadingTransmittals ? (
+              <div className={styles.loading}>Cargando transmittals...</div>
+            ) : (
+              <div className={styles.transmittalsList}>
+                {/* Transmittal donde se envió el RFI */}
+                {relatedTransmittal && (
+                  <div className={styles.transmittalItem}>
+                    <div className={styles.transmittalHeader}>
+                      <span className={styles.transmittalCode}>{relatedTransmittal.code}</span>
+                      <Badge variant="info">📤 Enviado</Badge>
+                    </div>
+                    <div className={styles.transmittalDetails}>
+                      <p className={styles.transmittalSubject}>{relatedTransmittal.subject}</p>
+                      <p className={styles.transmittalMeta}>
+                        Fecha de envío: {formatDate(relatedTransmittal.date)} · 
+                        Destinatario: {relatedTransmittal.recipient}
+                      </p>
+                      <p className={styles.transmittalStatus}>
+                        Estado: {relatedTransmittal.status === 'PENDING_RESPONSE' ? 'Pendiente Respuesta' : 
+                                relatedTransmittal.status === 'RESPONDED' ? 'Respondido' : 
+                                relatedTransmittal.status}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Transmittal de respuesta */}
+                {responseTransmittal && (
+                  <div className={styles.transmittalItem}>
+                    <div className={styles.transmittalHeader}>
+                      <span className={styles.transmittalCode}>{responseTransmittal.code}</span>
+                      <Badge variant="success">📥 Respuesta</Badge>
+                    </div>
+                    <div className={styles.transmittalDetails}>
+                      <p className={styles.transmittalSubject}>{responseTransmittal.subject}</p>
+                      <p className={styles.transmittalMeta}>
+                        Fecha de respuesta: {formatDate(responseTransmittal.responseDate)} · 
+                        Respondido por: {responseTransmittal.responseBy}
+                      </p>
+                      <p className={styles.transmittalStatus}>
+                        Estado: Respondido
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Otros transmittals relacionados */}
+                {allRelatedTransmittals.filter(t => 
+                  t.id !== relatedTransmittal?.id && t.id !== responseTransmittal?.id
+                ).map((transmittal) => (
+                  <div key={transmittal.id} className={styles.transmittalItem}>
+                    <div className={styles.transmittalHeader}>
+                      <span className={styles.transmittalCode}>{transmittal.code}</span>
+                      <Badge variant={transmittal.type === 'OUTGOING' ? 'info' : 'success'}>
+                        {transmittal.type === 'OUTGOING' ? '📤 Enviado' : '📥 Recibido'}
+                      </Badge>
+                    </div>
+                    <div className={styles.transmittalDetails}>
+                      <p className={styles.transmittalSubject}>{transmittal.subject}</p>
+                      <p className={styles.transmittalMeta}>
+                        Fecha: {formatDate(transmittal.date)} · 
+                        {transmittal.type === 'OUTGOING' ? 
+                          ` Destinatario: ${transmittal.recipient}` : 
+                          ` Remitente: ${transmittal.sender}`
+                        }
+                      </p>
+                      <p className={styles.transmittalStatus}>
+                        Estado: {transmittal.status === 'PENDING_RESPONSE' ? 'Pendiente Respuesta' : 
+                                transmittal.status === 'RESPONDED' ? 'Respondido' : 
+                                transmittal.status}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className={styles.transmittalDetails}>
-                <p className={styles.transmittalSubject}>{relatedTransmittal.subject}</p>
-                <p className={styles.transmittalRecipient}>Destinatario: {relatedTransmittal.recipient}</p>
-                <p className={styles.transmittalDocuments}>
-                  Documentos: {relatedTransmittal.documentCount} archivo{relatedTransmittal.documentCount !== 1 ? 's' : ''}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         )}
 

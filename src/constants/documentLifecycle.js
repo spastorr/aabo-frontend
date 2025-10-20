@@ -82,6 +82,14 @@ export const DOCUMENT_STATUS_DETAILED = {
     description: 'Como se construyó - Registro final',
     color: { bg: '#e0e7ff', text: '#3730a3', border: '#a5b4fc' },
   },
+
+  // New status for overdue reviews
+  OVERDUE: {
+    code: 'OVERDUE',
+    label: 'Revisión Vencida',
+    description: 'Cliente no ha respondido en el plazo establecido',
+    color: { bg: '#fef2f2', text: '#dc2626', border: '#fca5a5' },
+  },
 };
 
 // Revision stages
@@ -138,5 +146,81 @@ export const DOCUMENT_STAMPS = {
   FOR_CONSTRUCTION: 'APROBADO PARA CONSTRUCCIÓN',
   AS_BUILT: 'AS BUILT - COMO SE CONSTRUYÓ',
   RED_LINE: 'RED LINE - CAMBIOS EN CAMPO',
+};
+
+// Document lifecycle workflow states
+export const DOCUMENT_WORKFLOW_STATES = {
+  // Internal development
+  DRAFT: 'DRAFT',
+  INTERNAL_REVIEW: 'INTERNAL_REVIEW',
+  
+  // Client submission
+  READY_FOR_SUBMISSION: 'READY_FOR_SUBMISSION',
+  SUBMITTED_FOR_REVIEW: 'SUBMITTED_FOR_REVIEW',
+  
+  // Client response
+  CLIENT_REVIEWING: 'CLIENT_REVIEWING',
+  CLIENT_RESPONSE_RECEIVED: 'CLIENT_RESPONSE_RECEIVED',
+  CLIENT_OVERDUE: 'CLIENT_OVERDUE',
+  
+  // Final states
+  APPROVED_FOR_CONSTRUCTION: 'APPROVED_FOR_CONSTRUCTION',
+  CONSTRUCTION_COMPLETE: 'CONSTRUCTION_COMPLETE',
+  AS_BUILT_COMPLETE: 'AS_BUILT_COMPLETE',
+};
+
+// Transmittal types
+export const TRANSMITTAL_TYPES = {
+  OUTGOING: 'OUTGOING',
+  INCOMING: 'INCOMING',
+};
+
+// Transmittal status
+export const TRANSMITTAL_STATUS = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  RECEIVED: 'RECEIVED',
+  PENDING_RESPONSE: 'PENDING_RESPONSE',
+  RESPONDED: 'RESPONDED',
+  CLOSED: 'CLOSED',
+};
+
+// Cost tracking categories
+export const COST_CATEGORIES = {
+  DEVELOPMENT: 'DEVELOPMENT',
+  REVIEW: 'REVIEW',
+  REVISION: 'REVISION',
+  APPROVAL: 'APPROVAL',
+  TRANSMITTAL: 'TRANSMITTAL',
+  RED_LINE: 'RED_LINE',
+  AS_BUILT: 'AS_BUILT',
+};
+
+// File types for document attachments
+export const FILE_TYPES = {
+  PDF: 'PDF',
+  DWG: 'DWG',
+  XLSX: 'XLSX',
+  DOCX: 'DOCX',
+  IMAGE: 'IMAGE',
+};
+
+// Alert types for document management
+export const ALERT_TYPES = {
+  REVIEW_OVERDUE: 'REVIEW_OVERDUE',
+  APPROVAL_PENDING: 'APPROVAL_PENDING',
+  TRANSMITTAL_DUE: 'TRANSMITTAL_DUE',
+  COST_THRESHOLD: 'COST_THRESHOLD',
+  REVISION_CYCLE: 'REVISION_CYCLE',
+};
+
+// Document traceability sections
+export const TRACEABILITY_SECTIONS = {
+  REVISION_HISTORY: 'REVISION_HISTORY',
+  COST_BREAKDOWN: 'COST_BREAKDOWN',
+  TRANSMITTAL_RECORD: 'TRANSMITTAL_RECORD',
+  FILE_ATTACHMENTS: 'FILE_ATTACHMENTS',
+  APPROVAL_TIMELINE: 'APPROVAL_TIMELINE',
+  CLIENT_COMMUNICATIONS: 'CLIENT_COMMUNICATIONS',
 };
 

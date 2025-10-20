@@ -125,6 +125,7 @@ const PortfolioPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleCreateProject}
+        projects={projects}
       />
     </div>
   );

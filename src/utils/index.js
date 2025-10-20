@@ -12,4 +12,5 @@ export * from './fileHandlers';
 export * from './chartHelpers';
 export * from './errorHandlers';
 export * from './documentStatusUtils';
+export * from './transmittalCodeGenerator';
 

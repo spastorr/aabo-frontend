@@ -18,9 +18,11 @@ import RecentActivity from './components/RecentActivity';
 import DashboardSettings from './components/DashboardSettings';
 import CloseProjectModal from './components/CloseProjectModal';
 import ProjectStatusBanner from './components/ProjectStatusBanner';
+import LessonsLearnedWidget from './components/LessonsLearnedWidget';
 import useDashboardData from './hooks/useDashboardData';
 import useCloseProject from './hooks/useCloseProject';
 import { formatCurrency, formatPercentage } from '../../../utils';
+import { exportDashboardReportPDF } from '../../../utils/exportUtils';
 import styles from './DashboardPage.module.css';
 
 const DashboardPage = () => {
@@ -76,10 +78,14 @@ const DashboardPage = () => {
   };
 
   // Memoize header content
-  const headerContent = useMemo(() => {
-    if (!selectedProject) return null;
+  // Set header content directly in useEffect to avoid infinite loops
+  useEffect(() => {
+    if (!selectedProject) {
+      clearHeader();
+      return;
+    }
     
-    return (
+    const headerContent = (
       <PageHeader
         showProjectInfo
         projectName={selectedProject.name}
@@ -95,6 +101,12 @@ const DashboardPage = () => {
             onClick: () => navigate(`/projects/${projectId}/lmd`)
           },
           {
+            label: 'Exportar informe',
+            variant: 'outline',
+            onClick: () => exportDashboardReportPDF(selectedProject, dashboardData),
+            disabled: !dashboardData
+          },
+          {
             label: getCloseButtonText(selectedProject),
             variant: getCloseButtonVariant(selectedProject),
             onClick: () => setIsCloseModalOpen(true),
@@ -108,14 +120,10 @@ const DashboardPage = () => {
         ]}
       />
     );
-  }, [selectedProject, projectId, navigate, getCloseButtonText, getCloseButtonVariant, canCloseProject, closeLoading]);
-
-  useEffect(() => {
-    if (headerContent) {
-      setHeader(headerContent);
-    }
+    
+    setHeader(headerContent);
     return () => clearHeader();
-  }, [headerContent, setHeader, clearHeader]);
+  }, [selectedProject?.name, selectedProject?.code, projectId, dashboardData, closeLoading, setHeader, clearHeader]);
 
   const loadProject = async () => {
     try {
@@ -280,7 +288,20 @@ const DashboardPage = () => {
             >
               📊 Ver Reportes
             </Button>
+            <Button 
+              variant="outline"
+              onClick={() => navigate(`/projects/${projectId}/lessons-learned`)}
+            >
+              💡 Lecciones Aprendidas
+            </Button>
           </div>
+        </div>
+      )}
+
+      {/* Lessons Learned Widget */}
+      {showWidget('showLessonsLearned') && (
+        <div className={styles.lessonsLearnedSection}>
+          <LessonsLearnedWidget projectId={projectId} />
         </div>
       )}
 

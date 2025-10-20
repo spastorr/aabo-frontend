@@ -264,3 +264,114 @@ export const getExportOptions = () => [
     description: 'Genera una hoja de cálculo Excel con datos detallados'
   }
 ];
+
+/**
+ * Exports a single project's dashboard report to PDF
+ * @param {Object} project - Selected project metadata
+ * @param {Object} dashboardData - Dashboard computed data (kpis, charts, activity)
+ */
+export const exportDashboardReportPDF = (project, dashboardData) => {
+  if (!project || !dashboardData) return;
+
+  const { kpis, disciplineProgress, sCurve, budgetByDiscipline } = dashboardData;
+
+  const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const margin = 20;
+  let y = margin;
+
+  // Header
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.text(`Informe de Proyecto`, margin, y);
+  y += 8;
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${project.name} (${project.code || 'N/A'})`, margin, y);
+  y += 6;
+  doc.text(`Generado: ${new Date().toLocaleDateString('es-EC')}`, margin, y);
+  y += 12;
+
+  // KPIs
+  doc.setFont('helvetica', 'bold');
+  doc.text('Indicadores Clave (KPIs)', margin, y);
+  y += 8;
+  doc.setFont('helvetica', 'normal');
+  const kpiLines = [
+    `Avance general: ${kpis?.progress ?? 0}%`,
+    `Documentos aprobados: ${kpis?.documentsApproved ?? 0} / ${kpis?.documentsTotal ?? 0}`,
+    `Presupuesto ejecutado: ${formatCurrency(kpis?.budgetSpent || 0)} de ${formatCurrency(kpis?.budgetTotal || 0)}`,
+    `Miembros del equipo: ${kpis?.teamMembers ?? 0}`,
+    `Días restantes: ${kpis?.daysRemaining ?? 0}`
+  ];
+  kpiLines.forEach((line) => {
+    doc.text(line, margin, y);
+    y += 6;
+  });
+  y += 4;
+
+  // Discipline progress table (compact)
+  if (Array.isArray(disciplineProgress) && disciplineProgress.length > 0) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('Avance por Disciplina', margin, y);
+    y += 8;
+    doc.setFont('helvetica', 'normal');
+
+    const col1W = 70;
+    const col2W = 30;
+    const headerY = y;
+    doc.setFillColor(240, 240, 240);
+    doc.rect(margin, headerY - 5, col1W + col2W, 8, 'F');
+    doc.text('Disciplina', margin + 2, headerY);
+    doc.text('Avance', margin + col1W + 2, headerY);
+    y += 6;
+
+    disciplineProgress.slice(0, 15).forEach((d, idx) => {
+      const lineY = y + idx * 6;
+      if (lineY > 270) return; // avoid overflow; keep simple
+      const name = (d?.name || '').toString();
+      const nameTrim = name.length > 35 ? name.substring(0, 35) + '…' : name;
+      const progressStr = `${d?.progress ?? 0}%`;
+      doc.text(nameTrim, margin + 2, lineY);
+      doc.text(progressStr, margin + col1W + 2, lineY);
+    });
+    y += Math.min(disciplineProgress.length, 15) * 6 + 6;
+  }
+
+  // Budget by discipline (summary)
+  if (Array.isArray(budgetByDiscipline) && budgetByDiscipline.length > 0) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('Presupuesto por Disciplina (resumen)', margin, y);
+    y += 8;
+    doc.setFont('helvetica', 'normal');
+    const lines = budgetByDiscipline.slice(0, 10).map((b) => {
+      const name = (b?.discipline || '').toString();
+      const nameTrim = name.length > 35 ? name.substring(0, 35) + '…' : name;
+      return `${nameTrim}: ${formatCurrency(b?.value || 0)}`;
+    });
+    lines.forEach((line) => {
+      if (y > 270) return;
+      doc.text(line, margin, y);
+      y += 6;
+    });
+    y += 4;
+  }
+
+  // S-Curve note
+  if (sCurve) {
+    doc.setFont('helvetica', 'italic');
+    doc.text('Nota: Las curvas S se muestran en la aplicación; este informe incluye un resumen textual.', margin, y, { maxWidth: pageWidth - margin * 2 });
+    y += 8;
+  }
+
+  // Footer
+  doc.setDrawColor(200);
+  doc.line(margin, 285, pageWidth - margin, 285);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text('Generado por AAbo - Dashboard de Proyectos', margin, 290);
+
+  const fileSafeName = (project.name || 'proyecto').replace(/[^a-zA-Z0-9]+/g, '_');
+  const fileName = `informe_${fileSafeName}_${new Date().toISOString().split('T')[0]}.pdf`;
+  doc.save(fileName);
+};

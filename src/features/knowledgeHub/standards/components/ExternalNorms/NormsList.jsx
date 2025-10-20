@@ -82,7 +82,7 @@ const NormsList = ({ norms }) => {
               </Button>
             )}
             <Button variant="outline" size="small">
-              👁️ Ver Detalles
+              → Ver Detalles
             </Button>
             {norm.hasUpdates && (
               <Badge variant="warning" size="small">

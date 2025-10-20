@@ -19,6 +19,7 @@ import ReportsPage from '../features/projects/reports/ReportsPage';
 import EconomicControlPage from '../features/projects/economic-control/EconomicControlPage';
 import GanttPage from '../features/projects/gantt/GanttPage';
 import NotificationsPage from '../features/projects/notifications/NotificationsPage';
+import LessonsLearnedPage from '../features/projects/lessons-learned/LessonsLearnedPage';
 import KnowledgeHubPage from '../features/knowledgeHub/KnowledgeHubPage';
 import UnifiedSearchPage from '../features/knowledgeHub/search/UnifiedSearchPage';
 import HistoricalProjectsPage from '../features/knowledgeHub/historical-projects/HistoricalProjectsPage';
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       <Route path="/projects/:id/rfi" element={<RFIPage />} />
       <Route path="/projects/:id/reports" element={<ReportsPage />} />
       <Route path="/projects/:id/gantt" element={<GanttPage />} />
+      <Route path="/projects/:id/lessons-learned" element={<LessonsLearnedPage />} />
       
       {/* Notifications */}
       <Route path="/notifications" element={<NotificationsPage />} />

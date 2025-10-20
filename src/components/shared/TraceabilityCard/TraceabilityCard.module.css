@@ -1,0 +1,127 @@
+/* TraceabilityCard Styles */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  background: var(--color-background-secondary, #f9fafb);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+}
+
+.title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #111827);
+  margin: 0;
+}
+
+.count {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6b7280);
+  background: var(--color-background, #ffffff);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.itemCard {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.375rem;
+  background: var(--color-background, #ffffff);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.itemCard:hover {
+  border-color: var(--color-primary, #2563eb);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.itemCode {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary, #2563eb);
+}
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.itemSubject {
+  font-size: 0.8125rem;
+  color: var(--color-text-primary, #111827);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary, #6b7280);
+}
+
+.itemDate {
+  font-weight: 500;
+}
+
+.responseDate {
+  color: var(--color-success, #10b981);
+  font-weight: 500;
+}
+
+.transmittalType {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.loading {
+  padding: 1rem;
+  text-align: center;
+  color: var(--color-text-secondary, #6b7280);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .itemHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .itemMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}

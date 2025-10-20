@@ -83,7 +83,7 @@ const GuideList = ({ guides }) => {
               📥 Descargar
             </Button>
             <Button variant="outline" size="small">
-              👁️ Ver Detalles
+              → Ver Detalles
             </Button>
             <Button variant="text" size="small">
               📜 Historial

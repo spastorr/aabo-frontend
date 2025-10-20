@@ -12,6 +12,7 @@ const PageHeader = ({
   subtitle,
   backButton,
   actions = [],
+  actionsComponent,
   showProjectInfo = false,
   projectName,
   projectCode
@@ -50,7 +51,7 @@ const PageHeader = ({
       </div>
 
       {/* Right section with actions */}
-      {actions.length > 0 && (
+      {(actions.length > 0 || actionsComponent) && (
         <div className={styles.actions}>
           {actions.map((action, index) => (
             <Button
@@ -63,6 +64,7 @@ const PageHeader = ({
               {action.label}
             </Button>
           ))}
+          {actionsComponent}
         </div>
       )}
     </div>

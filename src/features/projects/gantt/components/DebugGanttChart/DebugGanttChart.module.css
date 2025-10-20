@@ -1,0 +1,384 @@
+/**
+ * DebugGanttChart styles with dark/light mode support
+ * @module features/projects/gantt/components/DebugGanttChart/DebugGanttChart.module.css
+ */
+
+.container {
+  width: 100%;
+  background-color: var(--color-background);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* Header */
+.header {
+  padding: 2rem;
+  background-color: var(--color-background-alt);
+  border-bottom: 2px solid var(--color-border);
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+/* Stats Section */
+.statsSection {
+  padding: 2rem;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sectionTitle {
+  margin: 0 0 1.5rem 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.statCard {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--color-background-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-base);
+}
+
+.statCard:hover {
+  background-color: var(--color-background-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Documents Section */
+.documentsSection {
+  padding: 2rem;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.documentCard {
+  background-color: var(--color-background-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+  transition: var(--transition-base);
+}
+
+.documentCard:hover {
+  background-color: var(--color-background-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+.documentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.documentCode {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-family: monospace;
+  flex: 1;
+}
+
+.documentName {
+  margin: 0 0 1rem 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.statusBadge {
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  min-width: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.disciplineBadge {
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  display: inline-block;
+}
+
+.documentDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detailLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  min-width: 80px;
+}
+
+.detailValue {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-normal);
+  text-align: right;
+  flex: 1;
+}
+
+/* Revisions Section */
+.revisionsSection {
+  padding: 2rem;
+  background-color: var(--color-background);
+}
+
+.revisionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.revisionCard {
+  background-color: var(--color-background-alt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 1rem;
+  transition: var(--transition-base);
+}
+
+.revisionCard:hover {
+  background-color: var(--color-background-hover);
+  border-color: var(--color-primary);
+}
+
+.revisionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.revisionDocument {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+}
+
+.revisionNumber {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+}
+
+.revisionDetails {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.revisionDate {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.revisionType {
+  color: white;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.revisionStatus {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: var(--color-background-alt);
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--color-border);
+}
+
+.emptyText {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .documentsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header,
+  .statsSection,
+  .documentsSection,
+  .revisionsSection {
+    padding: 1.5rem;
+  }
+  
+  .documentsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .documentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .revisionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .revisionDetails {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header,
+  .statsSection,
+  .documentsSection,
+  .revisionsSection {
+    padding: 1rem;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statCard {
+    padding: 1rem;
+  }
+  
+  .statNumber {
+    font-size: 2rem;
+  }
+  
+  .documentCard,
+  .revisionCard {
+    padding: 1rem;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .detailValue {
+    text-align: left;
+  }
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .documentCard:hover,
+[data-theme="dark"] .revisionCard:hover,
+[data-theme="dark"] .statCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .documentCard,
+[data-theme="dark"] .revisionCard,
+[data-theme="dark"] .statCard {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Light mode specific adjustments */
+[data-theme="light"] .documentCard:hover,
+[data-theme="light"] .revisionCard:hover,
+[data-theme="light"] .statCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .documentCard,
+[data-theme="light"] .revisionCard,
+[data-theme="light"] .statCard {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}

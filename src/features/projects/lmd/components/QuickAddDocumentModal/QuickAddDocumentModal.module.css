@@ -1,0 +1,156 @@
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+}
+
+.tabButton {
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tabButton:hover {
+  background: var(--color-background-alt);
+}
+
+.tabActive {
+  background: var(--color-background-alt);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.sectionTitle {
+  font-weight: 700;
+  margin-top: 6px;
+  color: var(--color-text-primary);
+}
+
+.helperText {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: -8px;
+}
+
+.sectionCard {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px;
+  background: var(--color-background);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.rowBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mutedCalc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.totalEmphasis {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.breakdownCard {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: var(--color-background);
+}
+
+.breakdownGrid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 6px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 12px 0;
+}
+
+.fileActions {
+  display: flex;
+  gap: 8px;
+}
+
+.primaryText {
+  color: var(--color-primary);
+}
+
+.costSummary {
+  background: var(--color-background-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.costCalculation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.costTotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+}
+
+.costLabel {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.costFormula {
+  font-size: 12px;
+  color: var(--color-text-primary);
+  font-family: 'Courier New', monospace;
+}
+
+.costAmount {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.fieldLabel {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  font-style: italic;
+}
+

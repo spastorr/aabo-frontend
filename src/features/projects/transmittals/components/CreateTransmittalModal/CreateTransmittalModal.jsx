@@ -10,6 +10,7 @@ import Button from '../../../../../components/shared/Button';
 import Input from '../../../../../components/shared/Input';
 import Select from '../../../../../components/shared/Select';
 import Badge from '../../../../../components/shared/Badge';
+import { useProject } from '../../../../../contexts/ProjectContext';
 import { getLMDByProject } from '../../../../../services/mocks/documentMocks';
 import { 
   getPendingTransmissionDocuments, 
@@ -17,9 +18,15 @@ import {
   getDocumentTransmissionPriority,
   getTransmissionStatusIcon
 } from '../../../../../utils/documentStatusUtils';
+import { 
+  generateTransmittalCode, 
+  generateResponseDueDate 
+} from '../../../../../utils/transmittalCodeGenerator';
 import styles from './CreateTransmittalModal.module.css';
 
 const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
+  const { selectedProject } = useProject();
+  
   const [formData, setFormData] = useState({
     recipient: '',
     subject: '',
@@ -34,13 +41,40 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showOnlyPending, setShowOnlyPending] = useState(true);
+  const [transmittalCode, setTransmittalCode] = useState('');
 
   // Load LMD documents when modal opens
   useEffect(() => {
     if (isOpen && projectId) {
       loadDocuments();
+      initializeFormData();
     }
   }, [isOpen, projectId]);
+
+  // Initialize form with project data and generate transmittal code
+  const initializeFormData = () => {
+    if (selectedProject) {
+      // Generate sequential transmittal code
+      const generatedCode = generateTransmittalCode(
+        selectedProject.code, 
+        projectId, 
+        [] // In real implementation, pass existing transmittals
+      );
+      
+      // Calculate due date (5 days from now)
+      const dueDate = generateResponseDueDate(5);
+      
+      setFormData(prev => ({
+        ...prev,
+        recipient: selectedProject.client || '',
+        subject: `Envío de Documentos - ${selectedProject.name}`,
+        description: `Se envían los siguientes documentos del proyecto ${selectedProject.name} para revisión y aprobación del cliente.`,
+        dueDate: dueDate
+      }));
+      
+      setTransmittalCode(generatedCode);
+    }
+  };
 
   const loadDocuments = async () => {
     try {
@@ -100,14 +134,22 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Generate transmittal code
-      const transmittalCode = `TRN-${projectId}-${Date.now()}`;
+      // Update documents with response due date
+      const responseDueDate = formData.dueDate;
+      const updatedDocuments = selectedDocuments.map(doc => ({
+        ...doc,
+        responseDueDate: responseDueDate,
+        transmittalCode: transmittalCode,
+        transmittalStatus: 'SENT'
+      }));
       
       console.log('Creating transmittal:', {
         ...formData,
         code: transmittalCode,
-        documents: selectedDocuments,
-        projectId
+        documents: updatedDocuments,
+        projectId,
+        projectName: selectedProject?.name,
+        projectCode: selectedProject?.code
       });
 
       // Reset form
@@ -132,6 +174,7 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
     setSelectedDocuments([]);
     setSearchTerm('');
     setError(null);
+    setTransmittalCode('');
   };
 
   const handleClose = () => {
@@ -173,6 +216,17 @@ const CreateTransmittalModal = ({ isOpen, onClose, onSuccess, projectId }) => {
         {/* Basic Information */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Información Básica</h3>
+          
+          {/* Generated Transmittal Code */}
+          {transmittalCode && (
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Código del Transmittal</label>
+              <div className={styles.codeDisplay}>
+                <span className={styles.codeValue}>{transmittalCode}</span>
+                <Badge variant="info" size="small">Generado automáticamente</Badge>
+              </div>
+            </div>
+          )}
           
           <div className={styles.formRow}>
             <div className={styles.formGroup}>

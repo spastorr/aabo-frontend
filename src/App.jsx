@@ -15,6 +15,7 @@ import TimesheetsPage from './features/projects/timesheets';
 import ResourcesPage from './features/projects/resource-planning';
 import GanttPage from './features/projects/gantt';
 import ReportsPage from './features/projects/reports';
+import LessonsLearnedPage from './features/projects/lessons-learned';
 // PASO 5: Habilitando todo el KnowledgeHub completo
 import {
   KnowledgeHubPage,
@@ -67,6 +68,7 @@ function App() {
           <Route path="projects/:id/resources" element={<ResourcesPage />} />
           <Route path="projects/:id/gantt" element={<GanttPage />} />
           <Route path="projects/:id/reports" element={<ReportsPage />} />
+          <Route path="projects/:id/lessons-learned" element={<LessonsLearnedPage />} />
 
           {/* Notifications Route */}
           <Route path="notifications" element={<NotificationsPage />} />

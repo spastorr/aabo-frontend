@@ -19,6 +19,9 @@ export { default as SearchBar } from './SearchBar';
 export { default as Spinner } from './Spinner';
 export { default as PageHeader } from './PageHeader';
 export { default as Tooltip } from './Tooltip';
+export { default as TraceabilityCard } from './TraceabilityCard';
+export { default as TraceabilitySummary } from './TraceabilitySummary';
+export { default as RFIAlerts } from './RFIAlerts';
 
 // Re-export all components for convenience
 export * from './Button';

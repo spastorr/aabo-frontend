@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { getRFIsByProject } from '../../../../services/mocks/rfiMocks';
+import { getRFIsByProject, getRFIsWithAlerts } from '../../../../services/mocks/rfiMocks';
 
 const useRFI = (projectId) => {
   const [rfis, setRFIs] = useState([]);
@@ -31,7 +31,7 @@ const useRFI = (projectId) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await getRFIsByProject(projectId);
+      const response = await getRFIsWithAlerts(projectId);
       if (response.success) {
         setRFIs(response.data);
       } else {
