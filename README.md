@@ -7,7 +7,7 @@
 ![Chart.js](https://img.shields.io/badge/Chart.js-4.5.0-ff6384?logo=chartdotjs)
 ![License](https://img.shields.io/badge/License-Proprietary-red)
 ![Status](https://img.shields.io/badge/Status-Active-success)
-![Last Updated](https://img.shields.io/badge/Last%20Updated-January%202025-blue)
+![Last Updated](https://img.shields.io/badge/Last%20Updated-Octubre%202025-blue)
 
 Sistema de gestión integral de documentos de ingeniería desarrollado con React + Vite. Proporciona un entorno completo para el control y seguimiento de proyectos de ingeniería, gestión documental, recursos, y conocimiento organizacional con más de **8,000 líneas de código** y **180+ componentes** implementados.
 
@@ -42,13 +42,29 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
 
 - [Características Principales](#-características-principales)
 - [Stack Tecnológico](#️-stack-tecnológico)
+- [Inicio Rápido](#-inicio-rápido)
 - [Instalación](#-instalación)
 - [Scripts Disponibles](#-scripts-disponibles)
+- [Plan de Negocios](#-plan-de-negocios)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
 - [Sistema de Diseño](#-sistema-de-diseño)
 - [Deployment](#-deployment)
+- [Backend Django](#-backend-django)
+- [Roles y Accesos](#-roles-y-accesos)
+- [Servicios de Demo](#-servicios-de-demo)
 - [Contribución](#-contribución)
 - [Autor](#-autor)
+
+## 🔗 Enlaces Rápidos
+
+- `docs/PROJECT_SUMMARY.md`: Resumen ejecutivo del proyecto y setup
+- `docs/SETUP_GUIDE.md`: Guía detallada de configuración y desarrollo
+- `docs/QUICK_START.md`: Inicio rápido para levantar el entorno
+- `docs/DEPLOYMENT_GUIDE.md`: Guía de despliegue (Vercel, Netlify, GitHub Pages, Docker)
+- `docs/PROJECT_STRUCTURE.md`: Arquitectura y organización del código
+- `docs/PROGRESS_REPORT.md`: Progreso y funcionalidades implementadas
+- `docs/DJANGO_BACKEND_SCHEMA.md`: Esquema del backend Django/DRF
+- `docs/USER_ACCESS_ROLES_GUIDE.md`: Roles, permisos y rutas protegidas
 
 ## 🚀 Características Principales
 
@@ -133,6 +149,22 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
 - **Impacto y Severidad**: Clasificación de la importancia
 - **Reutilización**: Aplicación en futuros proyectos
 
+## 📈 Plan de Negocios
+
+Este repositorio sigue una brújula de negocio-producto clara para maximizar impacto en clientes de ingeniería en Ecuador:
+
+- Visión: Seguridad de la información + Eficiencia operativa con un enfoque lean.
+- Productos: `AABO Vault` (bóveda segura sobre Google Drive/Workspace, OneDrive/SharePoint, Dropbox, S3) y `AABO Control` (gestión documental y de proyectos). También disponibles como `Suite AABO` (bundle).
+- Modelo de precios: mensual y condicionado a proyectos activos. Planes: Piloto (gratis 1 mes), Starter ($99), Vault Básico ($49), Profesional ($149), Suite Business ($299), Suite Corp. ($599). Almacenamiento en planes de pago: **Ilimitado (en la nube del cliente)**. Add-on opcional: **Almacenamiento gestionado por AABO** (p.ej., +$50/mes por 200GB en S3).
+- Go-To-Market: Venta directa, demos de 15 minutos enfocadas en el “dolor” del cliente, piloto gratuito y cierre con Suite Business.
+- KPIs: Conversión Piloto→Pago, proyectos activos/cliente, horas ahorradas, retención 3/6/12 meses, NPS.
+
+Notas clave:
+- `Vault` requiere cuentas empresariales (Google Workspace, Microsoft 365/Entra ID o Dropbox Business) para control centralizado de usuarios y permisos.
+- `Export post‑piloto` garantizada y asistida a la nube del cliente para evitar lock‑in.
+
+Consulta el detalle completo del plan (estrategia, pricing, GTM, finanzas, roadmap y KPIs) en `BUSINESS_PLAN.md`.
+
 ## 🛠️ Stack Tecnológico
 
 ### Core
@@ -174,6 +206,27 @@ Sistema de gestión integral de documentos de ingeniería desarrollado con React
 
 ### Deployment
 - **gh-pages 6.3.0**: Deploy automático a GitHub Pages
+
+## ⚡ Inicio Rápido
+
+Requisitos:
+- Node.js 18+ (recomendado 20+)
+- npm 8+
+
+Para correr el proyecto en minutos:
+
+```bash
+git clone https://github.com/spastorr/aabo-frontend.git
+cd aabo-frontend
+npm install
+cp .env.development .env.local
+npm run dev
+```
+
+- Guía breve: `QUICK_START.md`
+- Guía completa: `SETUP_GUIDE.md`
+
+La app quedará disponible en `http://localhost:5173`.
 
 ## 📦 Instalación
 
@@ -371,6 +424,28 @@ El proyecto utiliza un sistema de diseño moderno basado en:
 - Context API para gestión de sesión
 - Persistencia de estado con localStorage
 
+### Feature flags de producto (multi-tenant)
+- El backend Django expone en `/auth/me` los flags por organización (`has_vault_access`, `has_control_access`).
+- El `PermissionsContext` debe combinar roles/permisos de usuario con estos flags para controlar visibilidad de módulos:
+  - `has_control_access=true`: habilita módulos de Control (Proyectos, LMD, RFI, Transmittals, Timesheets).
+  - `has_vault_access=true`: habilita `Knowledge Hub` (Vault).
+  - Ambos `true`: Suite completa visible e integrada.
+
+## 🧭 Para Usuarios de Negocio (Resumen)
+
+- AABO aumenta la eficiencia en equipos de ingeniería automatizando transmittals/RFI y ordenando la documentación sobre su nube.
+- Indicador de ROI: equipos ahorran 20–30 horas/mes mediante automatización y mejores prácticas.
+- Prueba rápida: Piloto 1 mes con exportación sin lock‑in a la nube del cliente.
+
+Placeholders de demo y capturas:
+- Demo video: próximamente.
+- Capturas clave (RFI workflow, LMD y Dashboard): próximamente.
+
+Notas de versión y roadmap técnico:
+- Semver y breaking changes documentados por release.
+- Migración a TypeScript planificada.
+- Accesibilidad (WCAG) y PWA offline básico recomendados para campo.
+
 ## 📡 Integración con Backend
 
 El proyecto está preparado para integrarse con un backend REST API:
@@ -390,6 +465,8 @@ El proyecto está preparado para integrarse con un backend REST API:
 /api/resources         # Planificación de recursos
 /api/knowledge-hub     # Knowledge Hub
 ```
+
+Para detalles del modelo de datos, autenticación y endpoints del backend, consulta `DJANGO_BACKEND_SCHEMA.md`.
 
 ## 🚀 Deployment
 
@@ -454,6 +531,20 @@ Configura estas variables en tu plataforma de deploy:
 - `VITE_APP_NAME`: Nombre de la aplicación
 - `VITE_VERSION`: Versión de la aplicación
 
+Para una guía paso a paso de despliegue (GitHub Pages, Vercel, Netlify y Docker), ver `DEPLOYMENT_GUIDE.md`.
+
+## 🐍 Backend Django
+
+Este frontend está diseñado para integrarse con un backend Django/DRF. La especificación del esquema, modelos, endpoints y políticas de autenticación/permiso están documentadas en `DJANGO_BACKEND_SCHEMA.md`. Configura `VITE_API_URL` apuntando a tu instancia del backend.
+
+## 👤 Roles y Accesos
+
+El sistema implementa control de acceso basado en roles (RBAC). Los roles, permisos y rutas protegidas están descritos en `USER_ACCESS_ROLES_GUIDE.md`. A nivel de frontend, revisa `src/constants/permissions.js` y `src/hooks/usePermissions.js`.
+
+## 🧪 Servicios de Demo
+
+Para desarrollo sin backend, existen servicios y datos de demo. Consulta `DEMO_SERVICES_SPEC.md` para entender los mocks disponibles y cómo activarlos. Los mocks principales se encuentran en `src/services/mocks/`.
+
 ## 🆕 Últimas Actualizaciones
 
 ### v2.2.0 (Enero 2025) - ACTUALIZACIÓN MAYOR
@@ -508,6 +599,10 @@ Configura estas variables en tu plataforma de deploy:
 - **CSS Modules**: Estilos encapsulados y mantenibles
 - **Mock Data Completo**: Datos de prueba para desarrollo sin backend
 
+## 🔄 Migraciones y Plan de Evolución
+
+Los pasos y consideraciones para migraciones de versión, reestructuración y roadmap de evolución están documentados en `MIGRATION_PLAN.md`.
+
 ## 📚 Documentación Adicional
 
 El proyecto incluye documentación detallada en markdown:
@@ -529,6 +624,11 @@ El proyecto incluye documentación detallada en markdown:
 - `CSS_THEME_UPDATE_SUMMARY.md`: Actualizaciones del sistema de temas
 - `MODERN_DESIGN_UPDATE.md`: Actualizaciones del diseño moderno
 - `DASHBOARD_CONFIG_MVP.md`: Configuración del dashboard MVP
+- `DJANGO_BACKEND_SCHEMA.md`: Esquema de backend Django/DRF
+- `USER_ACCESS_ROLES_GUIDE.md`: Guía de roles y permisos
+- `DEPLOYMENT_GUIDE.md`: Guía detallada de despliegue
+- `MIGRATION_PLAN.md`: Plan de migración y evolución
+- `DEMO_SERVICES_SPEC.md`: Servicios y datos de demo
 
 ## 🤝 Contribución
 
